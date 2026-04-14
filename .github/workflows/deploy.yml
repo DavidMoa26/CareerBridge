@@ -60,4 +60,4 @@ jobs:
             -o StrictHostKeyChecking=no \
             -o ConnectTimeout=30 \
             root@104.248.243.118 \
-            "set -e && cd ~/CareerBridge && git pull origin main && docker compose up -d --build"
+            "set -e && cd ~/CareerBridge && git pull origin main && docker-compose up -d --build"
