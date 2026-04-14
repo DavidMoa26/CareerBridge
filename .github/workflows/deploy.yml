@@ -26,9 +26,9 @@ jobs:
         run: npm ci
 
       - name: Build
-        # SKIP_ENV_VALIDATION bypasses t3-oss/env-nextjs runtime checks so the
-        # build can verify TypeScript/JSX correctness without real secrets.
-        # The actual runtime validation still runs inside Docker on the server.
+        # SKIP_ENV_VALIDATION bypasses t3-oss/env-nextjs runtime checks.
+        # SDK constructors (Resend, UTApi, drizzle) use ?? fallbacks in their
+        # client files so they never throw when env vars are undefined in CI.
         run: npm run build
         env:
           SKIP_ENV_VALIDATION: true
