@@ -55,7 +55,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          use_sha256: true
           script: |
             set -e
             cd ~/CareerBridge
