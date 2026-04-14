@@ -1,6 +1,6 @@
 import { AsyncIf } from "@/components/AsyncIf"
-import { AppSidebar } from "@/components/sidebar/AppSidebar"
-import { SidebarNavMenuGroup } from "@/components/sidebar/SidebarNavMenuGroup"
+import { PlatformSidebar } from "@/components/sidebar/PlatformSidebar"
+import { NavMenuSection } from "@/components/sidebar/NavMenuSection"
 import {
   SidebarGroup,
   SidebarGroupAction,
@@ -28,7 +28,7 @@ import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { ReactNode, Suspense } from "react"
-import { JobListingMenuGroup } from "./_JobListingMenugroup"
+import { EmployerNavMenuGroup } from "./EmployerNavMenuGroup"
 
 export default function EmployerLayout({ children }: { children: ReactNode }) {
   return (
@@ -43,17 +43,24 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
   if (orgId == null) return redirect("/organizations/select")
 
   return (
-    <AppSidebar
+    <PlatformSidebar
       content={
         <>
           <SidebarGroup>
-            <SidebarGroupLabel>Job Listings</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wide text-cb-slate-500 px-2 mb-1">
+              Job Listings
+            </SidebarGroupLabel>
             <AsyncIf
               condition={() => hasOrgUserPermission("org:job_listings:create")}
             >
-              <SidebarGroupAction title="Add Job Listing" asChild>
+              <SidebarGroupAction
+                title="Add Job Listing"
+                asChild
+                className="text-cb-slate-500 hover:text-cb-blue-600 hover:bg-cb-blue-50 rounded-md transition-colors duration-150"
+              >
                 <Link href="/employer/job-listings/new">
-                  <PlusIcon /> <span className="sr-only">Add Job Listing</span>
+                  <PlusIcon className="size-4" />
+                  <span className="sr-only">Add Job Listing</span>
                 </Link>
               </SidebarGroupAction>
             </AsyncIf>
@@ -63,7 +70,7 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
               </Suspense>
             </SidebarGroupContent>
           </SidebarGroup>
-          <SidebarNavMenuGroup
+          <NavMenuSection
             className="mt-auto"
             items={[
               { href: "/", icon: <ClipboardListIcon />, label: "Job Board" },
@@ -74,7 +81,7 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
       footerButton={<SidebarOrganizationButton />}
     >
       {children}
-    </AppSidebar>
+    </PlatformSidebar>
   )
 }
 
@@ -88,9 +95,12 @@ async function JobListingMenu({ orgId }: { orgId: string }) {
     return (
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton asChild>
+          <SidebarMenuButton
+            asChild
+            className="text-cb-blue-600 hover:bg-cb-blue-50 rounded-lg transition-colors duration-150"
+          >
             <Link href="/employer/job-listings/new">
-              <PlusIcon />
+              <PlusIcon className="size-4" />
               <span>Create your first job listing</span>
             </Link>
           </SidebarMenuButton>
@@ -116,7 +126,7 @@ async function JobListingMenu({ orgId }: { orgId: string }) {
       )
     })
     .map(([status, jobListings]) => (
-      <JobListingMenuGroup
+      <EmployerNavMenuGroup
         key={status}
         status={status as JobListingStatus}
         jobListings={jobListings}

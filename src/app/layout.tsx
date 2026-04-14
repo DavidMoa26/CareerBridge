@@ -5,6 +5,7 @@ import "@mdxeditor/editor/style.css"
 import { ClerkProvider } from "@/services/clerk/components/ClerkProvider"
 import { Toaster } from "@/components/ui/sonner"
 import { UploadThingSSR } from "@/services/uploadthing/components/UploadThingSSR"
+import { MotionProvider } from "@/components/MotionProvider"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,13 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-cb-slate-50 text-cb-slate-900`}
         >
-          {children}
+          {/* MotionProvider is a client boundary that sets reducedMotion="user"
+              so every motion element in the tree respects the OS accessibility setting. */}
+          <MotionProvider>
+            {children}
+          </MotionProvider>
           <Toaster />
           <UploadThingSSR />
         </body>

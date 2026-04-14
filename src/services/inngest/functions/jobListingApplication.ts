@@ -44,7 +44,7 @@ export const rankApplication = inngest.createFunction(
           description: true,
           experienceLevel: true,
           locationRequirement: true,
-          stateAbbreviation: true,
+          country: true,
           title: true,
           wage: true,
           wageInterval: true,

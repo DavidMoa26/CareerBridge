@@ -56,7 +56,9 @@ export const JobListingTable = pgTable(
     description: text().notNull(),
     wage: integer(),
     wageInterval: wageIntervalEnum(),
-    stateAbbreviation: varchar(),
+    // DB column kept as 'state_abbreviation' to avoid a breaking migration;
+    // semantically repurposed to store country values (e.g. "Israel", "Germany").
+    country: varchar("state_abbreviation"),
     city: varchar(),
     isFeatured: boolean().notNull().default(false),
     locationRequirement: locationRequirementEnum().notNull(),
@@ -67,7 +69,7 @@ export const JobListingTable = pgTable(
     createdAt,
     updatedAt,
   },
-  table => [index().on(table.stateAbbreviation)]
+  table => [index().on(table.country)]
 )
 
 export const jobListingReferences = relations(

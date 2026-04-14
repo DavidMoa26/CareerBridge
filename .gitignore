@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/playwright-report
+/test-results
+/tests/.auth
+.env.test
 
 # next.js
 /.next/
@@ -44,4 +48,7 @@ next-env.d.ts
 /.clerk/
 
 CLAUDE.md
+PLAN.md
+ARCHITECTURE.md
+prompts.txt
 .claudecode/

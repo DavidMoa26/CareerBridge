@@ -1,5 +1,6 @@
-import { AppSidebar } from "@/components/sidebar/AppSidebar"
-import { SidebarNavMenuGroup } from "@/components/sidebar/SidebarNavMenuGroup"
+import { PlatformSidebar } from "@/components/sidebar/PlatformSidebar"
+import { NavMenuSection } from "@/components/sidebar/NavMenuSection"
+import { MotionPageWrapper } from "@/components/MotionPageWrapper"
 import { SidebarUserButton } from "@/features/users/components/SidebarUserButton"
 import {
   BrainCircuitIcon,
@@ -17,11 +18,11 @@ export default function JobSeekerLayout({
   sidebar: ReactNode
 }) {
   return (
-    <AppSidebar
+    <PlatformSidebar
       content={
         <>
           {sidebar}
-          <SidebarNavMenuGroup
+          <NavMenuSection
             className="mt-auto"
             items={[
               { href: "/", icon: <ClipboardListIcon />, label: "Job Board" },
@@ -48,7 +49,7 @@ export default function JobSeekerLayout({
       }
       footerButton={<SidebarUserButton />}
     >
-      {children}
-    </AppSidebar>
+      <MotionPageWrapper>{children}</MotionPageWrapper>
+    </PlatformSidebar>
   )
 }

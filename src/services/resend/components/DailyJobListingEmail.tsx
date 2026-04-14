@@ -23,7 +23,7 @@ type JobListing = Pick<
   | "id"
   | "title"
   | "city"
-  | "stateAbbreviation"
+  | "country"
   | "type"
   | "experienceLevel"
   | "wage"
@@ -97,7 +97,7 @@ function getBadges(jobListing: JobListing) {
     formatExperienceLevel(jobListing.experienceLevel),
   ]
 
-  if (jobListing.city != null || jobListing.stateAbbreviation != null) {
+  if (jobListing.city != null || jobListing.country != null) {
     badges.unshift(formatJobListingLocation(jobListing))
   }
 
@@ -112,7 +112,7 @@ DailyJobListingEmail.PreviewProps = {
   jobListings: [
     {
       city: "Omaha",
-      stateAbbreviation: "NE",
+      country: "USA",
       title: "Frontend Developer",
       wage: null,
       wageInterval: null,
@@ -124,7 +124,7 @@ DailyJobListingEmail.PreviewProps = {
     },
     {
       city: null,
-      stateAbbreviation: null,
+      country: null,
       title: "Software Engineer",
       wage: 100000,
       wageInterval: "yearly",

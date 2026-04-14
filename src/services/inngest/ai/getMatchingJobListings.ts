@@ -15,7 +15,7 @@ const listingSchema = z.object({
   description: z.string(),
   wage: z.number().nullable(),
   wageInterval: z.enum(wageIntervals).nullable(),
-  stateAbbreviation: z.string().nullable(),
+  country: z.string().nullable(),
   city: z.string().nullable(),
   experienceLevel: z.enum(experienceLevels),
   type: z.enum(jobListingTypes),
@@ -44,7 +44,7 @@ export async function getMatchingJobListings(
             wage: listing.wage ?? undefined,
             wageInterval: listing.wageInterval ?? undefined,
             city: listing.city ?? undefined,
-            stateAbbreviation: listing.stateAbbreviation ?? undefined,
+            country: listing.country ?? undefined,
             locationRequirement: listing.locationRequirement ?? undefined,
           }))
           .parse(listing)

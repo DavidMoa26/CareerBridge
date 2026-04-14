@@ -25,7 +25,6 @@ import {
   experienceLevels,
   JobListingTable,
   jobListingTypes,
-  locationRequirementEnum,
   locationRequirements,
   wageIntervals,
 } from '@/drizzle/schema';
@@ -35,7 +34,6 @@ import {
   formatLocationRequirement,
   formatWageInterval,
 } from '../lib/formatters';
-import { StateSelectItems } from './StateSelectItems';
 import { MarkdownEditor } from '@/components/markdown/MarkdownEditor';
 import { Button } from '@/components/ui/button';
 import { LoadingSwap } from '@/components/LoadingSwap';
@@ -43,7 +41,6 @@ import { Loader2Icon } from 'lucide-react';
 import { createJobListing, updateJobListing } from '../actions/actions';
 import { toast } from 'sonner';
 
-const NONE_SELECT_VALUE = 'none';
 
 export function JobListingForm({
   jobListing,
@@ -54,7 +51,7 @@ export function JobListingForm({
     | 'description'
     | 'experienceLevel'
     | 'id'
-    | 'stateAbbreviation'
+    | 'country'
     | 'type'
     | 'wage'
     | 'wageInterval'
@@ -67,7 +64,7 @@ export function JobListingForm({
     defaultValues: jobListing ?? {
       title: '',
       description: '',
-      stateAbbreviation: null,
+      country: null,
       city: null,
       wage: null,
       wageInterval: 'yearly',
@@ -163,7 +160,7 @@ export function JobListingForm({
           />
         </div>
         <div className="grid grid-cols-1 @md:grid-cols-2 gap-x-4 gap-y-6 items-start">
-          <div className="grid grid-cols-1 @xs:grid-cols-2 gap-x-2 gap-y-6 items-start">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-6 items-start">
             <FormField
               name="city"
               control={form.control}
@@ -171,41 +168,31 @@ export function JobListingForm({
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <Input {...field} value={field.value ?? ''} />
+                    <Input
+                      {...field}
+                      value={field.value ?? ''}
+                      placeholder="e.g. Tel Aviv"
+                      className="rounded-xl border-slate-200 focus-visible:ring-slate-300"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              name="stateAbbreviation"
+              name="country"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>State</FormLabel>
-                  <Select
-                    value={field.value ?? ''}
-                    onValueChange={(val) =>
-                      field.onChange(val === NONE_SELECT_VALUE ? null : val)
-                    }
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {field.value != null && (
-                        <SelectItem
-                          value={NONE_SELECT_VALUE}
-                          className="text-muted-foreground"
-                        >
-                          Clear
-                        </SelectItem>
-                      )}
-                      <StateSelectItems />
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>Country</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ''}
+                      placeholder="e.g. Israel"
+                      className="rounded-xl border-slate-200 focus-visible:ring-slate-300"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -304,7 +291,7 @@ export function JobListingForm({
           className="w-full"
         >
           <LoadingSwap isLoading={form.formState.isSubmitting}>
-            Create Job Listing
+            {jobListing ? "Update Job Listing" : "Create Job Listing"}
           </LoadingSwap>
         </Button>
       </form>

@@ -8,14 +8,14 @@ import { z } from "zod"
 
 export const jobListingSchema = z
   .object({
-    title: z.string().min(1, "Required"),
-    description: z.string().min(1, "Required"),
+    title: z.string().min(3, "Must be at least 3 characters").max(100, "Must be 100 characters or less"),
+    description: z.string().min(1, "Required").max(5000, "Must be 5000 characters or less"),
     experienceLevel: z.enum(experienceLevels),
     locationRequirement: z.enum(locationRequirements),
     type: z.enum(jobListingTypes),
     wage: z.number().int().positive().min(1).nullable(),
     wageInterval: z.enum(wageIntervals).nullable(),
-    stateAbbreviation: z
+    country: z
       .string()
       .transform(val => (val.trim() === "" ? null : val))
       .nullable(),
@@ -24,6 +24,15 @@ export const jobListingSchema = z
       .transform(val => (val.trim() === "" ? null : val))
       .nullable(),
   })
+  .refine(
+    listing => {
+      return (listing.wage == null) === (listing.wageInterval == null)
+    },
+    {
+      message: "Wage and wage interval must both be set or both be empty",
+      path: ["wage"],
+    }
+  )
   .refine(
     listing => {
       return listing.locationRequirement === "remote" || listing.city != null
@@ -36,13 +45,12 @@ export const jobListingSchema = z
   .refine(
     listing => {
       return (
-        listing.locationRequirement === "remote" ||
-        listing.stateAbbreviation != null
+        listing.locationRequirement === "remote" || listing.country != null
       )
     },
     {
       message: "Required for non-remote listings",
-      path: ["stateAbbreviation"],
+      path: ["country"],
     }
   )
 
