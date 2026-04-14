@@ -29,9 +29,15 @@ jobs:
         # SKIP_ENV_VALIDATION bypasses t3-oss/env-nextjs runtime checks.
         # SDK constructors (Resend, UTApi, drizzle) use ?? fallbacks in their
         # client files so they never throw when env vars are undefined in CI.
+        # NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY must be real: Clerk validates it
+        # at prerender time and it is a public key safe to store as a secret.
         run: npm run build
         env:
           SKIP_ENV_VALIDATION: true
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
+          NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: /
+          NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: /
 
   # ─────────────────────────────────────────────
   # CD: deploy to DigitalOcean Droplet via SSH
