@@ -12,6 +12,7 @@ export function ClerkProvider({ children }: { children: ReactNode }) {
       <OriginalClerkProvider
         signInFallbackRedirectUrl="/"
         signUpFallbackRedirectUrl="/"
+        proxyUrl="https://careerbridge-david.duckdns.org/clerk"
         appearance={isDarkMode ? { baseTheme: [dark] } : undefined}
       >
         {children}
