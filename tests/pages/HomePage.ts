@@ -21,9 +21,8 @@ export class HomePage extends BasePage {
   constructor(page: Page) {
     super(page)
 
-    this.jobCards = page.locator('[data-testid="job-card"]')
-    // Fallback selector used when no test-id is present yet
-    this.emptyState = page.getByText(/no job listings found/i)
+    this.jobCards = page.locator('a[href*="/job-listings/"]')
+    this.emptyState = page.getByText(/no listings found/i)
 
     // These controls live inside the @sidebar parallel route
     this.searchInput = page
@@ -44,9 +43,13 @@ export class HomePage extends BasePage {
    * Adjust the selector once the real search UI is wired up.
    */
   async searchByTitle(title: string) {
+    // fill() fires a single atomic input event — more reliable than pressSequentially
+    // for React Hook Form across all browsers (Firefox/WebKit event batching differs).
+    await this.searchInput.click()
     await this.searchInput.fill(title)
-    await this.searchInput.press("Enter")
-    await this.page.waitForURL(url => url.searchParams.has("title"))
+    // The filter form submits via "Apply Filters" button, not Enter key.
+    await this.page.getByRole("button", { name: /apply filters/i }).click()
+    await this.page.waitForURL(url => url.searchParams.has("title"), { timeout: 15_000 })
   }
 
   /**

@@ -1,17 +1,9 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
-@import "uploadthing/tw/v4";
+@import 'uploadthing/tw/v4';
 @source "../../node_modules/@uploadthing/react/dist";
-
-@custom-variant dark {
-  @media (prefers-color-scheme: dark) {
-    & {
-      @slot;
-    }
-  }
-}
 
 @theme inline {
   --color-background: var(--background);
@@ -54,185 +46,82 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* CareerBridge Design Tokens — Modern Light */
-  --color-cb-blue-600: #2563eb;
-  --color-cb-blue-500: #3b82f6;
-  --color-cb-blue-100: #dbeafe;
-  --color-cb-blue-50: #eff6ff;
-  --color-cb-slate-900: #1e293b;
-  --color-cb-slate-700: #334155;
-  --color-cb-slate-500: #64748b;
-  --color-cb-slate-200: #e2e8f0;
-  --color-cb-slate-100: #f1f5f9;
-  --color-cb-slate-50: #f8fafc;
-  --color-cb-emerald-500: #10b981;
-  --color-cb-amber-500: #f59e0b;
-  --color-cb-rose-500: #f43f5e;
-
-  /* CareerBridge Shadow Scale */
-  --shadow-cb-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-cb-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-cb-md-hover: 0 20px 30px -6px rgba(37, 99, 235, 0.12), 0 8px 12px -4px rgba(0, 0, 0, 0.06);
-  --shadow-cb-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.12), 0 8px 16px -6px rgba(0, 0, 0, 0.06);
+  --shadow-cb-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-cb-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  --shadow-cb-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.12);
 }
 
 :root {
   --radius: 0.625rem;
 
-  /* ── Modern Light Palette ─────────────────────────────────────────────── */
-  /* Page background: slate-50 (#F8FAFC) */
-  --background: oklch(0.984 0.003 247);
-  --foreground: oklch(0.18 0.025 262);   /* slate-900 */
+  --placeholder: oklch(0.5 0.02 255);
 
-  /* Cards: pure white with crisp borders */
+  --background: oklch(0.984 0.003 247);
+  --foreground: oklch(0.18 0.025 262);
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.18 0.025 262);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.025 262);
-
-  /* Primary: Slate Blue #2563EB (blue-600) */
   --primary: oklch(0.546 0.215 262);
   --primary-foreground: oklch(0.985 0 0);
 
-  /* Secondary: very light blue tint */
-  --secondary: oklch(0.961 0.010 247);
-  --secondary-foreground: oklch(0.546 0.215 262);
-
-  /* Muted: slate-100 */
   --muted: oklch(0.968 0.005 247);
-  --muted-foreground: oklch(0.50 0.020 255);   /* slate-500 */
+  --muted-foreground: oklch(0.5 0.02 255);
 
-  /* Featured: violet accent */
-  --featured: oklch(0.555 0.200 308);
-  --featured-foreground: oklch(0.985 0 0);
-
-  /* Accent: blue-50 fill for selected/hover states */
-  --accent: oklch(0.961 0.016 247);
-  --accent-foreground: oklch(0.546 0.215 262);
-
-  --destructive: oklch(0.577 0.245 27.325);
-
-  /* Borders: slate-200 */
   --border: oklch(0.918 0.008 247);
   --input: oklch(0.918 0.008 247);
   --ring: oklch(0.546 0.215 262);
 
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.28 0.02 260);
+  --sidebar-foreground: oklch(0.93 0.01 260);
 
-  /* Sidebar: Premium dark slate-950 panel */
-  --sidebar: oklch(0.115 0.022 264);          /* slate-950 */
-  --sidebar-foreground: oklch(0.94 0.006 264); /* slate-100 */
-  --sidebar-primary: oklch(0.546 0.215 262);   /* blue-600 active */
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  /* Hover / active bg: slate-800 */
-  --sidebar-accent: oklch(0.22 0.024 264);
-  --sidebar-accent-foreground: oklch(0.97 0 0);
-  /* Border: slate-800 */
-  --sidebar-border: oklch(0.22 0.024 264);
-  --sidebar-ring: oklch(0.546 0.215 262);
-}
+  --sidebar-primary: oklch(0.58 0.18 255);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.35 0.03 260);
+  --sidebar-accent-foreground: oklch(1 0 0);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark mode: deep navy background */
-    --background: oklch(0.13 0.018 262);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.18 0.02 262);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.18 0.02 262);
-    --popover-foreground: oklch(0.985 0 0);
-    /* Lighter blue for dark mode primary */
-    --primary: oklch(0.62 0.15 262);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.22 0.025 262);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.22 0.025 262);
-    --muted-foreground: oklch(0.65 0.02 250);
-    --featured: oklch(0.654 0.219 308.49);
-    --featured-foreground: oklch(0.985 0 0);
-    --accent: oklch(0.25 0.03 262);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.62 0.15 262);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    /* Sidebar: very dark navy */
-    --sidebar: oklch(0.16 0.022 262);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.62 0.15 262);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.22 0.025 262);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.62 0.15 262);
-  }
-}
-
-@keyframes cb-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  --sidebar-border: oklch(0.35 0.02 260 / 0.4);
+  --sidebar-ring: oklch(0.58 0.18 255);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.8 0.01 247) transparent;
   }
+
   body {
     @apply bg-background text-foreground antialiased;
-    animation: cb-fade-in 0.25s ease-out;
   }
 
-  /* Apply fade-in to page-level main containers */
-  main {
-    animation: cb-fade-in 0.3s ease-out;
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--placeholder);
+    opacity: 1;
   }
 
-  /* CareerBridge shadow utilities */
-  .shadow-cb-sm  { box-shadow: var(--shadow-cb-sm); }
-  .shadow-cb-md  { box-shadow: var(--shadow-cb-md); }
-  .shadow-cb-md-hover { box-shadow: var(--shadow-cb-md-hover); }
-  .shadow-cb-lg  { box-shadow: var(--shadow-cb-lg); }
-
-  /* Gradient-focus ring for inputs — pairs with focus-visible: */
-  .focus-gradient:focus-visible {
-    outline: none;
-    border-color: transparent;
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2563eb, 0 4px 12px rgba(37,99,235,0.15);
+  [data-sidebar='sidebar'] input::placeholder,
+  [data-sidebar='sidebar'] textarea::placeholder {
+    color: oklch(0.7 0.01 255);
   }
 
-  .mdxeditor-root-contenteditable {
-    @apply border-input has-focus-visible:border-ring has-focus-visible:ring-ring/50 dark:bg-input/30 rounded-md rounded-t-none border bg-transparent px-3 shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 overflow-hidden;
-
-    & * {
-      outline: none;
-    }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.8 0.01 247);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.7 0.01 247);
   }
 
-  .mdxeditor-toolbar {
-    @apply bg-card border-card rounded-md !rounded-b-none shadow-sm flex-wrap;
-  }
-
-  .mdxeditor-popup-container {
-    @apply !z-50;
-  }
-
-  .dark-theme {
-    --basePageBg: var(--muted) !important;
+  .shadow-cb-md {
+    box-shadow: var(--shadow-cb-md);
   }
 }

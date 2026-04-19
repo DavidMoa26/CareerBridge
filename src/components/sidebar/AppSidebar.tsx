@@ -7,20 +7,20 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { SignedIn } from "@/services/clerk/components/SignInStatus"
-import { AppSidebarClient } from "./_AppSidebarClient"
-import { ReactNode } from "react"
-import Image from "next/image"
+} from '@/components/ui/sidebar';
+import { SignedIn } from '@/services/clerk/components/SignInStatus';
+import { AppSidebarClient } from './_AppSidebarClient';
+import { ReactNode } from 'react';
+import Image from 'next/image';
 
 export function AppSidebar({
   children,
   content,
   footerButton,
 }: {
-  children: ReactNode
-  content: ReactNode
-  footerButton: ReactNode
+  children: ReactNode;
+  content: ReactNode;
+  footerButton: ReactNode;
 }) {
   return (
     <SidebarProvider className="overflow-y-hidden">
@@ -31,9 +31,14 @@ export function AppSidebar({
             <Image
               src="/logo.png"
               alt="CareerBridge"
-              height={40}
               width={150}
-              className="object-contain group-data-[state=collapsed]:hidden"
+              height={40}
+              sizes="150px"
+              style={{
+                width: '150px',
+                height: 'auto',
+              }}
+              className="object-contain"
               priority
             />
           </SidebarHeader>
@@ -49,5 +54,5 @@ export function AppSidebar({
         <main className="flex-1">{children}</main>
       </AppSidebarClient>
     </SidebarProvider>
-  )
+  );
 }

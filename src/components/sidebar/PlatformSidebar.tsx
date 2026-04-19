@@ -7,20 +7,20 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { SignedIn } from "@/services/clerk/components/SignInStatus"
-import { PlatformSidebarClient } from "./_PlatformSidebarClient"
-import { ReactNode } from "react"
-import Image from "next/image"
+} from '@/components/ui/sidebar';
+import { SignedIn } from '@/services/clerk/components/SignInStatus';
+import { PlatformSidebarClient } from './_PlatformSidebarClient';
+import { ReactNode } from 'react';
+import Image from 'next/image';
 
 export function PlatformSidebar({
   children,
   content,
   footerButton,
 }: {
-  children: ReactNode
-  content: ReactNode
-  footerButton: ReactNode
+  children: ReactNode;
+  content: ReactNode;
+  footerButton: ReactNode;
 }) {
   return (
     <SidebarProvider className="overflow-y-hidden">
@@ -37,15 +37,17 @@ export function PlatformSidebar({
             <div className="px-6 pb-5 group-data-[state=collapsed]:hidden">
               <div className="flex items-center gap-3 mb-1">
                 {/* Logo mark — mix-blend-screen removes any white bg on dark */}
-                <div className="shrink-0 size-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-cb-sm">
-                  <Image
-                    src="/logo.png"
-                    alt=""
-                    height={28}
-                    width={28}
-                    className="object-contain mix-blend-screen brightness-200"
-                    priority
-                  />
+                <div className="shrink-0 size-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-cb-sm relative overflow-hidden">
+                  <div className="relative w-[180px] h-[48px]">
+                    <Image
+                      src="/logo.png"
+                      alt="CareerBridge"
+                      fill
+                      sizes="180px"
+                      className="object-contain mix-blend-screen brightness-200 p-1"
+                      priority
+                    />
+                  </div>
                 </div>
                 <div className="min-w-0">
                   <p className="font-semibold text-white text-base leading-tight tracking-tight">
@@ -79,5 +81,5 @@ export function PlatformSidebar({
         <main className="flex-1 min-h-screen bg-slate-50">{children}</main>
       </PlatformSidebarClient>
     </SidebarProvider>
-  )
+  );
 }

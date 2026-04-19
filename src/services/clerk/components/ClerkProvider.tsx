@@ -10,8 +10,8 @@ export function ClerkProvider({ children }: { children: ReactNode }) {
   return (
     <Suspense>
       <OriginalClerkProvider
-        afterSignInUrl="/"
-        afterSignUpUrl="/"
+        signInFallbackRedirectUrl="/"
+        signUpFallbackRedirectUrl="/"
         appearance={isDarkMode ? { baseTheme: [dark] } : undefined}
       >
         {children}

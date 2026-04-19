@@ -1,9 +1,9 @@
-import Image from "next/image"
+import Image from 'next/image';
 
 export default function ClerkLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-slate-50">
@@ -12,8 +12,13 @@ export default function ClerkLayout({
           <Image
             src="/logo.png"
             alt="CareerBridge"
-            height={48}
             width={180}
+            height={48}
+            sizes="180px"
+            style={{
+              width: '180px',
+              height: 'auto',
+            }}
             className="object-contain"
             priority
           />
@@ -24,5 +29,5 @@ export default function ClerkLayout({
         {children}
       </div>
     </div>
-  )
+  );
 }

@@ -1,24 +1,16 @@
-import { ReactNode, Suspense } from "react"
+import { ReactNode } from "react"
 
 type Props = {
   condition: () => Promise<boolean>
   children: ReactNode
-  loadingFallback?: ReactNode
   otherwise?: ReactNode
 }
 
-export function AsyncIf({
-  children,
-  condition,
-  loadingFallback,
-  otherwise,
-}: Props) {
+export function AsyncIf({ children, condition, otherwise }: Props) {
   return (
-    <Suspense fallback={loadingFallback}>
-      <SuspendedComponent condition={condition} otherwise={otherwise}>
-        {children}
-      </SuspendedComponent>
-    </Suspense>
+    <SuspendedComponent condition={condition} otherwise={otherwise}>
+      {children}
+    </SuspendedComponent>
   )
 }
 
@@ -26,6 +18,6 @@ async function SuspendedComponent({
   children,
   condition,
   otherwise,
-}: Omit<Props, "loadingFallback">) {
+}: Props) {
   return (await condition()) ? children : otherwise
 }

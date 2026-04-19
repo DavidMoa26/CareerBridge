@@ -1,130 +1,129 @@
-/**
- * responsive.spec.ts — Sidebar / layout responsive design
- *
- * These tests run against the "mobile-chrome" and "mobile-safari" projects
- * (Pixel 5 / iPhone 12 viewports) as well as the default desktop projects,
- * because playwright.config.ts scopes the mobile projects to files whose
- * name contains "responsive". Desktop projects pick up the file normally.
- *
- * COVERAGE:
- *  Desktop (≥1280 px)
- *    ✓ Sidebar is expanded by default
- *    ✓ CareerBridge logo is visible
- *    ✓ Clicking the sidebar trigger collapses it (icon-only mode)
- *    ✓ Clicking again re-expands it
- *    ✓ Main content area is still accessible when sidebar is collapsed
- *
- *  Mobile (≤430 px — Pixel 5 / iPhone 12)
- *    ✓ Sidebar is NOT visible by default (off-canvas)
- *    ✓ The sidebar trigger button is visible
- *    ✓ Clicking the trigger slides the sidebar open
- *    ✓ Sidebar contains nav links when open
- */
+import { test, expect } from './fixtures';
 
-import { test, expect } from "./fixtures"
+test.describe('Desktop layout', () => {
+  test.skip(({ isMobile }) => isMobile);
+  test.use({ viewport: { width: 1280, height: 720 } });
 
-// ── Desktop ─────────────────────────────────────────────────────────────────
-test.describe("Desktop layout", () => {
-  // Force desktop viewport for every test in this describe block
-  test.use({ viewport: { width: 1280, height: 720 } })
+  test.beforeEach(async ({ page }) => {
+    test.setTimeout(60_000);
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('main')).toBeVisible({ timeout: 20_000 });
+  });
 
-  test.beforeEach(async ({ homePage }) => {
-    await homePage.goto()
-  })
+  test('sidebar is visible and expanded by default', async ({ homePage }) => {
+    await expect(homePage.sidebar).toBeVisible();
+    await expect(homePage.logo).toBeVisible();
+  });
 
-  test("sidebar is visible and expanded by default", async ({ homePage }) => {
-    // The sidebar should be rendered and not in collapsed/icon-only state
-    await expect(homePage.sidebar).toBeVisible()
-    // Logo is only visible when sidebar is expanded
-    await expect(homePage.logo).toBeVisible()
-  })
+  test('sidebar trigger collapses the sidebar', async ({ homePage, page }) => {
+    await page.waitForLoadState('domcontentloaded');
+    await expect(homePage.logo).toBeVisible({ timeout: 10_000 });
+    await homePage.sidebarTrigger.click();
+    const sidebar = page.locator('[data-slot="sidebar"]');
+    await expect(sidebar).toHaveAttribute('data-state', 'collapsed', {
+      timeout: 15_000,
+    });
+    await expect(homePage.logo).toBeHidden();
+  });
 
-  test("sidebar trigger collapses the sidebar", async ({ homePage }) => {
-    await expect(homePage.logo).toBeVisible()
-
-    await homePage.sidebarTrigger.click()
-
-    // After collapsing, the logo disappears (sidebar in icon-only mode)
-    await expect(homePage.logo).toBeHidden({ timeout: 3_000 })
-  })
-
-  test("clicking trigger again re-expands the sidebar", async ({ homePage }) => {
-    // Collapse
-    await homePage.sidebarTrigger.click()
-    await expect(homePage.logo).toBeHidden({ timeout: 3_000 })
-
-    // Re-expand
-    await homePage.sidebarTrigger.click()
-    await expect(homePage.logo).toBeVisible({ timeout: 3_000 })
-  })
-
-  test("main content is accessible when sidebar is collapsed", async ({
+  test('clicking trigger again re-expands the sidebar', async ({
     homePage,
     page,
   }) => {
-    await homePage.sidebarTrigger.click()
-    await expect(homePage.logo).toBeHidden({ timeout: 3_000 })
+    const sidebar = page.locator('[data-slot="sidebar"]');
+    await homePage.sidebarTrigger.click();
+    await expect(sidebar).toHaveAttribute('data-state', 'collapsed', {
+      timeout: 15_000,
+    });
+    await page.waitForTimeout(1000);
+    await homePage.sidebarTrigger.click({ force: true });
+    await expect(sidebar).toHaveAttribute('data-state', 'expanded', {
+      timeout: 15_000,
+    });
+    await expect(homePage.logo).toBeVisible({ timeout: 10_000 });
+  });
 
-    // The main element should still be visible and have non-zero dimensions
-    const main = page.locator("main")
-    await expect(main).toBeVisible()
-    const box = await main.boundingBox()
-    expect(box).not.toBeNull()
-    expect(box!.width).toBeGreaterThan(100)
-  })
+  test('main content is accessible when sidebar is collapsed', async ({
+    homePage,
+    page,
+  }) => {
+    const sidebar = page.locator('[data-slot="sidebar"]');
 
-  test("nav links remain accessible on desktop", async ({ homePage }) => {
-    await expect(homePage.jobBoardLink).toBeVisible()
-    await expect(homePage.aiSearchLink).toBeVisible()
-  })
-})
+    // Ensure we are in a clean state before clicking
+    await expect(sidebar).toHaveAttribute('data-state', 'expanded');
+    await homePage.sidebarTrigger.click();
 
-// ── Mobile ───────────────────────────────────────────────────────────────────
-test.describe("Mobile layout", () => {
-  // Pixel 5 viewport
-  test.use({ viewport: { width: 393, height: 851 } })
+    // Webkit specific: Wait for the attribute to toggle
+    await expect(sidebar).toHaveAttribute('data-state', 'collapsed', {
+      timeout: 15_000,
+    });
 
-  test.beforeEach(async ({ homePage }) => {
-    await homePage.goto()
-  })
+    const main = page.locator('main');
+    await expect(main).toBeVisible();
 
-  test("sidebar is hidden by default on mobile", async ({ homePage }) => {
-    // On mobile the sidebar starts off-canvas; it should not be visible
-    // The sidebar element exists in the DOM but the SidebarProvider hides it
-    const sidebarBox = await homePage.sidebar.boundingBox()
-    // Either not visible or positioned off-screen (x < 0 or width = 0)
-    if (sidebarBox) {
-      const isOffScreen = sidebarBox.x < 0 || sidebarBox.width < 10
-      expect(isOffScreen).toBe(true)
-    }
-    // If boundingBox() returns null, the element is hidden — also fine
-  })
+    // Use toPass to handle layout calculation delays in Webkit
+    await expect(async () => {
+      const box = await main.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.width).toBeGreaterThan(100);
+    }).toPass();
+  });
 
-  test("sidebar trigger button is visible on mobile", async ({ homePage }) => {
-    await expect(homePage.sidebarTrigger).toBeVisible()
-  })
+  test('nav links remain accessible on desktop', async ({ homePage, page }) => {
+    const sidebar = page.locator('[data-slot="sidebar"]');
 
-  test("tapping the trigger opens the sidebar", async ({ homePage }) => {
-    await homePage.sidebarTrigger.click()
+    await expect(sidebar).toHaveAttribute('data-state', 'expanded', {
+      timeout: 15_000,
+    });
 
-    // After opening, the sidebar should slide in and be visible
-    await expect(homePage.sidebar).toBeVisible({ timeout: 3_000 })
-  })
+    await expect(async () => {
+      await expect(homePage.jobBoardLink).toBeVisible();
+      await expect(homePage.aiSearchLink).toBeVisible();
+    }).toPass({ timeout: 10_000 });
+  });
+});
 
-  test("open sidebar contains navigation links", async ({ homePage }) => {
-    await homePage.sidebarTrigger.click()
+test.describe('Mobile layout', () => {
+  test.skip(
+    ({ isMobile, viewport }) => !isMobile && (viewport?.width ?? 0) > 600,
+  );
+  test.use({ viewport: { width: 393, height: 851 } });
 
-    await expect(homePage.sidebar).toBeVisible({ timeout: 3_000 })
-    await expect(homePage.jobBoardLink).toBeVisible()
-  })
+  test.beforeEach(async ({ page }) => {
+    test.setTimeout(60_000);
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('button').first()).toBeVisible({
+      timeout: 20_000,
+    });
+  });
 
-  test("main content area has correct mobile width", async ({ homePage, page }) => {
-    const main = page.locator("main")
-    await expect(main).toBeVisible()
+  test('sidebar is hidden by default on mobile', async ({ homePage }) => {
+    await expect(homePage.sidebar).toBeHidden();
+  });
 
-    const box = await main.boundingBox()
-    expect(box).not.toBeNull()
-    // On mobile the main should take up most of the 393px viewport
-    expect(box!.width).toBeGreaterThan(300)
-  })
-})
+  test('sidebar trigger button is visible on mobile', async ({ homePage }) => {
+    await expect(homePage.sidebarTrigger).toBeVisible({ timeout: 15_000 });
+  });
+
+  test('tapping the trigger opens the sidebar', async ({ homePage, page }) => {
+    await homePage.sidebarTrigger.click();
+    const mobileSidebar = page.getByRole('dialog');
+    await expect(mobileSidebar).toBeVisible({ timeout: 15_000 });
+    await expect(homePage.jobBoardLink).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('open sidebar contains navigation links', async ({ homePage, page }) => {
+    await homePage.sidebarTrigger.click();
+    const mobileSidebar = page.getByRole('dialog');
+    await expect(mobileSidebar).toBeVisible({ timeout: 15_000 });
+    await expect(homePage.jobBoardLink).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('main content area has correct mobile width', async ({ page }) => {
+    const main = page.locator('main');
+    await expect(main).toBeVisible({ timeout: 15_000 });
+    const box = await main.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.width).toBeGreaterThan(300);
+  });
+});

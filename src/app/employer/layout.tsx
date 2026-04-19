@@ -1,4 +1,3 @@
-import { AsyncIf } from "@/components/AsyncIf"
 import { PlatformSidebar } from "@/components/sidebar/PlatformSidebar"
 import { NavMenuSection } from "@/components/sidebar/NavMenuSection"
 import {
@@ -42,6 +41,10 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
   const { orgId } = await getCurrentOrganization()
   if (orgId == null) return redirect("/organizations/select")
 
+  const canCreateListings = await hasOrgUserPermission(
+    "org:job_listings:create"
+  )
+
   return (
     <PlatformSidebar
       content={
@@ -50,9 +53,7 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
             <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wide text-cb-slate-500 px-2 mb-1">
               Job Listings
             </SidebarGroupLabel>
-            <AsyncIf
-              condition={() => hasOrgUserPermission("org:job_listings:create")}
-            >
+            {canCreateListings && (
               <SidebarGroupAction
                 title="Add Job Listing"
                 asChild
@@ -63,7 +64,7 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
                   <span className="sr-only">Add Job Listing</span>
                 </Link>
               </SidebarGroupAction>
-            </AsyncIf>
+            )}
             <SidebarGroupContent className="group-data-[state=collapsed]:hidden">
               <Suspense>
                 <JobListingMenu orgId={orgId} />

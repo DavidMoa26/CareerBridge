@@ -23,9 +23,11 @@ export class BasePage {
   constructor(page: Page) {
     this.page = page
 
-    this.sidebar = page.locator("aside")
-    // The sidebar collapse toggle rendered by <SidebarTrigger>
-    this.sidebarTrigger = page.getByRole("button", { name: /toggle sidebar/i })
+    // The shadcn Sidebar renders as a div, not an aside.
+    // [data-slot="sidebar-container"] is the fixed desktop container (hidden md:flex).
+    this.sidebar = page.locator('[data-slot="sidebar-container"]')
+    // Use .first() — on mobile with the Sheet open there can be two triggers.
+    this.sidebarTrigger = page.getByRole("button", { name: /toggle sidebar/i }).first()
     this.logo = page.getByAltText("CareerBridge")
 
     this.jobBoardLink = page.getByRole("link", { name: /job board/i })

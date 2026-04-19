@@ -31,11 +31,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <link rel="icon" href="/favicon.png" type="image/png" />
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-cb-slate-100 text-cb-slate-900`}
         >
-          {/* MotionProvider is a client boundary that sets reducedMotion="user"
-              so every motion element in the tree respects the OS accessibility setting. */}
           <MotionProvider>{children}</MotionProvider>
           <Toaster />
           <UploadThingSSR />

@@ -10,25 +10,29 @@ import {
 import { JobListingAiSearchForm } from "@/features/jobListings/components/JobListingAiSearchForm"
 import { SignUpButton } from "@/services/clerk/components/AuthButtons"
 import { getCurrentUser } from "@/services/clerk/lib/getCurrentAuth"
+import { Suspense } from "react"
 
 export default function AiSearchPage() {
   return (
     <div className="p-4 flex items-center justify-center min-h-full">
       <Card className="max-w-4xl">
-        <AsyncIf
-          condition={async () => {
-            const { userId } = await getCurrentUser()
-            return userId != null
-          }}
-          loadingFallback={
+        <Suspense
+          fallback={
             <LoadingSwap isLoading>
               <AiCard />
             </LoadingSwap>
           }
-          otherwise={<NoPermission />}
         >
-          <AiCard />
-        </AsyncIf>
+          <AsyncIf
+            condition={async () => {
+              const { userId } = await getCurrentUser()
+              return userId != null
+            }}
+            otherwise={<NoPermission />}
+          >
+            <AiCard />
+          </AsyncIf>
+        </Suspense>
       </Card>
     </div>
   )

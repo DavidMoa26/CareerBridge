@@ -31,9 +31,11 @@ export class EmployerDashboardPage extends BasePage {
   constructor(page: Page) {
     super(page)
 
-    // Sidebar
+    // Sidebar — use data-slot first; role-based query can fail in Chromium when
+    // button attributes are merged onto <a> via Radix Slot (asChild pattern).
     this.addJobListingButton = page
-      .getByRole("link", { name: /add job listing/i })
+      .locator('[data-slot="sidebar-group-action"]')
+      .or(page.getByRole("link", { name: /add job listing/i }))
       .or(page.getByTitle(/add job listing/i))
     this.jobListingsSection = page.getByText(/job listings/i).first()
 
@@ -59,8 +61,10 @@ export class EmployerDashboardPage extends BasePage {
       .getByLabel(/country/i)
       .or(page.locator('input[name="country"]'))
 
-    // Action buttons
-    this.saveDraftButton = page.getByRole("button", { name: /save draft/i })
+    // Action buttons — the form uses "Create Job Listing" / "Update Job Listing"
+    this.saveDraftButton = page.getByRole("button", {
+      name: /create job listing|update job listing/i,
+    })
     this.publishButton = page.getByRole("button", { name: /publish/i })
 
     // Validation
@@ -71,6 +75,13 @@ export class EmployerDashboardPage extends BasePage {
 
   async goto() {
     await super.goto("/employer")
+    // Wait for the sidebar to fully render (permission-based items stream in async)
+    await this.page.waitForLoadState("networkidle")
+    // Explicitly wait for the sidebar group label to be visible — Suspense-streamed
+    // server components can settle after networkidle in Chromium.
+    await this.page
+      .locator('[data-slot="sidebar-group-label"]')
+      .waitFor({ state: "visible", timeout: 10_000 })
   }
 
   async gotoNewListing() {
@@ -89,10 +100,24 @@ export class EmployerDashboardPage extends BasePage {
   }
 
   /**
-   * Fill in the minimum required fields and save a draft.
+   * Fill in the minimum required fields and submit the form.
+   * Sets locationRequirement to Remote so city/country are not required.
    */
   async fillAndSaveDraft(params: { title: string }) {
     await this.titleInput.fill(params.title)
+
+    // Switch location to Remote — eliminates the city/country required fields
+    const locationSelect = this.page.getByLabel(/location requirement/i)
+    await locationSelect.click()
+    await this.page.getByRole("option", { name: /remote/i }).click()
+
+    // Description is required (min 1 char) — MDX Editor uses ProseMirror which
+    // requires real keyboard events; fill() sets innerText directly and bypasses
+    // the editor's event listeners. pressSequentially fires keydown/input/keyup.
+    const editor = this.page.locator('[contenteditable="true"]').first()
+    await editor.click()
+    await editor.pressSequentially("Test.", { delay: 30 })
+
     await this.saveDraftButton.click()
   }
 }

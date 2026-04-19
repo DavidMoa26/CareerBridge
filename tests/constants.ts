@@ -6,3 +6,4 @@ import path from "path"
  * (which Playwright forbids).
  */
 export const STORAGE_STATE = path.join(__dirname, ".auth/user.json")
+export const EMPLOYER_STORAGE_STATE = path.join(__dirname, ".auth/employer.json")

@@ -9,6 +9,9 @@ const createJestConfig = nextJest({
 const config = {
   testEnvironment: "node",
   testMatch: ["**/__tests__/**/*.test.ts"],
+  // Exclude .next/standalone from haste module map to avoid naming collisions
+  watchPathIgnorePatterns: ["/node_modules/", "/.next/"],
+  modulePathIgnorePatterns: ["<rootDir>/.next/"],
 }
 
 module.exports = createJestConfig(config)

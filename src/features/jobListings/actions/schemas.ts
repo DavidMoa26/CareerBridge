@@ -26,11 +26,11 @@ export const jobListingSchema = z
   })
   .refine(
     listing => {
-      return (listing.wage == null) === (listing.wageInterval == null)
+      return listing.wage == null || listing.wageInterval != null
     },
     {
-      message: "Wage and wage interval must both be set or both be empty",
-      path: ["wage"],
+      message: "Please select a wage interval",
+      path: ["wageInterval"],
     }
   )
   .refine(

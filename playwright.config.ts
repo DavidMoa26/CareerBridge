@@ -35,44 +35,49 @@ export default defineConfig({
   },
 
   projects: [
-    /* ── Authenticated setup project ─────────────────────────────────────
-       Runs once to sign-in and persist the auth state to a file.
-       All "auth-required" projects depend on it.
+    /* ── Auth setup projects ──────────────────────────────────────────────
+       Each runs once (in a single browser) to create a session file.
+       Browser-specific projects depend on the appropriate setup project.
     ───────────────────────────────────────────────────────────────────── */
     {
       name: "setup",
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /auth\.setup\.ts/,
+    },
+    {
+      name: "employer-setup",
+      testMatch: /employer\.setup\.ts/,
+      dependencies: ["setup"],
     },
 
     /* ── Desktop browsers ─────────────────────────────────────────────── */
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-      dependencies: ["setup"],
+      dependencies: ["setup", "employer-setup"],
     },
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
-      dependencies: ["setup"],
+      dependencies: ["setup", "employer-setup"],
     },
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
-      dependencies: ["setup"],
+      dependencies: ["setup", "employer-setup"],
     },
 
     /* ── Mobile viewports (responsive tests) ─────────────────────────── */
     {
       name: "mobile-chrome",
       use: { ...devices["Pixel 5"] },
-      dependencies: ["setup"],
+      dependencies: ["setup", "employer-setup"],
       /* Only run files that include "responsive" in their name */
       testMatch: /.*responsive.*/,
     },
     {
       name: "mobile-safari",
       use: { ...devices["iPhone 12"] },
-      dependencies: ["setup"],
+      dependencies: ["setup", "employer-setup"],
       testMatch: /.*responsive.*/,
     },
   ],

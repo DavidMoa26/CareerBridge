@@ -39,23 +39,27 @@ const cachedHits = new Counter("next_cache_hits") // X-NextJS-Cache: HIT
 // ---------------------------------------------------------------------------
 const BASE_URL = __ENV.BASE_URL || "http://localhost:3000"
 
-// Realistic search filter combos that match the app's searchParamsSchema
+// Realistic search filter combos — values must match the app's Zod enums exactly.
+// locationRequirement: "in-office" | "hybrid" | "remote"
+// experience:         "junior" | "mid-level" | "senior"
+// type:               "internship" | "part-time" | "full-time"
+// country:            free-text (case-insensitive match against the country column)
 const SEARCH_SCENARIOS = [
   { title: "engineer" },
   { title: "designer" },
   { locationRequirement: "remote" },
-  { locationRequirement: "in_person" },
+  { locationRequirement: "in-office" },
   { locationRequirement: "hybrid" },
-  { experience: "entry_level" },
-  { experience: "mid_level" },
-  { experience: "senior_level" },
-  { type: "full_time" },
-  { type: "part_time" },
-  { type: "contract" },
+  { experience: "junior" },
+  { experience: "mid-level" },
+  { experience: "senior" },
+  { type: "full-time" },
+  { type: "part-time" },
+  { type: "internship" },
   { title: "developer", locationRequirement: "remote" },
-  { title: "manager", experience: "senior_level" },
-  { locationRequirement: "remote", type: "full_time" },
-  { state: "CA", locationRequirement: "in_person" },
+  { title: "manager", experience: "senior" },
+  { locationRequirement: "remote", type: "full-time" },
+  { country: "Israel", locationRequirement: "in-office" },
 ]
 
 // ---------------------------------------------------------------------------
@@ -103,20 +107,23 @@ function recordCacheHit(res) {
 }
 
 // ---------------------------------------------------------------------------
+// Shared request headers — defined once, reused by every VU iteration
+// ---------------------------------------------------------------------------
+const HEADERS = {
+  Accept: "text/html,application/xhtml+xml",
+  "Accept-Language": "en-US,en;q=0.9",
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+}
+
+// ---------------------------------------------------------------------------
 // Default function — executed by every VU on every iteration
 // ---------------------------------------------------------------------------
-export default function () {
-  const headers = {
-    "Accept": "text/html,application/xhtml+xml",
-    "Accept-Language": "en-US,en;q=0.9",
-    // Simulate a realistic browser user-agent
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-  }
+export default function vuIteration() {
 
   // --- Scenario 1: Main job feed (no filters) ----------------------------
   {
-    const res = http.get(`${BASE_URL}/`, { headers })
+    const res = http.get(`${BASE_URL}/`, { headers: HEADERS })
     const ok = check(res, {
       "job feed: status 200": r => r.status === 200,
       "job feed: has content": r => r.body && r.body.length > 500,
@@ -131,7 +138,7 @@ export default function () {
   {
     const filters = pickRandom(SEARCH_SCENARIOS)
     const qs = buildQueryString(filters)
-    const res = http.get(`${BASE_URL}/?${qs}`, { headers })
+    const res = http.get(`${BASE_URL}/?${qs}`, { headers: HEADERS })
     const ok = check(res, {
       "search: status 200": r => r.status === 200,
       "search: has content": r => r.body && r.body.length > 200,
@@ -145,7 +152,7 @@ export default function () {
   // --- Scenario 3: AI search page (auth-gated, tests redirect/gate) ------
   // Runs only ~30% of iterations to reflect realistic usage ratio
   if (Math.random() < 0.3) {
-    const res = http.get(`${BASE_URL}/ai-search`, { headers, redirects: 5 })
+    const res = http.get(`${BASE_URL}/ai-search`, { headers: HEADERS, redirects: 5 })
     const ok = check(res, {
       "ai-search: status 200 or 307": r => r.status === 200 || r.status === 307,
     })
