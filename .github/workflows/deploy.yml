@@ -26,11 +26,6 @@ jobs:
         run: npm ci
 
       - name: Build
-        # SKIP_ENV_VALIDATION bypasses t3-oss/env-nextjs runtime checks.
-        # SDK constructors (Resend, UTApi, drizzle) use ?? fallbacks in their
-        # client files so they never throw when env vars are undefined in CI.
-        # NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY must be real: Clerk validates it
-        # at prerender time and it is a public key safe to store as a secret.
         run: npm run build
         env:
           SKIP_ENV_VALIDATION: true
@@ -40,7 +35,7 @@ jobs:
           NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: /
 
   # ─────────────────────────────────────────────
-  # CI: run unit tests (parallel with build)
+  # CI: run unit tests
   # ─────────────────────────────────────────────
   test:
     name: Unit Tests
@@ -65,24 +60,26 @@ jobs:
           SKIP_ENV_VALIDATION: true
 
   # ─────────────────────────────────────────────
-  # CD: deploy to DigitalOcean Droplet via SSH
+  # CD: Deploy to College Server (Updated)
   # ─────────────────────────────────────────────
   deploy:
-    name: Deploy to Droplet
+    name: Deploy to College Server
     runs-on: ubuntu-latest
-    needs: [build, test] # deploy only if both build and tests pass
+    needs: [build, test]
 
     steps:
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Deploy to Droplet
-        run: |
-          ssh -i ~/.ssh/deploy_key \
-            -o StrictHostKeyChecking=no \
-            -o ConnectTimeout=30 \
-            root@104.248.243.118 \
-            "set -e && cd ~/CareerBridge && git pull origin main && docker compose up -d --build"
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            set -e
+            cd ~/CareerBridge
+            git pull origin main
+            docker compose up -d --build
