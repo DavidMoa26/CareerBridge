@@ -19,8 +19,7 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - /etc/letsencrypt/live/careerbridge-david.duckdns.org/fullchain.pem:/etc/nginx/certs/server.crt:ro
-      - /etc/letsencrypt/live/careerbridge-david.duckdns.org/privkey.pem:/etc/nginx/certs/server.key:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - app
     restart: unless-stopped
