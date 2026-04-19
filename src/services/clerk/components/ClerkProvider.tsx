@@ -12,7 +12,7 @@ export function ClerkProvider({ children }: { children: ReactNode }) {
       <OriginalClerkProvider
         signInFallbackRedirectUrl="/"
         signUpFallbackRedirectUrl="/"
-        proxyUrl="/clerk"
+        proxyUrl={`${process.env.NEXT_PUBLIC_APP_URL}/clerk`}
         appearance={isDarkMode ? { baseTheme: [dark] } : undefined}
       >
         {children}
