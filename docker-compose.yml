@@ -5,21 +5,8 @@ services:
       dockerfile: Dockerfile
       args:
         - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-    expose:
-      - '3000'
+    ports:
+      - '3000:3000'
     env_file:
       - .env
-    restart: unless-stopped
-
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      - app
     restart: unless-stopped

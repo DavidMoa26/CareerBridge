@@ -69,6 +69,6 @@ type Events = {
 }
 
 export const inngest = new Inngest({
-  id: "job-board-wds",
+  id: "careerbridge",
   schemas: new EventSchemas().fromRecord<Events>(),
 })
