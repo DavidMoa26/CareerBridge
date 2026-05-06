@@ -251,7 +251,7 @@ function generateOrganizations(count: number) {
   return Array.from({ length: count }, () => ({
     id: makeSeedOrgId(),
     name: faker.company.name(),
-    imageUrl: null as string | null,
+    imageUrl: "",
   }));
 }
 

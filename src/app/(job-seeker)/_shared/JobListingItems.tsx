@@ -63,10 +63,10 @@ async function SuspendedComponent({ searchParams, params }: Props) {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
         <div className="size-14 rounded-2xl bg-slate-100 flex items-center justify-center mb-4">
-          <BriefcaseIcon className="size-7 text-slate-400" />
+          <BriefcaseIcon className="size-7 text-slate-600" />
         </div>
         <p className="text-slate-700 font-semibold text-lg">No listings found</p>
-        <p className="text-slate-400 text-sm mt-1 max-w-xs">
+        <p className="text-slate-600 text-sm mt-1 max-w-xs">
           Try adjusting your filters or check back later for new opportunities.
         </p>
       </div>
@@ -189,7 +189,7 @@ async function DaysSincePosting({ postedAt }: { postedAt: Date }) {
     )
   }
 
-  return new Intl.RelativeTimeFormat(undefined, {
+  return new Intl.RelativeTimeFormat("en", {
     style: "narrow",
     numeric: "always",
   }).format(daysSincePosted, "days")

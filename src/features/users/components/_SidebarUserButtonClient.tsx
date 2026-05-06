@@ -45,7 +45,7 @@ export function SidebarUserButtonClient({ user }: { user: User }) {
         sideOffset={4}
         align="end"
         side={isMobile ? "bottom" : "right"}
-        className="min-w-64 max-w-80"
+        className="min-w-64 max-w-80 bg-white text-slate-900 shadow-xl border-slate-200"
       >
         <DropdownMenuLabel className="font-normal p-1">
           <UserInfo {...user} />

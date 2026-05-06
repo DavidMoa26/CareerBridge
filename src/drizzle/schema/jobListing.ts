@@ -56,9 +56,7 @@ export const JobListingTable = pgTable(
     description: text().notNull(),
     wage: integer(),
     wageInterval: wageIntervalEnum(),
-    // DB column kept as 'stateAbbreviation' to avoid a breaking migration;
-    // semantically repurposed to store country values (e.g. "Israel", "Germany").
-    country: varchar("stateAbbreviation"),
+    country: varchar("country"),
     city: varchar(),
     isFeatured: boolean().notNull().default(false),
     locationRequirement: locationRequirementEnum().notNull(),

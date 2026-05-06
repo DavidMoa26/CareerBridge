@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" dir="ltr">
         <link rel="icon" href="/favicon.png" type="image/png" />
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-cb-slate-100 text-cb-slate-900`}

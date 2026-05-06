@@ -144,7 +144,7 @@ export const clerkCreateOrganization = inngest.createFunction(
       await insertOrganization({
         id: orgData.id,
         name: orgData.name,
-        imageUrl: orgData.image_url,
+        imageUrl: orgData.image_url ?? "",
         createdAt: new Date(orgData.created_at),
         updatedAt: new Date(orgData.updated_at),
       })
@@ -172,7 +172,7 @@ export const clerkUpdateOrganization = inngest.createFunction(
 
       await updateOrganization(orgData.id, {
         name: orgData.name,
-        imageUrl: orgData.image_url,
+        imageUrl: orgData.image_url ?? "",
         updatedAt: new Date(orgData.updated_at),
       })
     })

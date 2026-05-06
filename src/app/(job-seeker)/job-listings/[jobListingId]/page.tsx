@@ -136,14 +136,14 @@ async function JobListingDetails({
             </div>
             {jobListing.postedAt != null && (
               <div className="text-sm text-muted-foreground @min-lg:hidden">
-                {jobListing.postedAt.toLocaleDateString()}
+                {jobListing.postedAt.toLocaleDateString("en-US")}
               </div>
             )}
           </div>
           <div className="ml-auto flex items-center gap-4">
             {jobListing.postedAt != null && (
               <div className="text-sm text-muted-foreground @max-lg:hidden">
-                {jobListing.postedAt.toLocaleDateString()}
+                {jobListing.postedAt.toLocaleDateString("en-US")}
               </div>
             )}
             <Button size="icon" variant="outline" asChild>
@@ -191,7 +191,7 @@ async function ApplyButton({ jobListingId }: { jobListingId: string }) {
   })
 
   if (application != null) {
-    const formatter = new Intl.RelativeTimeFormat(undefined, {
+    const formatter = new Intl.RelativeTimeFormat("en", {
       style: "short",
       numeric: "always",
     })
@@ -238,7 +238,11 @@ async function ApplyButton({ jobListingId }: { jobListingId: string }) {
           </DialogDescription>
         </DialogHeader>
         <div className="flex-1 overflow-y-auto">
-          <NewJobListingApplicationForm jobListingId={jobListingId} />
+          <NewJobListingApplicationForm
+              jobListingId={jobListingId}
+              resumeFileUrl={userResume.resumeFileUrl}
+              resumeFileKey={userResume.resumeFileKey}
+            />
         </div>
       </DialogContent>
     </Dialog>

@@ -4,7 +4,6 @@ import { z } from 'zod';
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   server: {
-    // אנחנו עוברים להשתמש במשתנה אחד שכולל הכל
     DATABASE_URL: z.string().min(1).url(),
     CLERK_SECRET_KEY: z.string().min(1),
     CLERK_WEBHOOK_SECRET: z.string().min(1),

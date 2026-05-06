@@ -21,8 +21,12 @@ import { Button } from "@/components/ui/button"
 
 export function NewJobListingApplicationForm({
   jobListingId,
+  resumeFileUrl,
+  resumeFileKey,
 }: {
   jobListingId: string
+  resumeFileUrl: string
+  resumeFileKey: string
 }) {
   const form = useForm({
     resolver: zodResolver(newJobListingApplicationSchema),
@@ -42,9 +46,23 @@ export function NewJobListingApplicationForm({
     toast.success(results.message)
   }
 
+  const fileName = resumeFileKey.split("/").pop() ?? "View Resume"
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="rounded-lg border bg-muted/50 p-4">
+          <p className="text-sm font-medium mb-1">Resume to be submitted</p>
+          <a
+            href={resumeFileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-primary truncate hover:underline block"
+          >
+            {fileName}
+          </a>
+        </div>
+
         <FormField
           name="coverLetter"
           control={form.control}

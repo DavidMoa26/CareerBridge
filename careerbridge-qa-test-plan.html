@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerBridge — Manual QA Test Plan</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background: #fff;
+      padding: 32px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ── Cover ── */
+    .cover {
+      text-align: center;
+      padding: 60px 0 40px;
+      border-bottom: 3px solid #2563eb;
+      margin-bottom: 40px;
+    }
+    .cover h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1e40af;
+      letter-spacing: -0.5px;
+    }
+    .cover .subtitle {
+      font-size: 16px;
+      color: #6b7280;
+      margin-top: 8px;
+    }
+    .cover .meta {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      font-size: 12px;
+      color: #374151;
+    }
+    .cover .meta span strong { color: #111827; }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e40af;
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 8px 12px;
+      margin: 32px 0 14px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      margin: 20px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* ── Prerequisites block ── */
+    .prereq {
+      background: #f9fafb;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+    }
+    .prereq p { font-weight: 600; margin-bottom: 6px; }
+    .prereq code, code {
+      font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+      font-size: 12px;
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin: 10px 0 14px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+    thead tr {
+      background: #1e40af;
+      color: #fff;
+    }
+    thead th {
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background: #f8faff; }
+    tbody tr:hover { background: #eff6ff; }
+    tbody td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+    }
+    td:first-child { white-space: nowrap; font-weight: 600; color: #374151; }
+
+    /* Step column narrow */
+    .tc-table td:first-child { width: 36px; text-align: center; color: #6b7280; }
+    .tc-table td:nth-child(2) { width: 40%; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      margin-right: 4px;
+      white-space: nowrap;
+    }
+    .badge-blue  { background: #dbeafe; color: #1d4ed8; }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    .badge-amber { background: #fef3c7; color: #b45309; }
+    .badge-red   { background: #fee2e2; color: #dc2626; }
+
+    /* ── Checklist ── */
+    .checklist { list-style: none; padding: 0; margin: 10px 0 16px; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 12px;
+    }
+    .checklist li::before {
+      content: "☐";
+      font-size: 15px;
+      color: #9ca3af;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+
+    /* ── Callout / note ── */
+    .note {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+      margin: 10px 0 14px;
+      font-size: 12px;
+      color: #78350f;
+    }
+    .note strong { color: #92400e; }
+
+    .tip {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+      margin: 10px 0 14px;
+      font-size: 12px;
+      color: #14532d;
+    }
+
+    /* ── Failure table ── */
+    .failure-table td:first-child { color: #dc2626; font-weight: 600; white-space: normal; }
+    .failure-table td:nth-child(2) { color: #92400e; }
+
+    /* ── Page breaks ── */
+    @media print {
+      body { padding: 12px 20px; font-size: 11px; }
+      h2 { page-break-before: always; font-size: 14px; }
+      h2.no-break { page-break-before: avoid; }
+      .cover { page-break-after: always; }
+      table { page-break-inside: avoid; }
+      pre { page-break-inside: avoid; }
+      @page { margin: 18mm 14mm; size: A4; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <h1>CareerBridge</h1>
+  <div class="subtitle">Manual QA Test Plan — Presentation Readiness</div>
+  <div class="meta">
+    <span><strong>Date:</strong> 2026-04-20</span>
+    <span><strong>Branch:</strong> main</span>
+    <span><strong>Tester:</strong> David Moalem</span>
+    <span><strong>Stack:</strong> Next.js · Clerk · Inngest · Resend</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ PREREQS -->
+<h2 class="no-break">Prerequisites</h2>
+<div class="prereq">
+  <p>Confirm these services are running before starting any test:</p>
+  <pre>npm run dev        # Next.js on localhost:3000 (or Cloudflare Tunnel URL)
+npm run inngest    # Inngest dev server → http://localhost:8288
+npm run email      # React Email preview → http://localhost:3001  (Section 7 only)</pre>
+  <p>Keep the Inngest dashboard open at <code>http://localhost:8288</code> in a second tab to monitor background jobs in real time.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 1 -->
+<h2>Section 1 — Authentication Flow</h2>
+
+<h3>TC-1.1 &nbsp; Sign Up (New Job Seeker)</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Navigate to <code>&lt;tunnel-url&gt;/sign-in</code></td><td>Clerk sign-in UI loads with no console errors</td></tr>
+    <tr><td>2</td><td>Click "Don't have an account? Sign up"</td><td>Sign-up form appears</td></tr>
+    <tr><td>3</td><td>Enter a real email and password; click <strong>Continue</strong></td><td>Email verification code sent to inbox</td></tr>
+    <tr><td>4</td><td>Enter the verification code</td><td>Redirected to <code>/</code> (job board home)</td></tr>
+    <tr><td>5</td><td>Open Inngest dashboard → Functions tab</td><td><code>clerk/user.created</code> event fired; function run shows green</td></tr>
+    <tr><td>6</td><td>Open Drizzle Studio (<code>npm run db:studio</code>)</td><td>New row in <code>users</code> table with your email and Clerk user ID</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-1.2 &nbsp; Sign In (Existing User)</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Click <strong>Sign Out</strong> from the user menu</td><td>Redirected to <code>/sign-in</code></td></tr>
+    <tr><td>2</td><td>Enter credentials; click <strong>Sign In</strong></td><td>Redirected to <code>/</code> without error</td></tr>
+    <tr><td>3</td><td>Reload the page</td><td>Still authenticated; user menu shows name and avatar</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-1.3 &nbsp; Create an Employer Organization</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Navigate to <code>&lt;tunnel-url&gt;/organizations/select</code></td><td>Organization selector UI loads</td></tr>
+    <tr><td>2</td><td>Click <strong>Create Organization</strong>; enter a company name</td><td>Organization created in Clerk</td></tr>
+    <tr><td>3</td><td>Click the new org to select it</td><td>Redirected to <code>/employer</code> (employer dashboard)</td></tr>
+    <tr><td>4</td><td>Check Inngest dashboard event log</td><td><code>clerk/organization.created</code> and <code>clerk/organizationMembership.created</code> both green</td></tr>
+    <tr><td>5</td><td>Check Drizzle Studio</td><td>Rows exist in <code>organizations</code> and <code>organization_members</code> tables</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-1.4 &nbsp; Switch Between Accounts</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>From employer dashboard, use Clerk user menu to switch to personal account</td><td>Redirected to job seeker home <code>/</code></td></tr>
+    <tr><td>2</td><td>Navigate to <code>/employer</code> manually</td><td>Redirected away — no employer access as personal account</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 2 -->
+<h2>Section 2 — Candidate (Job Seeker) Dashboard</h2>
+
+<h3>TC-2.1 &nbsp; Resume Upload</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Sign in as personal account; navigate to <code>/user-settings/resume</code></td><td>Resume upload page loads</td></tr>
+    <tr><td>2</td><td>Click upload area; select a valid PDF under 8 MB</td><td>Upload progress indicator appears</td></tr>
+    <tr><td>3</td><td>Wait for upload to complete</td><td>Success message; filename or preview shown</td></tr>
+    <tr><td>4</td><td>Open Inngest dashboard</td><td><code>app/resume.uploaded</code> event fired; <code>createAiSummaryOfUploadedResume</code> function running or complete</td></tr>
+    <tr><td>5</td><td>Wait ~30 s; reload the page</td><td>AI-generated resume summary (markdown text) visible on page</td></tr>
+    <tr><td>6</td><td>Try uploading a non-PDF file (e.g. <code>.docx</code>)</td><td>Upload rejected with an error message</td></tr>
+    <tr><td>7</td><td>Try uploading a PDF larger than 8 MB</td><td>Upload rejected with a size error</td></tr>
+    <tr><td>8</td><td>Upload a second PDF</td><td>New file replaces old one; old file deleted from UploadThing; new AI summary generated</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-2.2 &nbsp; Notification Settings</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Navigate to <code>/user-settings/notifications</code></td><td>Notification settings page loads</td></tr>
+    <tr><td>2</td><td>Toggle "New Job Email Notifications" on; click Save</td><td>Success toast; setting persisted on reload</td></tr>
+    <tr><td>3</td><td>Enter text in the AI Prompt field (e.g. "Only remote React developer jobs"); click Save</td><td>Prompt saved and visible on reload</td></tr>
+    <tr><td>4</td><td>Clear the AI Prompt field; click Save</td><td>Field saved as null — no error</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-2.3 &nbsp; Browse &amp; Filter Job Listings</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Navigate to <code>/</code> (home/job board)</td><td>Published job listings appear (requires at least one published listing)</td></tr>
+    <tr><td>2</td><td>Type a keyword in the title search field</td><td>List filters in real-time or on submit</td></tr>
+    <tr><td>3</td><td>Select <strong>Experience Level: Senior</strong></td><td>Only senior-level jobs shown</td></tr>
+    <tr><td>4</td><td>Select <strong>Location: Remote</strong></td><td>Only remote jobs shown</td></tr>
+    <tr><td>5</td><td>Select <strong>Type: Full-time</strong></td><td>Only full-time jobs shown</td></tr>
+    <tr><td>6</td><td>Click a job card</td><td>Job detail page loads with full description</td></tr>
+    <tr><td>7</td><td>Clear all filters</td><td>Full published listing restored</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-2.4 &nbsp; Apply to a Job</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Open a job detail page; click <strong>Apply</strong></td><td>Application form/dialog appears</td></tr>
+    <tr><td>2</td><td>Submit without a cover letter</td><td>Application submitted successfully</td></tr>
+    <tr><td>3</td><td>Check Inngest dashboard</td><td><code>app/jobListingApplication.created</code> event fired; <code>rankApplication</code> function runs</td></tr>
+    <tr><td>4</td><td>Wait ~60 seconds</td><td>Inngest function completes with green status</td></tr>
+    <tr><td>5</td><td>Verify on employer side (TC-3.3)</td><td>Application appears with an AI-generated star rating</td></tr>
+    <tr><td>6</td><td>Try to apply to the same job again</td><td>Error or button disabled — duplicate applications blocked</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-2.5 &nbsp; AI Job Search</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Navigate to <code>/ai-search</code></td><td>AI search form loads</td></tr>
+    <tr><td>2</td><td>Type: "I want a remote full-stack role with React and Node"</td><td>Submit button is enabled</td></tr>
+    <tr><td>3</td><td>Click <strong>Search</strong></td><td>Loading state shown; results appear after a few seconds</td></tr>
+    <tr><td>4</td><td>Verify results relevance</td><td>Listings match described criteria — not random</td></tr>
+    <tr><td>5</td><td>Enter: "astronaut on Mars" (no matching jobs)</td><td>Empty state message shown — no crash</td></tr>
+    <tr><td>6</td><td>Submit an empty query</td><td>Validation error; form not submitted</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 3 -->
+<h2>Section 3 — Employer Dashboard</h2>
+
+<h3>TC-3.1 &nbsp; Create a Job Listing</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Sign in with employer org selected; navigate to <code>/employer</code></td><td>Employer dashboard loads</td></tr>
+    <tr><td>2</td><td>Click <strong>New Job Listing</strong></td><td>Navigate to <code>/employer/job-listings/new</code></td></tr>
+    <tr><td>3</td><td>Fill Title (3–100 chars), Description (1–5000 chars), Experience Level, Job Type, Location</td><td>All fields accept input</td></tr>
+    <tr><td>4</td><td>Set Location to <strong>In-Office</strong>; leave City/Country blank; try to save</td><td>Validation error: City and Country required</td></tr>
+    <tr><td>5</td><td>Fill in City and Country; click <strong>Save as Draft</strong></td><td>Redirected to listing detail; status shows <strong>Draft</strong></td></tr>
+    <tr><td>6</td><td>Check Drizzle Studio</td><td>Row in <code>job_listings</code> with <code>status = 'draft'</code></td></tr>
+  </tbody>
+</table>
+
+<h3>TC-3.2 &nbsp; Edit &amp; Publish a Job Listing</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>From the draft listing page, click <strong>Edit</strong></td><td>Edit form opens at <code>/employer/job-listings/[id]/edit</code> with pre-filled values</td></tr>
+    <tr><td>2</td><td>Change the title; save</td><td>Listing updated; new title shown</td></tr>
+    <tr><td>3</td><td>Click <strong>Publish</strong></td><td>Status changes to <strong>Published</strong>; listing visible on job board <code>/</code></td></tr>
+    <tr><td>4</td><td>Navigate to <code>/</code> as job seeker</td><td>New listing appears on the public job board</td></tr>
+    <tr><td>5</td><td>Return to employer; click <strong>Delist</strong></td><td>Status changes to <strong>Delisted</strong>; no longer on public board</td></tr>
+    <tr><td>6</td><td>Re-publish for use in applicant tests</td><td>Status back to Published</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-3.3 &nbsp; View &amp; Manage Applicants</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Apply to your published listing as a job seeker (TC-2.4)</td><td>Application recorded</td></tr>
+    <tr><td>2</td><td>As employer, open the job listing</td><td>Applicant appears in the applicants list</td></tr>
+    <tr><td>3</td><td>Check the <strong>AI Match Score</strong> (star rating)</td><td>1–5 star rating displayed (set by Inngest after ~60 s)</td></tr>
+    <tr><td>4</td><td>Click the applicant; manually set a different star rating</td><td>Rating updated; new value persists on reload</td></tr>
+    <tr><td>5</td><td>Change Application Stage to <strong>Interested</strong></td><td>Stage updated in the selector</td></tr>
+    <tr><td>6</td><td>Change stage to <strong>Hired</strong></td><td>Stage updated; no errors</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-3.4 &nbsp; Employer Notification Settings</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Navigate to <code>/employer/user-settings</code></td><td>Notification settings page loads</td></tr>
+    <tr><td>2</td><td>Toggle "New Application Email Notifications" on</td><td>Setting saved</td></tr>
+    <tr><td>3</td><td>Set Minimum Rating to 3; save</td><td>Only applicants rated 3+ stars will appear in daily emails</td></tr>
+    <tr><td>4</td><td>Clear Minimum Rating; save</td><td>No minimum filter — all applications included</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-3.5 &nbsp; Featured Job Listing</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>On a published job listing, click <strong>Feature</strong></td><td>Listing marked as featured</td></tr>
+    <tr><td>2</td><td>View on public job board <code>/</code></td><td>Featured listing appears visually distinct (badge/highlight)</td></tr>
+    <tr><td>3</td><td>Unfeature the listing</td><td>Returns to normal appearance</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 4 -->
+<h2>Section 4 — AI Features Deep Dive</h2>
+
+<h3>TC-4.1 &nbsp; Resume AI Summary</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Upload a detailed, multi-section PDF resume</td><td>Upload succeeds</td></tr>
+    <tr><td>2</td><td>Monitor Inngest: <code>createAiSummaryOfUploadedResume</code></td><td>Function status: <strong>Completed</strong> (not Failed)</td></tr>
+    <tr><td>3</td><td>Read the AI summary on <code>/user-settings/resume</code></td><td>Summary is coherent; mentions key skills/experience from the PDF</td></tr>
+    <tr><td>4</td><td>Upload a minimal 1-page resume</td><td>Summary generated (shorter, but no crash)</td></tr>
+  </tbody>
+</table>
+
+<div class="tip">Provider: <strong>Anthropic Claude Haiku 4.5</strong> — check <code>ANTHROPIC_API_KEY</code> in <code>.env.local</code> if this step fails.</div>
+
+<h3>TC-4.2 &nbsp; Applicant Ranking (Match Score)</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Create a job listing: "Senior React Developer — remote — full-time"</td><td>Published listing available</td></tr>
+    <tr><td>2</td><td>Apply as a candidate with a strong React resume; also apply with a weak/unrelated resume</td><td>Two applications submitted</td></tr>
+    <tr><td>3</td><td>Monitor Inngest: <code>rankApplication</code> runs twice</td><td>Both function runs complete successfully</td></tr>
+    <tr><td>4</td><td>As employer, compare the two applicant ratings</td><td>Strong-match candidate rated higher (3–5 ★) than weak-match (1–2 ★)</td></tr>
+    <tr><td>5</td><td>Apply with a cover letter emphasizing key skills</td><td>Cover letter factored into ranking; should score higher or equal</td></tr>
+  </tbody>
+</table>
+
+<div class="tip">Provider: <strong>Google Gemini 2.0 Flash</strong> (via Inngest Agent Kit) — check <code>GEMINI_API_KEY</code> if this step fails.</div>
+
+<h3>TC-4.3 &nbsp; Natural Language AI Job Search</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Ensure at least 3 varied job listings are published (mix of remote/in-office, levels)</td><td>Listings in DB and visible on job board</td></tr>
+    <tr><td>2</td><td>Search: "entry level remote internship"</td><td>Returns internship/junior remote listings</td></tr>
+    <tr><td>3</td><td>Search: "senior in-office position in New York"</td><td>Returns senior, in-office, NYC listings</td></tr>
+    <tr><td>4</td><td>Search: "full stack developer with TypeScript experience"</td><td>Returns relevant listings even if "TypeScript" isn't in the title</td></tr>
+    <tr><td>5</td><td>Search: "nurse practitioner" (unrelated to posted jobs)</td><td>Empty state shown gracefully — no crash</td></tr>
+  </tbody>
+</table>
+
+<div class="tip">Provider: <strong>Google Gemini 2.5 Flash</strong> — check <code>GEMINI_API_KEY</code> if search returns nothing or errors.</div>
+
+<h3>TC-4.4 &nbsp; AI Notification Filtering (Job Seeker)</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Set AI Prompt in <code>/user-settings/notifications</code> to "Only remote senior engineering jobs"</td><td>Prompt saved</td></tr>
+    <tr><td>2</td><td>Check Drizzle Studio</td><td><code>ai_prompt</code> column set in <code>user_notification_settings</code> table</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 5 -->
+<h2>Section 5 — Navigation &amp; Responsive Design</h2>
+
+<h3>TC-5.1 &nbsp; Desktop Navigation</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Load <code>/</code> on desktop (1280px+ wide)</td><td>Layout renders with sidebar/nav correctly</td></tr>
+    <tr><td>2</td><td>Click each nav link in the job seeker sidebar</td><td>All links navigate correctly; no 404 pages</td></tr>
+    <tr><td>3</td><td>Load <code>/employer</code> on desktop</td><td>Employer layout renders; sidebar shows all options</td></tr>
+    <tr><td>4</td><td>Click each nav link in the employer sidebar</td><td>All navigate correctly</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-5.2 &nbsp; Mobile Responsive Design</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Open DevTools → set viewport to 375 px (iPhone SE)</td><td>Page reflows without horizontal scroll</td></tr>
+    <tr><td>2</td><td>Navigate through job board filters on mobile</td><td>Filters accessible; no overflow</td></tr>
+    <tr><td>3</td><td>Open a job detail page on mobile</td><td>Content readable; apply button visible</td></tr>
+    <tr><td>4</td><td>Test employer dashboard on mobile</td><td>Usable — forms scrollable, buttons tappable</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-5.3 &nbsp; Edge Links &amp; Error Pages</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Navigate to a non-existent route (e.g. <code>/nonexistent</code>)</td><td>404 page shown — not a crash</td></tr>
+    <tr><td>2</td><td>Navigate to <code>/employer/job-listings/invalid-id</code></td><td>Error or not-found page; no unhandled exception</td></tr>
+    <tr><td>3</td><td>Access <code>/employer</code> as a personal (job seeker) account</td><td>Redirected away or permission error shown</td></tr>
+    <tr><td>4</td><td>Hit <code>&lt;tunnel-url&gt;/health</code> in the browser</td><td>Returns <code>{ "status": "ok" }</code> JSON</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 6 -->
+<h2>Section 6 — Database &amp; Webhook Verification</h2>
+
+<h3>TC-6.1 &nbsp; Data Persistence Checks</h3>
+<p style="margin-bottom:8px;font-size:12px;color:#6b7280;">Use Drizzle Studio (<code>npm run db:studio</code>) to verify after each action.</p>
+<table>
+  <thead><tr><th>After This Action</th><th>Table to Check</th><th>Expected Row / Field</th></tr></thead>
+  <tbody>
+    <tr><td>Sign up as user</td><td><code>users</code></td><td>Row with Clerk <code>external_id</code>, email, name</td></tr>
+    <tr><td>Create employer org</td><td><code>organizations</code></td><td>Row with Clerk org ID and name</td></tr>
+    <tr><td>Join org</td><td><code>organization_members</code></td><td>Row linking user + org</td></tr>
+    <tr><td>Upload resume</td><td><code>users</code></td><td><code>resume_file_url</code> and <code>resume_file_key</code> populated</td></tr>
+    <tr><td>AI summary generated</td><td><code>users</code></td><td><code>ai_summary</code> field non-null with markdown content</td></tr>
+    <tr><td>Apply to job</td><td><code>job_listing_applications</code></td><td>Row with <code>user_id</code>, <code>job_listing_id</code>, optional <code>cover_letter</code></td></tr>
+    <tr><td>AI ranking complete</td><td><code>job_listing_applications</code></td><td><code>ai_rating</code> field (1–5) populated</td></tr>
+    <tr><td>Manual rating set</td><td><code>job_listing_applications</code></td><td><code>rating</code> field updated</td></tr>
+    <tr><td>Stage changed</td><td><code>job_listing_applications</code></td><td><code>stage</code> field updated</td></tr>
+    <tr><td>Publish job listing</td><td><code>job_listings</code></td><td><code>status = 'published'</code>, <code>approved_at</code> timestamp set</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-6.2 &nbsp; Clerk Webhook Sync</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Update your display name in Clerk user settings</td><td>Inngest receives <code>clerk/user.updated</code>; DB <code>users.name</code> updated</td></tr>
+    <tr><td>2</td><td>Update organization name in Clerk org settings</td><td>Inngest receives <code>clerk/organization.updated</code>; DB <code>organizations.name</code> updated</td></tr>
+    <tr><td>3</td><td>Check Inngest dashboard → Event Log</td><td>All webhook events show <strong>Completed</strong>, not Failed</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-6.3 &nbsp; UploadThing File Management</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Upload resume #1; note the file URL in DB</td><td>URL is valid; file accessible</td></tr>
+    <tr><td>2</td><td>Upload resume #2</td><td>Old <code>resume_file_key</code> deleted from UploadThing; new key stored in DB</td></tr>
+    <tr><td>3</td><td>Try accessing the old URL</td><td>404 or access denied — file removed from storage</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 7 -->
+<h2>Section 7 — Email Testing</h2>
+
+<div class="note">
+  <strong>Note:</strong> Both email flows run on a cron at 7 AM Chicago time. Test them by manually invoking via the Inngest dashboard at <code>http://localhost:8288</code>. Run <code>npm run email</code> to preview templates without sending.
+</div>
+
+<h3>TC-7.1 &nbsp; Preview Email Templates (No Real Send)</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Open <code>http://localhost:3001</code></td><td>React Email preview UI loads</td></tr>
+    <tr><td>2</td><td>Click <strong>DailyJobListingEmail</strong></td><td>Email renders with sample job cards, correct badges (location, type, level, wage)</td></tr>
+    <tr><td>3</td><td>Click <strong>DailyApplicationEmail</strong></td><td>Email renders applicants grouped by org → job listing, star ratings shown (★★☆☆☆ style)</td></tr>
+    <tr><td>4</td><td>Check both emails on mobile viewport in preview</td><td>No overflow; readable layout</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-7.2 &nbsp; Manually Trigger Job Seeker Daily Email</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Inngest dashboard → find "Prepare Daily User Job Listing Notifications" → click <strong>Invoke</strong></td><td>Invoke modal appears</td></tr>
+    <tr><td>2</td><td>Leave event body as default <code>{}</code>; click <strong>Invoke</strong></td><td>Function run starts</td></tr>
+    <tr><td>3</td><td>Watch steps: <code>get-users</code> and <code>get-recent-job-listings</code></td><td>Both steps complete green</td></tr>
+    <tr><td>4</td><td>Confirm gate condition: user has notifications <strong>on</strong> AND at least one listing published in the last 24 h</td><td>If either is absent, function exits early — correct behaviour, not a bug</td></tr>
+    <tr><td>5</td><td>If gate passes, check Event Log for <code>app/email.daily-user-job-listings</code></td><td>One event per qualifying user</td></tr>
+    <tr><td>6</td><td>Check inbox of the test user's email</td><td>Email received: subject "Daily Job Listings", greeting "Hi [name]", job cards with <strong>View Details</strong> buttons</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>Resend sandbox:</strong> The <code>from</code> address is <code>onboarding@resend.dev</code>. In sandbox mode, Resend only delivers to <strong>verified emails</strong>. Make sure your test email is verified in the Resend dashboard, or delivery will silently fail.
+</div>
+
+<h3>TC-7.3 &nbsp; Manually Trigger Employer Daily Email</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Inngest dashboard → find "Prepare Daily Organization User Application Notifications" → <strong>Invoke</strong></td><td>Function run starts</td></tr>
+    <tr><td>2</td><td>Watch steps: <code>get-user-settings</code> and <code>get-recent-applications</code></td><td>Both complete green</td></tr>
+    <tr><td>3</td><td>Confirm gate: employer has <code>newApplicationEmailNotifications = true</code> AND at least one application in last 24 h</td><td>If either absent, function exits early — correct</td></tr>
+    <tr><td>4</td><td>If employer set <code>minimumRating = 3</code>, check run output payload</td><td>Only applicants with <code>rating ≥ 3</code> appear in the filtered list</td></tr>
+    <tr><td>5</td><td>Check employer inbox</td><td>Email received: subject "Daily Job Listing Applications", grouped by org → job title → applicant name + star rating</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-7.4 &nbsp; AI Filtering in Job Seeker Email</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Set AI Prompt in <code>/user-settings/notifications</code> to "Only remote senior engineering jobs"</td><td>Saved</td></tr>
+    <tr><td>2</td><td>Ensure published listings include both matching and non-matching jobs</td><td>Mixed listings in DB</td></tr>
+    <tr><td>3</td><td>Trigger "Prepare Daily User Job Listing Notifications" via Inngest</td><td>Fires <code>app/email.daily-user-job-listings</code> with <code>aiPrompt</code> field set</td></tr>
+    <tr><td>4</td><td>In "Send Daily User Job Listing Email" run, check step output</td><td><code>getMatchingJobListings</code> called; only matching IDs returned</td></tr>
+    <tr><td>5</td><td>Check inbox</td><td>Email contains only listings matching the AI prompt</td></tr>
+    <tr><td>6</td><td>Repeat with no AI prompt set (null)</td><td>Email contains <strong>all</strong> published listings from the last 24 hours</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-7.5 &nbsp; Email Link Verification</h3>
+<table class="tc-table">
+  <thead><tr><th>#</th><th>Action</th><th>Expected Result</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>In the received job seeker email, click a <strong>View Details</strong> button</td><td>Opens <code>&lt;SERVER_URL&gt;/job-listings/[id]</code> — correct job detail page loads</td></tr>
+    <tr><td>2</td><td>Verify <code>SERVER_URL</code> in <code>.env.local</code> matches the Cloudflare tunnel URL</td><td>If set to <code>localhost:3000</code>, links won't work externally — update to tunnel URL before presentation</td></tr>
+  </tbody>
+</table>
+
+<h3>TC-7.6 &nbsp; Email Edge Cases</h3>
+<table>
+  <thead><tr><th>Scenario</th><th>Expected Behaviour</th></tr></thead>
+  <tbody>
+    <tr><td>No new job listings published in last 24 h</td><td>Prepare function exits early — no emails sent (not a bug)</td></tr>
+    <tr><td>No applications submitted in last 24 h</td><td>Prepare function exits early</td></tr>
+    <tr><td>User has <code>newJobEmailNotifications = false</code></td><td>Excluded from query — receives nothing</td></tr>
+    <tr><td>AI prompt matches zero listings</td><td><code>sendDailyUserJobListingEmail</code> exits early — no email sent to that user</td></tr>
+    <tr><td>Employer sets <code>minimumRating = 5</code>, all applicants rated 1–4</td><td><code>filteredApplications</code> empty — employer receives no email</td></tr>
+    <tr><td>Resend API key invalid</td><td><code>send-email</code> step fails in Inngest with an error — check run logs</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════ SMOKE TEST -->
+<h2>Quick Smoke Test Checklist — Run Immediately Before Presentation</h2>
+
+<ul class="checklist">
+  <li>Sign in works for both personal and employer org account</li>
+  <li>Job board at <code>/</code> shows published listings</li>
+  <li>AI search at <code>/ai-search</code> returns results for a test query</li>
+  <li>Employer can create and publish a job listing</li>
+  <li>Job seeker can apply to a listing</li>
+  <li>Inngest dashboard shows no red/failed functions</li>
+  <li><code>&lt;tunnel-url&gt;/health</code> returns <code>{ "status": "ok" }</code></li>
+  <li>Resume upload succeeds and AI summary appears within ~30 seconds</li>
+  <li>React Email preview loads at <code>localhost:3001</code></li>
+  <li>No JavaScript console errors on key pages (<code>/</code>, <code>/employer</code>, <code>/ai-search</code>)</li>
+  <li><code>SERVER_URL</code> in <code>.env.local</code> is set to the Cloudflare tunnel URL</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════════ FAILURE TABLE -->
+<h2>Common Failure Points &amp; Quick Fixes</h2>
+<table class="failure-table">
+  <thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead>
+  <tbody>
+    <tr><td>Clerk auth loops / redirect errors</td><td>Tunnel URL not in Clerk allowed origins</td><td>Add tunnel URL to Clerk dashboard → Allowed origins</td></tr>
+    <tr><td>Inngest functions stuck "Running"</td><td>Inngest dev server not running</td><td>Run <code>npm run inngest</code> in a separate terminal</td></tr>
+    <tr><td>AI summary never appears</td><td><code>ANTHROPIC_API_KEY</code> missing or invalid</td><td>Check <code>.env.local</code></td></tr>
+    <tr><td>Resume upload fails</td><td><code>UPLOADTHING_TOKEN</code> missing</td><td>Check <code>.env.local</code></td></tr>
+    <tr><td>Webhook events missing from Inngest</td><td><code>CLERK_WEBHOOK_SECRET</code> mismatch</td><td>Verify secret in Clerk dashboard matches <code>.env.local</code></td></tr>
+    <tr><td>Job board empty after publish</td><td>Next.js cache not invalidated</td><td>Hard refresh or trigger a revalidation</td></tr>
+    <tr><td>Emails not arriving</td><td>Resend sandbox: recipient not verified</td><td>Verify your test email address in Resend dashboard</td></tr>
+    <tr><td>Email links open localhost (not tunnel)</td><td><code>SERVER_URL=http://localhost:3000</code></td><td>Set <code>SERVER_URL</code> to the Cloudflare tunnel URL in <code>.env.local</code></td></tr>
+    <tr><td>AI search returns nothing</td><td><code>GEMINI_API_KEY</code> missing or quota exceeded</td><td>Check <code>.env.local</code>; verify Gemini API quota</td></tr>
+  </tbody>
+</table>
+
+<div style="margin-top:40px;padding-top:16px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;text-align:center;">
+  CareerBridge Manual QA Test Plan &nbsp;·&nbsp; Generated 2026-04-20 &nbsp;·&nbsp; 7 Sections &nbsp;·&nbsp; 46 Test Cases
+</div>
+
+</body>
+</html>

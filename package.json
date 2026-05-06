@@ -12,6 +12,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx --env-file=.env src/drizzle/seed.ts",
+    "db:seed:myorg": "tsx --env-file=.env src/drizzle/seedMyOrg.ts",
     "inngest": "inngest-cli dev -u http://localhost:3000/api/inngest",
     "email": "email dev --dir src/services/resend/components --port 3001",
     "test": "playwright test",

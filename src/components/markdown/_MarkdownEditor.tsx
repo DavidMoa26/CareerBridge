@@ -1,6 +1,5 @@
 "use client"
 
-import { useIsDarkMode } from "@/hooks/useIsDarkMode"
 import { cn } from "@/lib/utils"
 import {
   BlockTypeSelect,
@@ -27,13 +26,11 @@ export default function InternalMarkdownEditor({
   className,
   ...props
 }: MDXEditorProps & { ref?: Ref<MDXEditorMethods> }) {
-  const isDarkMode = useIsDarkMode()
-
   return (
     <MDXEditor
       {...props}
       ref={ref}
-      className={cn(markdownClassNames, isDarkMode && "dark-theme", className)}
+      className={cn(markdownClassNames, className)}
       suppressHtmlProcessing
       plugins={[
         headingsPlugin(),
