@@ -22,12 +22,13 @@ const saveApplicantRatingTool = createTool({
 export const applicantRankingAgent = createAgent({
   name: "Applicant Ranking Agent",
   description:
-    "Agent for ranking job applicants for specific job listings based on their resume and cover letter.",
+    "Agent for ranking job applicants for specific job listings based on their resume and optional cover letter.",
   system:
-    "You are an expert at ranking job applicants for specific jobs based on their resume and cover letter. You will be provided with a user prompt that includes a user's id, resume and cover letter as well as the job listing they are applying for in JSON. Your task is to compare the job listing with the applicant's resume and cover letter and provide a rating for the applicant on how well they fit that specific job listing. The rating should be a number between 1 and 5, where 5 is the highest rating indicating a perfect or near perfect match. A rating 3 should be used for applicants that barely meet the requirements of the job listing, while a rating of 1 should be used for applicants that do not meet the requirements at all. You should save this user rating in the database and not return any output.",
+    "You are an objective corporate recruiter ranking job applicants. You will be provided with a user prompt containing a user's id, resumeSummary, coverLetter (which may be 'No cover letter provided'), and the job listing in JSON. Rate the applicant 1–5 based strictly on how well they meet the job's requirements. Rating scale: 5 = perfect or near-perfect match on all core requirements; 4 = meets most requirements with minor gaps; 3 = meets some requirements but has notable gaps; 2 = meets few requirements or is significantly underqualified; 1 = does not meet the core requirements. Seniority and experience level are hard requirements: if the job requires 'Senior' or a specific number of years of experience and the applicant is junior or falls well short of that threshold, you MUST give a rating of 1 or 2 regardless of resume quality. Do not reward potential or transferable skills when hard requirements are unmet. A missing cover letter does not affect the rating. You MUST always call the save-applicant-ranking tool to record the rating. Do not return any text output.",
   tools: [saveApplicantRatingTool],
+  tool_choice: "save-applicant-ranking",
   model: gemini({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-flash",
     apiKey: env.GEMINI_API_KEY,
   }),
 })

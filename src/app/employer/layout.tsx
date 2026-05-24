@@ -2,13 +2,13 @@ import { PlatformSidebar } from "@/components/sidebar/PlatformSidebar"
 import { NavMenuSection } from "@/components/sidebar/NavMenuSection"
 import {
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { AddJobListingButton } from "./AddJobListingButton"
 import { db } from "@/drizzle/db"
 import {
   JobListingApplicationTable,
@@ -41,10 +41,6 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
   const { orgId } = await getCurrentOrganization()
   if (orgId == null) return redirect("/organizations/select")
 
-  const canCreateListings = await hasOrgUserPermission(
-    "org:job_listings:create"
-  )
-
   return (
     <PlatformSidebar
       content={
@@ -53,18 +49,7 @@ async function LayoutSuspense({ children }: { children: ReactNode }) {
             <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wide text-cb-slate-500 px-2 mb-1">
               Job Listings
             </SidebarGroupLabel>
-            {canCreateListings && (
-              <SidebarGroupAction
-                title="Add Job Listing"
-                asChild
-                className="text-cb-slate-500 hover:text-cb-blue-600 hover:bg-cb-blue-50 rounded-md transition-colors duration-150"
-              >
-                <Link href="/employer/job-listings/new">
-                  <PlusIcon className="size-4" />
-                  <span className="sr-only">Add Job Listing</span>
-                </Link>
-              </SidebarGroupAction>
-            )}
+            <AddJobListingButton className="text-cb-slate-500 hover:text-cb-blue-600 hover:bg-cb-blue-50 rounded-md transition-colors duration-150" />
             <SidebarGroupContent className="group-data-[state=collapsed]:hidden">
               <Suspense>
                 <JobListingMenu orgId={orgId} />

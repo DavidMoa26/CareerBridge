@@ -130,7 +130,7 @@ function getColumns(
       header: ({ column }) => (
         <DataTableSortableColumnHeader title="Applied On" column={column} />
       ),
-      cell: ({ row }) => row.original.createdAt.toLocaleDateString(),
+      cell: ({ row }) => row.original.createdAt.toLocaleDateString("en-US"),
     },
     {
       id: "actions",

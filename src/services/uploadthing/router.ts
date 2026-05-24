@@ -1,8 +1,11 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next"
 import { UploadThingError } from "uploadthing/server"
 import { getCurrentUser } from "../clerk/lib/getCurrentAuth"
+import { currentUser } from "@clerk/nextjs/server"
 import { inngest } from "../inngest/client"
 import { upsertUserResume } from "@/features/users/db/userResumes"
+import { insertUser } from "@/features/users/db/users"
+import { insertUserNotificationSettings } from "@/features/users/db/userNotificationSettings"
 import { db } from "@/drizzle/db"
 import { eq } from "drizzle-orm"
 import UserResumePage from "@/app/(job-seeker)/user-settings/resume/page"
@@ -24,6 +27,28 @@ export const customFileRouter = {
     .middleware(async () => {
       const { userId } = await getCurrentUser()
       if (userId == null) throw new UploadThingError("Unauthorized")
+
+      // Ensure user row exists in DB before the upload completes.
+      // Email/password users may arrive here before the Inngest webhook has
+      // synced their record, causing a FK constraint failure on upsertUserResume.
+      const clerkUser = await currentUser()
+      if (clerkUser != null) {
+        const primaryEmail = clerkUser.emailAddresses.find(
+          e => e.id === clerkUser.primaryEmailAddressId
+        )
+        if (primaryEmail != null) {
+          const name =
+            [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") ||
+            primaryEmail.emailAddress
+          await insertUser({
+            id: userId,
+            name,
+            imageUrl: clerkUser.imageUrl,
+            email: primaryEmail.emailAddress,
+          })
+          await insertUserNotificationSettings({ userId })
+        }
+      }
 
       return { userId }
     })

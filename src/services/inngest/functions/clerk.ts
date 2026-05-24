@@ -48,9 +48,13 @@ export const clerkCreateUser = inngest.createFunction(
         throw new NonRetriableError("No primary email address found")
       }
 
+      const name =
+        [userData.first_name, userData.last_name].filter(Boolean).join(" ") ||
+        email.email_address
+
       await insertUser({
         id: userData.id,
-        name: `${userData.first_name} ${userData.last_name}`,
+        name,
         imageUrl: userData.image_url,
         email: email.email_address,
         createdAt: new Date(userData.created_at),
@@ -88,8 +92,12 @@ export const clerkUpdateUser = inngest.createFunction(
         throw new NonRetriableError("No primary email address found")
       }
 
+      const name =
+        [userData.first_name, userData.last_name].filter(Boolean).join(" ") ||
+        email.email_address
+
       await updateUser(userData.id, {
-        name: `${userData.first_name} ${userData.last_name}`,
+        name,
         imageUrl: userData.image_url,
         email: email.email_address,
         updatedAt: new Date(userData.updated_at),

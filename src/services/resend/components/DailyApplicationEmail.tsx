@@ -1,6 +1,5 @@
-import { JobListingApplicationTable, JobListingTable } from "@/drizzle/schema"
+import { JobListingApplicationTable } from "@/drizzle/schema"
 import {
-  Button,
   Container,
   Head,
   Heading,
@@ -10,15 +9,20 @@ import {
   Text,
 } from "@react-email/components"
 import tailwindConfig from "../data/tailwindConfig"
-import {
-  formatExperienceLevel,
-  formatJobListingLocation,
-  formatJobType,
-  formatLocationRequirement,
-  formatWage,
-} from "@/features/jobListings/lib/formatters"
 import { cn } from "@/lib/utils"
 import { ReactNode } from "react"
+
+function groupBy<T>(arr: T[], key: (item: T) => string): Record<string, T[]> {
+  return arr.reduce(
+    (groups, item) => {
+      const group = key(item)
+      groups[group] = groups[group] ?? []
+      groups[group].push(item)
+      return groups
+    },
+    {} as Record<string, T[]>
+  )
+}
 
 type Application = Pick<
   typeof JobListingApplicationTable.$inferSelect,
@@ -50,7 +54,7 @@ export default function DailyApplicationEmail({
             listings.
           </Text>
           {Object.entries(
-            Object.groupBy(applications, a => a.organizationId)
+            groupBy(applications, a => a.organizationId)
           ).map(([orgId, orgApplications], i) => {
             if (orgApplications == null || orgApplications.length === 0) {
               return null
@@ -85,7 +89,7 @@ function OrganizationSection({
       <Heading as="h2" className="leading-none font-semibold text-3xl my-4">
         {orgName}
       </Heading>
-      {Object.entries(Object.groupBy(applications, a => a.jobListingId)).map(
+      {Object.entries(groupBy(applications, a => a.jobListingId)).map(
         ([jobListingId, listingApplications], i) => {
           if (listingApplications == null || listingApplications.length === 0) {
             return null

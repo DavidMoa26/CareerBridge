@@ -61,8 +61,20 @@ export const rankApplication = inngest.createFunction(
 
     if (resumeSummary == null || jobListing == null) return
 
-    await applicantRankingAgent.run(
-      JSON.stringify({ coverLetter, resumeSummary, jobListingId, userId })
+    const result = await applicantRankingAgent.run(
+      JSON.stringify({
+        coverLetter: coverLetter ?? "No cover letter provided",
+        resumeSummary,
+        jobListingId,
+        userId,
+      })
     )
+
+    if (result.toolCalls.length === 0) {
+      throw new Error(
+        `Applicant ranking tool was not invoked for userId=${userId} jobListingId=${jobListingId}. ` +
+          `Agent output: ${JSON.stringify(result.output)}`
+      )
+    }
   }
 )
