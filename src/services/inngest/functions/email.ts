@@ -215,9 +215,13 @@ export const prepareDailyOrganizationUserApplicationNotifications =
 
       if (applications.length === 0 || userNotifications.length === 0) return
 
-      const groupedNotifications = Object.groupBy(
-        userNotifications,
-        n => n.userId
+      const groupedNotifications = userNotifications.reduce(
+        (acc, n) => {
+          acc[n.userId] = acc[n.userId] ?? []
+          acc[n.userId].push(n)
+          return acc
+        },
+        {} as Record<string, typeof userNotifications>
       )
 
       const events = Object.entries(groupedNotifications)
