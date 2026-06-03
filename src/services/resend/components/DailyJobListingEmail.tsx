@@ -1,4 +1,4 @@
-import { JobListingTable } from "@/drizzle/schema"
+import { JobListingTable } from '@/drizzle/schema';
 import {
   Button,
   Container,
@@ -8,39 +8,39 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components"
-import tailwindConfig from "../data/tailwindConfig"
+} from '@react-email/components';
+import tailwindConfig from '../data/tailwindConfig';
 import {
   formatExperienceLevel,
   formatJobListingLocation,
   formatJobType,
   formatLocationRequirement,
   formatWage,
-} from "@/features/jobListings/lib/formatters"
+} from '@/features/jobListings/lib/formatters';
 
 type JobListing = Pick<
   typeof JobListingTable.$inferSelect,
-  | "id"
-  | "title"
-  | "city"
-  | "country"
-  | "type"
-  | "experienceLevel"
-  | "wage"
-  | "wageInterval"
-  | "locationRequirement"
+  | 'id'
+  | 'title'
+  | 'city'
+  | 'country'
+  | 'type'
+  | 'experienceLevel'
+  | 'wage'
+  | 'wageInterval'
+  | 'locationRequirement'
 > & {
-  organizationName: string
-}
+  organizationName: string;
+};
 
 export default function DailyJobListingEmail({
   jobListings,
   serverUrl,
   userName,
 }: {
-  userName: string
-  jobListings: JobListing[]
-  serverUrl: string
+  userName: string;
+  jobListings: JobListing[];
+  serverUrl: string;
 }) {
   return (
     <Tailwind config={tailwindConfig}>
@@ -54,7 +54,7 @@ export default function DailyJobListingEmail({
             criteria.
           </Text>
           <Section>
-            {jobListings.map(jobListing => (
+            {jobListings.map((jobListing) => (
               <div
                 key={jobListing.id}
                 className="bg-card text-card-foreground rounded-lg border p-4 border-primary border-solid mb-6"
@@ -87,7 +87,7 @@ export default function DailyJobListingEmail({
         </Container>
       </Html>
     </Tailwind>
-  )
+  );
 }
 
 function getBadges(jobListing: JobListing) {
@@ -95,46 +95,46 @@ function getBadges(jobListing: JobListing) {
     formatLocationRequirement(jobListing.locationRequirement),
     formatJobType(jobListing.type),
     formatExperienceLevel(jobListing.experienceLevel),
-  ]
+  ];
 
   if (jobListing.city != null || jobListing.country != null) {
-    badges.unshift(formatJobListingLocation(jobListing))
+    badges.unshift(formatJobListingLocation(jobListing));
   }
 
   if (jobListing.wage != null && jobListing.wageInterval != null) {
-    badges.unshift(formatWage(jobListing.wage, jobListing.wageInterval))
+    badges.unshift(formatWage(jobListing.wage, jobListing.wageInterval));
   }
 
-  return badges
+  return badges;
 }
 
 DailyJobListingEmail.PreviewProps = {
   jobListings: [
     {
-      city: "Omaha",
-      country: "USA",
-      title: "Frontend Developer",
+      city: 'Omaha',
+      country: 'USA',
+      title: 'Frontend Developer',
       wage: null,
       wageInterval: null,
-      experienceLevel: "senior",
-      type: "part-time",
+      experienceLevel: 'senior',
+      type: 'part-time',
       id: crypto.randomUUID(),
-      organizationName: "Web Dev Simplified",
-      locationRequirement: "in-office",
+      organizationName: 'Web Dev Simplified',
+      locationRequirement: 'in-office',
     },
     {
       city: null,
       country: null,
-      title: "Software Engineer",
+      title: 'Software Engineer',
       wage: 100000,
-      wageInterval: "yearly",
-      experienceLevel: "mid-level",
-      type: "full-time",
+      wageInterval: 'yearly',
+      experienceLevel: 'mid-level',
+      type: 'full-time',
       id: crypto.randomUUID(),
-      organizationName: "Google",
-      locationRequirement: "remote",
+      organizationName: 'Google',
+      locationRequirement: 'remote',
     },
   ],
-  userName: "John Doe",
-  serverUrl: "http://localhost:3000",
-} satisfies Parameters<typeof DailyJobListingEmail>[0]
+  userName: 'John Doe',
+  serverUrl: 'https://lean-must-management-geographic.trycloudflare.com',
+} satisfies Parameters<typeof DailyJobListingEmail>[0];
