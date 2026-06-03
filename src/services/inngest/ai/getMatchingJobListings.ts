@@ -25,7 +25,7 @@ const listingSchema = z.object({
 export async function getMatchingJobListings(
   prompt: string,
   jobListings: z.infer<typeof listingSchema>[],
-  { maxNumberOfJobs, step }: { maxNumberOfJobs?: number; step?: unknown } = {}
+  { maxNumberOfJobs }: { maxNumberOfJobs?: number } = {}
 ): Promise<string[]> {
   const NO_JOBS = "NO_JOBS"
 
@@ -57,7 +57,7 @@ export async function getMatchingJobListings(
     }),
   })
 
-  const result = await agent.run(prompt, { step })
+  const result = await agent.run(prompt)
   const lastMessage = getLastOutputMessage(result)
 
   if (lastMessage == null || lastMessage.includes(NO_JOBS)) return []
