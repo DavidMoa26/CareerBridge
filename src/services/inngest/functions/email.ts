@@ -119,7 +119,9 @@ export const sendDailyUserJobListingEmail = inngest.createFunction(
     if (aiPrompt == null || aiPrompt.trim() === "") {
       matchingJobListings = jobListings
     } else {
-      const matchingIds = await getMatchingJobListings(aiPrompt, jobListings)
+      const matchingIds = await step.run("match-job-listings", () =>
+        getMatchingJobListings(aiPrompt, jobListings)
+      )
       matchingJobListings = jobListings.filter(listing =>
         matchingIds.includes(listing.id)
       )
