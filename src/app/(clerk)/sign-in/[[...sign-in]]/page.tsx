@@ -14,7 +14,7 @@ export default function SignInPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <SignIn oauth_providers={['google', 'github']} />
+      <SignIn />
     </div>
   );
 }

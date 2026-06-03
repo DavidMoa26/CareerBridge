@@ -14,7 +14,7 @@ export default function SignUpPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <SignUp oauth_providers={['google', 'github']} />
+      <SignUp />
     </div>
   );
 }

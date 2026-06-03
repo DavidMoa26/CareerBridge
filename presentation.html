@@ -1,0 +1,2632 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerBridge · פרזנטציית פרויקט · SE-26-13</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=Assistant:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cb-primary: #4f46e5;
+        --cb-primary-dark: #3730a3;
+        --cb-primary-light: #818cf8;
+        --cb-bg: #f8fafc;
+        --cb-fg: #0f172a;
+        --cb-card: #ffffff;
+        --cb-border: #e2e8f0;
+        --cb-muted: #64748b;
+        --cb-sidebar: #1e293b;
+        --cb-sidebar-fg: #e2e8f0;
+        --cb-featured: #fbbf24;
+        --cb-success: #10b981;
+        --cb-radius: 0.625rem;
+      }
+
+      * {
+        font-family: 'Rubik', 'Assistant', sans-serif;
+        box-sizing: border-box;
+      }
+      code,
+      .mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #e2e8f0;
+        color: var(--cb-fg);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* ===== SLIDE = exactly one A4 landscape page ===== */
+      .slide {
+        width: 297mm;
+        height: 210mm;
+        background: var(--cb-bg);
+        margin: 12mm auto;
+        padding: 13mm 15mm;
+        box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        page-break-after: always;
+        break-after: page;
+      }
+      .slide:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      .slide-num {
+        position: absolute;
+        bottom: 7mm;
+        left: 15mm;
+        font-size: 9pt;
+        color: var(--cb-muted);
+        font-weight: 500;
+        letter-spacing: 0.05em;
+      }
+      .slide-brand {
+        position: absolute;
+        bottom: 7mm;
+        right: 15mm;
+        font-size: 9pt;
+        color: var(--cb-muted);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+      .slide-brand .dot {
+        width: 6px;
+        height: 6px;
+        background: var(--cb-primary);
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      .eyebrow {
+        color: var(--cb-primary);
+        font-size: 10pt;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .slide-title {
+        font-size: 30pt;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--cb-fg);
+        letter-spacing: -0.02em;
+        margin-bottom: 4px;
+      }
+      .slide-subtitle {
+        font-size: 12.5pt;
+        color: var(--cb-muted);
+        font-weight: 400;
+        margin-bottom: 18px;
+      }
+
+      .cb-card {
+        background: var(--cb-card);
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        padding: 16px 18px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+      .cb-card-accent {
+        border-right: 4px solid var(--cb-primary);
+      }
+
+      .cb-sidebar {
+        background: var(--cb-sidebar);
+        color: var(--cb-sidebar-fg);
+        border-radius: var(--cb-radius);
+        padding: 14px;
+      }
+      .cb-sidebar-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-size: 10pt;
+        color: rgba(226, 232, 240, 0.85);
+        margin-bottom: 2px;
+      }
+      .cb-sidebar-item.active {
+        background: var(--cb-primary);
+        color: white;
+        font-weight: 600;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 9pt;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+      .badge-primary {
+        background: #eef2ff;
+        color: #3730a3;
+        border: 1px solid #c7d2fe;
+      }
+      .badge-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #6ee7b7;
+      }
+      .badge-warning {
+        background: #fef3c7;
+        color: #92400e;
+        border: 1px solid #fcd34d;
+      }
+      .badge-featured {
+        background: #fef3c7;
+        color: #78350f;
+        border: 1px solid #fbbf24;
+      }
+      .badge-muted {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+      }
+      .badge-applied {
+        background: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+      }
+      .badge-delisted {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+      }
+
+      .stars {
+        color: #fbbf24;
+        letter-spacing: 0.05em;
+        font-size: 12pt;
+      }
+      .star-empty {
+        color: #e5e7eb;
+      }
+
+      .stat-tile {
+        background: white;
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        padding: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .stat-tile::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(
+          135deg,
+          var(--cb-primary) 0%,
+          var(--cb-primary-light) 100%
+        );
+        opacity: 0.06;
+        border-radius: 50%;
+        transform: translate(30%, -30%);
+      }
+      .stat-value {
+        font-size: 28pt;
+        font-weight: 800;
+        color: var(--cb-primary);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 9pt;
+        color: var(--cb-muted);
+        font-weight: 500;
+        margin-top: 4px;
+        letter-spacing: 0.03em;
+      }
+
+      .flow-step {
+        background: white;
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        padding: 12px 10px;
+        text-align: center;
+        flex: 1;
+        position: relative;
+      }
+      .flow-step .step-num {
+        width: 26px;
+        height: 26px;
+        background: var(--cb-primary);
+        color: white;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 10pt;
+        margin-bottom: 5px;
+      }
+      .flow-arrow {
+        color: var(--cb-primary);
+        font-size: 15pt;
+        align-self: center;
+      }
+
+      .slide-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        padding-bottom: 11px;
+        border-bottom: 1px solid var(--cb-border);
+      }
+      .logo-mark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(
+          135deg,
+          var(--cb-primary) 0%,
+          var(--cb-primary-dark) 100%
+        );
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 800;
+        font-size: 14pt;
+      }
+      .logo-text {
+        font-size: 13pt;
+        font-weight: 700;
+        color: var(--cb-fg);
+      }
+      .logo-text .accent {
+        color: var(--cb-primary);
+      }
+
+      .slide-cover {
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 40%,
+          #312e81 100%
+        );
+        color: white;
+        position: relative;
+      }
+      .slide-cover::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            circle at 20% 30%,
+            rgba(99, 102, 241, 0.4) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(16, 185, 129, 0.15) 0%,
+            transparent 50%
+          );
+      }
+      .slide-cover > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .job-mock {
+        background: white;
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        padding: 14px 16px;
+      }
+      .job-mock.featured {
+        border-color: var(--cb-featured);
+        background: linear-gradient(135deg, #fffbeb 0%, #ffffff 60%);
+      }
+
+      h3.section-h {
+        font-size: 13pt;
+        font-weight: 700;
+        color: var(--cb-fg);
+        margin-bottom: 9px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid var(--cb-primary);
+        display: inline-block;
+      }
+
+      .tech-pill {
+        background: white;
+        border: 1px solid var(--cb-border);
+        border-radius: 10px;
+        padding: 11px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .tech-pill .ico {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15pt;
+        color: white;
+        flex-shrink: 0;
+      }
+      .tech-pill .name {
+        font-weight: 700;
+        font-size: 9.5pt;
+        color: var(--cb-fg);
+      }
+      .tech-pill .role {
+        font-size: 8pt;
+        color: var(--cb-muted);
+      }
+
+      .ai-block {
+        background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+        border: 1px solid #c7d2fe;
+        border-radius: var(--cb-radius);
+        padding: 14px;
+      }
+
+      .check-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .check-list li {
+        padding-right: 24px;
+        position: relative;
+        margin-bottom: 7px;
+        font-size: 10.5pt;
+        line-height: 1.45;
+        color: var(--cb-fg);
+      }
+      .check-list li::before {
+        content: '✓';
+        position: absolute;
+        right: 0;
+        top: 1px;
+        width: 17px;
+        height: 17px;
+        background: var(--cb-primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9pt;
+        font-weight: 700;
+      }
+      .check-list.cyber li::before {
+        background: #dc2626;
+      }
+
+      .code-chip {
+        background: #f1f5f9;
+        color: var(--cb-primary-dark);
+        padding: 2px 8px;
+        border-radius: 5px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9pt;
+        border: 1px solid #e2e8f0;
+        direction: ltr;
+        display: inline-block;
+      }
+
+      /* Epic row */
+      .epic-row {
+        background: white;
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .epic-badge {
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+        background: linear-gradient(
+          135deg,
+          var(--cb-primary) 0%,
+          var(--cb-primary-dark) 100%
+        );
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+      .epic-badge .e-label {
+        font-size: 6.5pt;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        opacity: 0.8;
+      }
+      .epic-badge .e-num {
+        font-size: 16pt;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      /* Architecture diagram */
+      .arch-node {
+        background: white;
+        border: 1px solid var(--cb-border);
+        border-radius: 9px;
+        padding: 9px 12px;
+        text-align: center;
+      }
+      .arch-node .an-name {
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: var(--cb-fg);
+      }
+      .arch-node .an-proto {
+        font-size: 7.5pt;
+        color: var(--cb-muted);
+        margin-top: 1px;
+      }
+      .arch-container {
+        background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+        border: 2px solid var(--cb-primary);
+        border-radius: var(--cb-radius);
+        padding: 14px 20px;
+        text-align: center;
+      }
+      .arch-band-label {
+        font-size: 8pt;
+        font-weight: 700;
+        color: var(--cb-muted);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+      }
+
+      /* Demo step */
+      .demo-step {
+        background: white;
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        padding: 11px 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .demo-step .ds-num {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+        background: var(--cb-primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 12pt;
+      }
+
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+
+      @media print {
+        html,
+        body {
+          background: white;
+          margin: 0;
+          padding: 0;
+        }
+        .slide {
+          margin: 0;
+          box-shadow: none;
+          page-break-after: always;
+          break-after: page;
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        .slide:last-child {
+          page-break-after: auto;
+          break-after: auto;
+        }
+        .nav-hint {
+          display: none !important;
+        }
+      }
+
+      .nav-hint {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--cb-fg);
+        color: white;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 10pt;
+        font-weight: 500;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+      }
+      .nav-hint kbd {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        margin: 0 3px;
+        font-size: 9pt;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== SLIDE 1 : COVER ===== -->
+    <div class="slide slide-cover">
+      <div class="flex items-center justify-between mb-8">
+        <div class="logo-mark">
+          <div
+            class="logo-icon"
+            style="background: linear-gradient(135deg, #818cf8, #4f46e5)"
+          >
+            CB
+          </div>
+          <div class="logo-text" style="color: white">
+            Career<span style="color: #818cf8">Bridge</span>
+          </div>
+        </div>
+        <div
+          class="badge"
+          style="
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          "
+        >
+          פוסטר · SE-26-13
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col justify-center">
+        <h1
+          style="
+            font-size: 64pt;
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+          "
+        >
+          Career<span style="color: #818cf8">Bridge</span>
+        </h1>
+        <p
+          style="
+            font-size: 17pt;
+            color: #cbd5e1;
+            font-weight: 300;
+            line-height: 1.4;
+            max-width: 820px;
+          "
+        >
+          פלטפורמה מבוססת בינה מלאכותית<br />
+          לסינון, דירוג וניהול אוטומטי של מועמדים
+        </p>
+
+        <div class="flex gap-10 mt-12">
+          <div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              מגיש
+            </div>
+            <div
+              style="
+                font-size: 16pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 4px;
+              "
+            >
+              דוד מועלם
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              מנחה
+            </div>
+            <div
+              style="
+                font-size: 16pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 4px;
+              "
+            >
+              דוד טנקוס
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              מסלול
+            </div>
+            <div
+              style="
+                font-size: 16pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 4px;
+              "
+            >
+              תקשורת וסייבר
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              פוסטר
+            </div>
+            <div
+              style="
+                font-size: 16pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 4px;
+              "
+            >
+              SE-26-13
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size: 9.5pt; color: #94a3b8; letter-spacing: 0.05em">
+        מבנה ההצגה · מוטיבציה › פתרון › Epics › התאמה למסלול › הדגמה חיה › 15
+        דק׳ + 5 דק׳ שאלות
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 2 : MOTIVATION / PROBLEM ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">01 · מוטיבציה</div>
+      </div>
+
+      <div class="eyebrow">Motivation · הגדרת הבעיה</div>
+      <h2 class="slide-title">מנהלי גיוס טובעים בים של קורות חיים</h2>
+      <p class="slide-subtitle">
+        תהליך הסינון הידני לא יעיל, מועד לטעויות, וצורך עשרות שעות בשבוע
+      </p>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div class="cb-card cb-card-accent">
+          <div
+            style="
+              font-size: 30pt;
+              font-weight: 800;
+              color: var(--cb-primary);
+              line-height: 1;
+            "
+          >
+            200+
+          </div>
+          <div
+            style="
+              font-size: 11pt;
+              color: var(--cb-fg);
+              font-weight: 600;
+              margin-top: 6px;
+            "
+          >
+            מועמדויות למשרה
+          </div>
+          <div style="font-size: 9pt; color: var(--cb-muted); margin-top: 3px">
+            ממוצע למשרת הייטק פופולרית
+          </div>
+        </div>
+        <div class="cb-card cb-card-accent">
+          <div
+            style="
+              font-size: 30pt;
+              font-weight: 800;
+              color: var(--cb-primary);
+              line-height: 1;
+            "
+          >
+            23 דק׳
+          </div>
+          <div
+            style="
+              font-size: 11pt;
+              color: var(--cb-fg);
+              font-weight: 600;
+              margin-top: 6px;
+            "
+          >
+            לקריאת קו"ח אחד
+          </div>
+          <div style="font-size: 9pt; color: var(--cb-muted); margin-top: 3px">
+            סינון, ניקוד והערכה ידנית
+          </div>
+        </div>
+        <div class="cb-card cb-card-accent">
+          <div
+            style="
+              font-size: 30pt;
+              font-weight: 800;
+              color: var(--cb-primary);
+              line-height: 1;
+            "
+          >
+            76%
+          </div>
+          <div
+            style="
+              font-size: 11pt;
+              color: var(--cb-fg);
+              font-weight: 600;
+              margin-top: 6px;
+            "
+          >
+            מועמדים נדחים בטעות
+          </div>
+          <div style="font-size: 9pt; color: var(--cb-muted); margin-top: 3px">
+            בגלל סינון מילות-מפתח לא מדויק
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-h mt-6">כאבים מרכזיים לשני הצדדים</h3>
+      <div class="grid grid-cols-2 gap-x-8 gap-y-1 mt-2">
+        <ul class="check-list">
+          <li>
+            <strong>מעסיק:</strong> סינון ידני של מאות PDFs --> זמן יקר של
+            מנהלים
+          </li>
+          <li>
+            <strong>מעסיק:</strong> חוסר אובייקטיביות --> החלטה תלויה במצב הרוח
+          </li>
+          <li>
+            <strong>מעסיק:</strong> אין מעקב מסודר אחר צינור הגיוס (Pipeline)
+          </li>
+        </ul>
+        <ul class="check-list">
+          <li>
+            <strong>מחפש עבודה:</strong> חיפוש מוגבל ל-filters קשיחים בלבד
+          </li>
+          <li><strong>מחפש עבודה:</strong> אין שקיפות לגבי סטטוס המועמדות</li>
+          <li><strong>מחפש עבודה:</strong> קושי לבלוט מול מאות מתחרים</li>
+        </ul>
+      </div>
+
+      <span class="slide-num">02 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 3 : SOLUTION ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">02 · הפתרון</div>
+      </div>
+
+      <div class="eyebrow">Solution · מה הפרויקט עושה</div>
+      <h2 class="slide-title">שכבת AI חכמה מעל ניהול גיוס</h2>
+      <p class="slide-subtitle">
+        פלטפורמה דו צדדית שמבצעת סינון, סיכום ודירוג אוטומטי בזמן אמת
+      </p>
+
+      <div class="grid grid-cols-3 gap-5 flex-1">
+        <div
+          class="cb-card"
+          style="background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%)"
+        >
+          <div
+            style="
+              width: 46px;
+              height: 46px;
+              background: var(--cb-primary);
+              border-radius: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 21pt;
+              color: white;
+              margin-bottom: 11px;
+            "
+          >
+            🤖
+          </div>
+          <div
+            style="
+              font-size: 13pt;
+              font-weight: 700;
+              color: var(--cb-fg);
+              margin-bottom: 5px;
+            "
+          >
+            AI Summary
+          </div>
+          <div
+            style="font-size: 10pt; color: var(--cb-muted); line-height: 1.5"
+          >
+            <strong style="color: var(--cb-fg)">Claude Haiku</strong> קורא את
+            ה-PDF ומפיק סיכום פרופיל מקצועי תוך שניות
+          </div>
+        </div>
+        <div
+          class="cb-card"
+          style="background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%)"
+        >
+          <div
+            style="
+              width: 46px;
+              height: 46px;
+              background: #7c3aed;
+              border-radius: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 21pt;
+              color: white;
+              margin-bottom: 11px;
+            "
+          >
+            ⭐
+          </div>
+          <div
+            style="
+              font-size: 13pt;
+              font-weight: 700;
+              color: var(--cb-fg);
+              margin-bottom: 5px;
+            "
+          >
+            AI Match Score
+          </div>
+          <div
+            style="font-size: 10pt; color: var(--cb-muted); line-height: 1.5"
+          >
+            <strong style="color: var(--cb-fg)">Gemini Flash</strong> מדרג התאמת
+            מועמד למשרה <strong>1-5 כוכבים</strong>
+          </div>
+        </div>
+        <div
+          class="cb-card"
+          style="background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%)"
+        >
+          <div
+            style="
+              width: 46px;
+              height: 46px;
+              background: var(--cb-success);
+              border-radius: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 21pt;
+              color: white;
+              margin-bottom: 11px;
+            "
+          >
+            🔍
+          </div>
+          <div
+            style="
+              font-size: 13pt;
+              font-weight: 700;
+              color: var(--cb-fg);
+              margin-bottom: 5px;
+            "
+          >
+            Semantic Search
+          </div>
+          <div
+            style="font-size: 10pt; color: var(--cb-muted); line-height: 1.5"
+          >
+            חיפוש בשפה חופשית: "Backend Senior, היברידי, ת"א"
+            <span style="color: var(--cb-success)">-> תוצאות חכמות</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-block mt-4">
+        <div class="flex items-center gap-4">
+          <div style="font-size: 22pt">⚡</div>
+          <div class="flex-1">
+            <div style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)">
+              חיסכון של עד 90% בזמן הסינון הראשוני
+            </div>
+            <div
+              style="font-size: 10pt; color: var(--cb-muted); margin-top: 2px"
+            >
+              מנהלי גיוס מתחילים מיד מהמועמדים בעלי ההתאמה הגבוהה ביותר במקום
+              לקרוא הכל
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <span class="slide-num">03 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 4 : PROJECT EPICS ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">03 · Project Epics</div>
+      </div>
+
+      <div class="eyebrow">Project Epics · אבני הבניין</div>
+      <h2 class="slide-title">חמשת ה-Epics של הפרויקט</h2>
+      <p class="slide-subtitle">
+        חלוקת המערכת לחמש יחידות עבודה גדולות מהזהות ועד האוטומציה
+      </p>
+
+      <div class="flex flex-col gap-2.5 flex-1 justify-center">
+        <div class="epic-row">
+          <div class="epic-badge">
+            <span class="e-label">EPIC</span><span class="e-num">1</span>
+          </div>
+          <div class="flex-1">
+            <div style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)">
+              ניהול זהויות ורב-דיירוּת · Identity & Multi-Tenancy
+            </div>
+            <div
+              style="font-size: 9.5pt; color: var(--cb-muted); margin-top: 1px"
+            >
+              אימות משתמשים וארגונים, הרשאות לפי תפקיד, סנכרון נתונים דרך
+              Webhooks
+            </div>
+          </div>
+          <div
+            class="flex gap-1.5 flex-wrap"
+            style="max-width: 200px; justify-content: flex-end"
+          >
+            <span class="badge badge-primary">Clerk Auth</span
+            ><span class="badge badge-primary">RBAC</span
+            ><span class="badge badge-primary">Webhooks</span>
+          </div>
+        </div>
+
+        <div class="epic-row">
+          <div class="epic-badge">
+            <span class="e-label">EPIC</span><span class="e-num">2</span>
+          </div>
+          <div class="flex-1">
+            <div style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)">
+              חוויית מחפש העבודה · Job Seeker Experience
+            </div>
+            <div
+              style="font-size: 9.5pt; color: var(--cb-muted); margin-top: 1px"
+            >
+              העלאת קו"ח, פרופיל, עיון במשרות, חיפוש סמנטי והגשת מועמדות
+            </div>
+          </div>
+          <div
+            class="flex gap-1.5 flex-wrap"
+            style="max-width: 200px; justify-content: flex-end"
+          >
+            <span class="badge badge-primary">Resume Upload</span
+            ><span class="badge badge-primary">Apply Flow</span>
+          </div>
+        </div>
+
+        <div class="epic-row">
+          <div class="epic-badge">
+            <span class="e-label">EPIC</span><span class="e-num">3</span>
+          </div>
+          <div class="flex-1">
+            <div style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)">
+              ניהול משרות וארגונים · Employer & Job Management
+            </div>
+            <div
+              style="font-size: 9.5pt; color: var(--cb-muted); margin-top: 1px"
+            >
+              הקמת ארגון, פרסום משרות, מעבר מצבים (Draft→Published) ומגבלות plan
+            </div>
+          </div>
+          <div
+            class="flex gap-1.5 flex-wrap"
+            style="max-width: 200px; justify-content: flex-end"
+          >
+            <span class="badge badge-primary">Listings CRUD</span
+            ><span class="badge badge-featured">Featured</span>
+          </div>
+        </div>
+
+        <div class="epic-row">
+          <div class="epic-badge">
+            <span class="e-label">EPIC</span><span class="e-num">4</span>
+          </div>
+          <div class="flex-1">
+            <div style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)">
+              שכבת בינה מלאכותית · AI Intelligence Layer
+            </div>
+            <div
+              style="font-size: 9.5pt; color: var(--cb-muted); margin-top: 1px"
+            >
+              סיכום קו"ח (Claude), דירוג התאמה וחיפוש סמנטי (Gemini)
+            </div>
+          </div>
+          <div
+            class="flex gap-1.5 flex-wrap"
+            style="max-width: 200px; justify-content: flex-end"
+          >
+            <span class="badge badge-primary">Claude Haiku</span
+            ><span class="badge badge-primary">Gemini Flash</span>
+          </div>
+        </div>
+
+        <div class="epic-row">
+          <div class="epic-badge">
+            <span class="e-label">EPIC</span><span class="e-num">5</span>
+          </div>
+          <div class="flex-1">
+            <div style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)">
+              אוטומציה ותקשורת רקע · Automation & Notifications
+            </div>
+            <div
+              style="font-size: 9.5pt; color: var(--cb-muted); margin-top: 1px"
+            >
+              תהליכי Inngest, Cron יומי, דוחות מייל (Resend) והגדרות התראות
+            </div>
+          </div>
+          <div
+            class="flex gap-1.5 flex-wrap"
+            style="max-width: 200px; justify-content: flex-end"
+          >
+            <span class="badge badge-primary">Inngest</span
+            ><span class="badge badge-primary">Cron</span
+            ><span class="badge badge-primary">Resend</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="slide-num">04 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 5 : TRACK MATCH — COMMUNICATIONS & CYBER ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">04 · התאמה למסלול</div>
+      </div>
+
+      <div class="eyebrow">Track Alignment · תקשורת וסייבר</div>
+      <h2 class="slide-title">למה הפרויקט תואם למסלול תקשורת וסייבר</h2>
+      <p class="slide-subtitle">
+        מערכת מבוזרת, מבוססת קונטיינרים, עם תקשורת בין-שירותית מאובטחת
+      </p>
+
+      <div class="grid grid-cols-2 gap-5 flex-1">
+        <div class="cb-card" style="border-right: 4px solid var(--cb-primary)">
+          <div class="flex items-center gap-2 mb-2">
+            <span style="font-size: 16pt">🌐</span>
+            <h3
+              style="
+                font-size: 13pt;
+                font-weight: 700;
+                color: var(--cb-fg);
+                margin: 0;
+              "
+            >
+              תקשורת · Communications
+            </h3>
+          </div>
+          <ul class="check-list">
+            <li>
+              פריסה מבוססת <strong>קונטיינרים</strong> : Docker multi-stage +
+              docker-compose
+            </li>
+            <li>
+              <strong>תקשורת מוצפנת בלבד</strong> : פרוטוקול
+              <strong>HTTPS/TLS</strong> בכל הערוצים, ללא HTTP
+            </li>
+            <li>
+              <strong>תקשורת בין-שירותית</strong> : REST מול 6+ שירותים חיצוניים
+            </li>
+            <li>
+              ארכיטקטורה <strong>מונחית-אירועים</strong> +
+              <strong>Webhooks</strong> דו-כיווניים
+            </li>
+            <li>
+              <strong>Cloudflare Tunnel</strong> : חשיפה מאובטחת ללא פתיחת
+              פורטים נכנסים
+            </li>
+            <li>
+              <strong>בדיקות עומסים</strong> : מדידת throughput וזמני תגובה תחת
+              בקשות מקביליות
+            </li>
+            <li>
+              נקודת קצה <span class="code-chip">/health</span> לניטור liveness
+              של הקונטיינר
+            </li>
+          </ul>
+        </div>
+
+        <div class="cb-card" style="border-right: 4px solid #dc2626">
+          <div class="flex items-center gap-2 mb-2">
+            <span style="font-size: 16pt">🛡️</span>
+            <h3
+              style="
+                font-size: 13pt;
+                font-weight: 700;
+                color: var(--cb-fg);
+                margin: 0;
+              "
+            >
+              סייבר · Cyber Security
+            </h3>
+          </div>
+          <ul class="check-list cyber">
+            <li>
+              <strong>אימות והרשאות</strong> : Clerk עם בקרת גישה מבוססת תפקיד
+              (RBAC)
+            </li>
+            <li>
+              <strong>אימות חתימת Webhooks</strong> (Svix) : מניעת זיוף בקשות
+              נכנסות
+            </li>
+            <li>
+              <strong>בידוד דיירים</strong> : הפרדת נתונים מלאה בין ארגונים
+              (tenant isolation)
+            </li>
+            <li>
+              <strong>הקשחת קונטיינר</strong> : משתמש non-root, alpine מינימלי,
+              .dockerignore
+            </li>
+            <li>
+              <strong>ניהול סודות</strong> : מפתחות API ב-env_file, placeholders
+              בזמן build
+            </li>
+            <li>
+              <strong>ולידציית קלט</strong> עם Zod בכל הגבולות : מניעת injection
+            </li>
+            <li>
+              <strong>ולידציית env</strong> בעליית המערכת (t3-oss/env) : מניעת
+              תצורה שגויה
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <span class="slide-num">05 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 6 : COMMUNICATION & DEPLOYMENT ARCHITECTURE ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">05 · ארכיטקטורה</div>
+      </div>
+
+      <div class="eyebrow">Architecture · תקשורת ופריסה</div>
+      <h2 class="slide-title">ארכיטקטורת תקשורת ופריסה</h2>
+      <p class="slide-subtitle">
+        קונטיינר יחיד שמתקשר עם שבעה שירותים חיצוניים — בערוצים מאובטחים
+      </p>
+
+      <!-- Band 1: Users -->
+      <div class="flex items-center justify-center gap-3 mt-1">
+        <div
+          class="arch-node"
+          style="background: #1e293b; border-color: #1e293b"
+        >
+          <div class="an-name" style="color: white">👤 מחפשי עבודה</div>
+        </div>
+        <div
+          class="arch-node"
+          style="background: #1e293b; border-color: #1e293b"
+        >
+          <div class="an-name" style="color: white">🏢 מעסיקים</div>
+        </div>
+      </div>
+      <div
+        style="
+          text-align: center;
+          color: var(--cb-primary);
+          font-size: 13pt;
+          line-height: 0.8;
+          margin: 1px;
+        "
+      >
+        ↓
+      </div>
+
+      <!-- Band 2: Cloudflare Tunnel -->
+      <div
+        class="arch-node"
+        style="
+          background: #fef3c7;
+          border-color: #f59e0b;
+          max-width: 520px;
+          margin: 0 auto;
+        "
+      >
+        <div class="an-name">☁️ Cloudflare Tunnel</div>
+        <div class="an-proto">
+          HTTPS / TLS · ingress מאובטח ללא פורטים נכנסים פתוחים
+        </div>
+      </div>
+      <div
+        style="
+          text-align: center;
+          color: var(--cb-primary);
+          font-size: 13pt;
+          line-height: 0.8;
+          margin: 1px;
+        "
+      >
+        ↓
+      </div>
+
+      <!-- Band 3: The container -->
+      <div class="arch-container">
+        <div style="font-size: 13pt; font-weight: 800; color: var(--cb-fg)">
+          🐳 CareerBridge · Next.js 15 — Docker Container
+        </div>
+        <div style="font-size: 8.5pt; color: var(--cb-muted); margin-top: 2px">
+          multi-stage build · standalone output · משתמש non-root (uid 1001) ·
+          port 3000 ·
+          <span class="code-chip" style="font-size: 7.5pt">/health</span>
+        </div>
+      </div>
+      <div
+        style="
+          text-align: center;
+          color: var(--cb-primary);
+          font-size: 13pt;
+          line-height: 0.8;
+          margin: 1px;
+        "
+      >
+        ↓ &nbsp; תקשורת בין-שירותית · REST/HTTPS · Webhooks · Events &nbsp; ↓
+      </div>
+
+      <!-- Band 4: External services -->
+      <div class="grid grid-cols-7 gap-2 mt-1">
+        <div class="arch-node">
+          <div class="an-name">🗄️ PostgreSQL</div>
+          <div class="an-proto">TCP · SQL</div>
+        </div>
+        <div class="arch-node">
+          <div class="an-name">🔐 Clerk</div>
+          <div class="an-proto">REST + Webhook</div>
+        </div>
+        <div class="arch-node">
+          <div class="an-name">🤖 Anthropic</div>
+          <div class="an-proto">HTTPS REST</div>
+        </div>
+        <div class="arch-node">
+          <div class="an-name">✨ Gemini</div>
+          <div class="an-proto">HTTPS REST</div>
+        </div>
+        <div class="arch-node">
+          <div class="an-name">✉️ Resend</div>
+          <div class="an-proto">HTTPS REST</div>
+        </div>
+        <div class="arch-node">
+          <div class="an-name">📤 UploadThing</div>
+          <div class="an-proto">REST + Webhook</div>
+        </div>
+        <div class="arch-node">
+          <div class="an-name">∞ Inngest</div>
+          <div class="an-proto">Event stream</div>
+        </div>
+      </div>
+
+      <div class="ai-block mt-3" style="padding: 9px 14px">
+        <div style="font-size: 9.5pt; color: var(--cb-fg)">
+          <strong>זווית תקשורת וסייבר:</strong> כל ערוץ מוצפן (TLS), Webhooks
+          מאומתים בחתימה דיגיטלית, וה-container חשוף לרשת רק דרך ה-Tunnel ללא
+          פורטים נכנסים פתוחים. בדיקות עומסים מודדות את יציבות הערוצים תחת
+          תעבורה מקבילית.
+        </div>
+      </div>
+
+      <span class="slide-num">06 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 7 : AI ARCHITECTURE ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">06 · ארכיטקטורת AI</div>
+      </div>
+
+      <div class="eyebrow">AI Pipeline · עיבוד אסינכרוני</div>
+      <h2 class="slide-title">איך ה-AI עובד מאחורי הקלעים</h2>
+      <p class="slide-subtitle">
+        צינור עיבוד אסינכרוני מבוסס Inngest — שני מודלים, שלוש משימות
+      </p>
+
+      <div class="flex gap-2 items-stretch mt-3">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)">
+            העלאת PDF
+          </div>
+          <div
+            style="font-size: 8.5pt; color: var(--cb-muted); margin-top: 3px"
+          >
+            UploadThing CDN
+          </div>
+          <div class="code-chip mt-2" style="font-size: 7.5pt">
+            resume.uploaded
+          </div>
+        </div>
+        <div class="flow-arrow">←</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)">
+            חילוץ טקסט
+          </div>
+          <div
+            style="font-size: 8.5pt; color: var(--cb-muted); margin-top: 3px"
+          >
+            PDF Parser
+          </div>
+          <div class="code-chip mt-2" style="font-size: 7.5pt">Inngest Job</div>
+        </div>
+        <div class="flow-arrow">←</div>
+        <div
+          class="flow-step"
+          style="
+            background: linear-gradient(135deg, #eef2ff, #ffffff);
+            border-color: var(--cb-primary-light);
+          "
+        >
+          <div class="step-num">3</div>
+          <div style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)">
+            סיכום AI
+          </div>
+          <div
+            style="
+              font-size: 8.5pt;
+              color: var(--cb-primary);
+              margin-top: 3px;
+              font-weight: 600;
+            "
+          >
+            Claude Haiku
+          </div>
+          <div class="code-chip mt-2" style="font-size: 7.5pt">aiSummary</div>
+        </div>
+        <div class="flow-arrow">←</div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)">
+            הגשת מועמדות
+          </div>
+          <div
+            style="font-size: 8.5pt; color: var(--cb-muted); margin-top: 3px"
+          >
+            Apply Action
+          </div>
+          <div class="code-chip mt-2" style="font-size: 7.5pt">application</div>
+        </div>
+        <div class="flow-arrow">←</div>
+        <div
+          class="flow-step"
+          style="
+            background: linear-gradient(135deg, #f5f3ff, #ffffff);
+            border-color: #7c3aed;
+          "
+        >
+          <div class="step-num" style="background: #7c3aed">5</div>
+          <div style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)">
+            דירוג AI
+          </div>
+          <div
+            style="
+              font-size: 8.5pt;
+              color: #7c3aed;
+              margin-top: 3px;
+              font-weight: 600;
+            "
+          >
+            Gemini Flash
+          </div>
+          <div class="code-chip mt-2" style="font-size: 7.5pt">rating 1-5</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-6 flex-1">
+        <div class="ai-block">
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              style="
+                width: 36px;
+                height: 36px;
+                background: var(--cb-primary);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: 800;
+                font-size: 11pt;
+              "
+            >
+              A
+            </div>
+            <div>
+              <div
+                style="font-size: 11pt; font-weight: 700; color: var(--cb-fg)"
+              >
+                Anthropic Claude Haiku
+              </div>
+              <div style="font-size: 9pt; color: var(--cb-muted)">
+                סיכום פרופיל
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 9.5pt; color: var(--cb-fg); line-height: 1.5">
+            מנתח קורות חיים גולמיים ומחלץ <strong>סיכום מובנה</strong>: ניסיון,
+            כישורים, השכלה והישגים — בפורמט אחיד.
+          </div>
+        </div>
+        <div
+          class="ai-block"
+          style="
+            background: linear-gradient(135deg, #f5f3ff, #faf5ff);
+            border-color: #c4b5fd;
+          "
+        >
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              style="
+                width: 36px;
+                height: 36px;
+                background: #7c3aed;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: 800;
+                font-size: 11pt;
+              "
+            >
+              G
+            </div>
+            <div>
+              <div
+                style="font-size: 11pt; font-weight: 700; color: var(--cb-fg)"
+              >
+                Google Gemini Flash
+              </div>
+              <div style="font-size: 9pt; color: var(--cb-muted)">
+                דירוג + חיפוש סמנטי
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 9.5pt; color: var(--cb-fg); line-height: 1.5">
+            משווה את ה-AI Summary לדרישות המשרה ומחזיר
+            <strong>ציון 1-5 + הסבר</strong>. גם מבצע semantic search.
+          </div>
+        </div>
+      </div>
+
+      <span class="slide-num">07 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 8 : DEMO AGENDA ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">07 · הדגמה</div>
+      </div>
+
+      <div class="eyebrow">Live Demo · אג'נדת ההדגמה</div>
+      <h2 class="slide-title">הדגמה חיה מקצה לקצה</h2>
+      <p class="slide-subtitle">
+        סביבה אמיתית בענן: קונטיינר Docker חשוף דרך Cloudflare Tunnel, לא
+        אמולטור
+      </p>
+
+      <div class="grid grid-cols-2 gap-x-5 gap-y-2.5 flex-1 content-center">
+        <div class="demo-step">
+          <div class="ds-num">1</div>
+          <div class="flex-1">
+            <div
+              style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)"
+            >
+              הרשמה והתחברות מאובטחת
+            </div>
+            <div style="font-size: 8.5pt; color: var(--cb-muted)">
+              יצירת חשבון + סנכרון אוטומטי למסד הנתונים ·
+              <span style="color: var(--cb-primary)">Clerk</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="ds-num">2</div>
+          <div class="flex-1">
+            <div
+              style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)"
+            >
+              העלאת קו"ח → סיכום AI חי
+            </div>
+            <div style="font-size: 8.5pt; color: var(--cb-muted)">
+              צפייה בעיבוד הרקע ב-Inngest Dashboard ·
+              <span style="color: var(--cb-primary)">Claude</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="ds-num">3</div>
+          <div class="flex-1">
+            <div
+              style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)"
+            >
+              חיפוש סמנטי בשפה חופשית
+            </div>
+            <div style="font-size: 8.5pt; color: var(--cb-muted)">
+              שאילתה חופשית → תוצאות ממוינות ·
+              <span style="color: var(--cb-primary)">Gemini</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="ds-num">4</div>
+          <div class="flex-1">
+            <div
+              style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)"
+            >
+              הגשת מועמדות + דירוג אוטומטי
+            </div>
+            <div style="font-size: 8.5pt; color: var(--cb-muted)">
+              Apply Flow → ציון 1-5 כוכבים מתקבל ברקע
+            </div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="ds-num">5</div>
+          <div class="flex-1">
+            <div
+              style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)"
+            >
+              צד מעסיק — טבלת מועמדים
+            </div>
+            <div style="font-size: 8.5pt; color: var(--cb-muted)">
+              פרסום משרה + צפייה במועמדים ממוינים לפי AI Match
+            </div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="ds-num">6</div>
+          <div class="flex-1">
+            <div
+              style="font-size: 10.5pt; font-weight: 700; color: var(--cb-fg)"
+            >
+              הפעלת Cron Job ידנית → מייל
+            </div>
+            <div style="font-size: 8.5pt; color: var(--cb-muted)">
+              דוח מועמדים יומי נשלח בזמן אמת ·
+              <span style="color: var(--cb-primary)">Resend</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-block mt-3" style="padding: 9px 14px">
+        <div style="font-size: 9.5pt; color: var(--cb-fg)">
+          <strong>💡 גיבוי להדגמה:</strong> השקפים הבאים מציגים צילומי מסך של
+          המערכת — למקרה של תקלת רשת. ה-Inngest Dashboard יישאר פתוח על מסך נפרד
+          כדי להראות את תהליכי הרקע בזמן אמת.
+        </div>
+      </div>
+
+      <span class="slide-num">08 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 9 : DEMO — JOB SEEKER ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">08 · הדגמה · מחפש עבודה</div>
+      </div>
+
+      <div class="eyebrow">Demo Reference · Job Seeker</div>
+      <h2 class="slide-title">מסך מחפש העבודה</h2>
+      <p class="slide-subtitle">
+        חיפוש משרות חכם, הגשת מועמדות בלחיצה אחת, מעקב בזמן אמת
+      </p>
+
+      <div class="grid grid-cols-12 gap-3 mt-2 flex-1">
+        <div class="col-span-3 cb-sidebar">
+          <div
+            style="
+              font-size: 11pt;
+              font-weight: 700;
+              color: white;
+              margin-bottom: 14px;
+              padding: 0 6px;
+            "
+          >
+            <span style="color: var(--cb-primary-light)">●</span> CareerBridge
+          </div>
+          <div class="cb-sidebar-item active">
+            <span>📋</span> Open Positions
+          </div>
+          <div class="cb-sidebar-item"><span>🔍</span> AI Search</div>
+          <div class="cb-sidebar-item"><span>📄</span> My Resume</div>
+          <div class="cb-sidebar-item"><span>🔔</span> Notifications</div>
+          <div
+            style="
+              margin-top: 16px;
+              padding-top: 10px;
+              border-top: 1px solid rgba(255, 255, 255, 0.1);
+            "
+          >
+            <div
+              style="
+                font-size: 8pt;
+                color: rgba(255, 255, 255, 0.5);
+                padding: 0 6px;
+                margin-bottom: 6px;
+                letter-spacing: 0.08em;
+              "
+            >
+              USER
+            </div>
+            <div
+              class="cb-sidebar-item"
+              style="background: rgba(255, 255, 255, 0.06)"
+            >
+              <span
+                style="
+                  width: 22px;
+                  height: 22px;
+                  background: var(--cb-primary);
+                  border-radius: 50%;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 9pt;
+                  font-weight: 700;
+                "
+                >D</span
+              >
+              David Moalem
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-9">
+          <div
+            style="
+              font-size: 17pt;
+              font-weight: 700;
+              color: var(--cb-fg);
+              margin-bottom: 2px;
+            "
+          >
+            Open Positions
+          </div>
+          <div
+            style="
+              font-size: 9.5pt;
+              color: var(--cb-muted);
+              margin-bottom: 11px;
+            "
+          >
+            Discover opportunities that match your skills and goals.
+          </div>
+
+          <div class="job-mock featured mb-2">
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="badge badge-featured">⭐ Featured</span>
+                  <span class="badge badge-success">Remote</span>
+                </div>
+                <div
+                  style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)"
+                >
+                  Senior Full-Stack Engineer
+                </div>
+                <div
+                  style="
+                    font-size: 9pt;
+                    color: var(--cb-muted);
+                    margin-top: 2px;
+                  "
+                >
+                  TechFlow Inc · ₪35,000-45,000 · 5+ years
+                </div>
+              </div>
+              <div class="badge badge-primary">Apply</div>
+            </div>
+          </div>
+          <div class="job-mock mb-2">
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="badge badge-success">Hybrid</span>
+                  <span class="badge badge-muted">Tel Aviv</span>
+                </div>
+                <div
+                  style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)"
+                >
+                  React Developer
+                </div>
+                <div
+                  style="
+                    font-size: 9pt;
+                    color: var(--cb-muted);
+                    margin-top: 2px;
+                  "
+                >
+                  DataCore · ₪22,000-30,000 · 2-4 years
+                </div>
+              </div>
+              <div class="badge badge-primary">Apply</div>
+            </div>
+          </div>
+          <div class="job-mock">
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="badge badge-success">Remote</span>
+                  <span class="badge badge-muted">EU/IL</span>
+                </div>
+                <div
+                  style="font-size: 12pt; font-weight: 700; color: var(--cb-fg)"
+                >
+                  DevOps Engineer
+                </div>
+                <div
+                  style="
+                    font-size: 9pt;
+                    color: var(--cb-muted);
+                    margin-top: 2px;
+                  "
+                >
+                  CloudStack · ₪28,000-38,000 · 3+ years
+                </div>
+              </div>
+              <div class="badge badge-applied">Applied ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <span class="slide-num">09 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 10 : DEMO — EMPLOYER ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">09 · הדגמה · מעסיק</div>
+      </div>
+
+      <div class="eyebrow">Demo Reference · Employer</div>
+      <h2 class="slide-title">מסך המעסיק דירוג AI אוטומטי</h2>
+      <p class="slide-subtitle">
+        צפייה במועמדים מסודרים לפי התאמה, מהציון הגבוה ביותר ועד הנמוך
+      </p>
+
+      <div class="cb-card mt-2 flex-1" style="padding: 0; overflow: hidden">
+        <div
+          style="
+            background: #f8fafc;
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--cb-border);
+          "
+        >
+          <div class="flex justify-between items-center">
+            <div>
+              <div
+                style="font-size: 12.5pt; font-weight: 700; color: var(--cb-fg)"
+              >
+                Senior Full-Stack Engineer
+              </div>
+              <div style="font-size: 9pt; color: var(--cb-muted)">
+                47 applications · ranked by AI
+              </div>
+            </div>
+            <span class="badge badge-success">Published</span>
+          </div>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; font-size: 10pt">
+          <thead>
+            <tr style="background: #f1f5f9">
+              <th
+                style="
+                  padding: 9px 14px;
+                  text-align: right;
+                  font-weight: 600;
+                  font-size: 8.5pt;
+                  letter-spacing: 0.05em;
+                  color: var(--cb-muted);
+                "
+              >
+                CANDIDATE
+              </th>
+              <th
+                style="
+                  padding: 9px 14px;
+                  text-align: right;
+                  font-weight: 600;
+                  font-size: 8.5pt;
+                  letter-spacing: 0.05em;
+                  color: var(--cb-muted);
+                "
+              >
+                SUBMITTED
+              </th>
+              <th
+                style="
+                  padding: 9px 14px;
+                  text-align: right;
+                  font-weight: 600;
+                  font-size: 8.5pt;
+                  letter-spacing: 0.05em;
+                  color: var(--cb-muted);
+                "
+              >
+                AI MATCH
+              </th>
+              <th
+                style="
+                  padding: 9px 14px;
+                  text-align: right;
+                  font-weight: 600;
+                  font-size: 8.5pt;
+                  letter-spacing: 0.05em;
+                  color: var(--cb-muted);
+                "
+              >
+                STAGE
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              style="
+                border-top: 1px solid var(--cb-border);
+                background: #fefce8;
+              "
+            >
+              <td style="padding: 11px 14px">
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <span
+                    style="
+                      width: 30px;
+                      height: 30px;
+                      background: var(--cb-primary);
+                      color: white;
+                      border-radius: 50%;
+                      display: inline-flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-weight: 700;
+                      font-size: 10pt;
+                    "
+                    >א</span
+                  >
+                  <div>
+                    <div style="font-weight: 600; color: var(--cb-fg)">
+                      אבי כהן
+                    </div>
+                    <div style="font-size: 8pt; color: var(--cb-muted)">
+                      avi.cohen@email.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td style="padding: 11px 14px; color: var(--cb-muted)">
+                2 hours ago
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="stars">★★★★★</span>
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="badge badge-primary">Interviewed</span>
+              </td>
+            </tr>
+            <tr style="border-top: 1px solid var(--cb-border)">
+              <td style="padding: 11px 14px">
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <span
+                    style="
+                      width: 30px;
+                      height: 30px;
+                      background: #7c3aed;
+                      color: white;
+                      border-radius: 50%;
+                      display: inline-flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-weight: 700;
+                      font-size: 10pt;
+                    "
+                    >ש</span
+                  >
+                  <div>
+                    <div style="font-weight: 600; color: var(--cb-fg)">
+                      שרה לוי
+                    </div>
+                    <div style="font-size: 8pt; color: var(--cb-muted)">
+                      sarah.l@email.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td style="padding: 11px 14px; color: var(--cb-muted)">
+                5 hours ago
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="stars">★★★★<span class="star-empty">★</span></span>
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="badge badge-success">Interested</span>
+              </td>
+            </tr>
+            <tr style="border-top: 1px solid var(--cb-border)">
+              <td style="padding: 11px 14px">
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <span
+                    style="
+                      width: 30px;
+                      height: 30px;
+                      background: #10b981;
+                      color: white;
+                      border-radius: 50%;
+                      display: inline-flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-weight: 700;
+                      font-size: 10pt;
+                    "
+                    >י</span
+                  >
+                  <div>
+                    <div style="font-weight: 600; color: var(--cb-fg)">
+                      יוסי מזרחי
+                    </div>
+                    <div style="font-size: 8pt; color: var(--cb-muted)">
+                      yossi.m@email.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td style="padding: 11px 14px; color: var(--cb-muted)">
+                Yesterday
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="stars">★★★<span class="star-empty">★★</span></span>
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="badge badge-applied">Applied</span>
+              </td>
+            </tr>
+            <tr style="border-top: 1px solid var(--cb-border)">
+              <td style="padding: 11px 14px">
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <span
+                    style="
+                      width: 30px;
+                      height: 30px;
+                      background: #64748b;
+                      color: white;
+                      border-radius: 50%;
+                      display: inline-flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-weight: 700;
+                      font-size: 10pt;
+                    "
+                    >ד</span
+                  >
+                  <div>
+                    <div style="font-weight: 600; color: var(--cb-fg)">
+                      דנה ישראלי
+                    </div>
+                    <div style="font-size: 8pt; color: var(--cb-muted)">
+                      dana.i@email.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td style="padding: 11px 14px; color: var(--cb-muted)">
+                2 days ago
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="stars">★★<span class="star-empty">★★★</span></span>
+              </td>
+              <td style="padding: 11px 14px">
+                <span class="badge badge-delisted">Denied</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ai-block mt-3" style="padding: 9px 14px">
+        <div style="font-size: 9.5pt; color: var(--cb-fg)">
+          <strong>הערך המרכזי:</strong> במקום לסקור 47 קורות חיים, המעסיק מתחיל
+          מאבי כהן (5★) ויוסי מזרחי (3★) — חיסכון של שעות.
+        </div>
+      </div>
+
+      <span class="slide-num">10 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 11 : TECH STACK ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">10 · Stack טכנולוגי</div>
+      </div>
+
+      <div class="eyebrow">Technology Stack</div>
+      <h2 class="slide-title">בנוי על הטכנולוגיות המתקדמות ביותר</h2>
+      <p class="slide-subtitle">
+        Type-safe מקצה לקצה · Server Components · פרוס בקונטיינר
+      </p>
+
+      <div class="grid grid-cols-4 gap-3 mt-4 flex-1 content-start">
+        <div class="tech-pill">
+          <div class="ico" style="background: #000">▲</div>
+          <div>
+            <div class="name">Next.js 15</div>
+            <div class="role">App Router · RSC</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #3178c6">TS</div>
+          <div>
+            <div class="name">TypeScript</div>
+            <div class="role">Type-safe</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #06b6d4">≈</div>
+          <div>
+            <div class="name">Tailwind v4</div>
+            <div class="role">Utility CSS</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #0f172a">◑</div>
+          <div>
+            <div class="name">shadcn/ui</div>
+            <div class="role">Radix Primitives</div>
+          </div>
+        </div>
+
+        <div class="tech-pill">
+          <div class="ico" style="background: #336791">DB</div>
+          <div>
+            <div class="name">PostgreSQL</div>
+            <div class="role">Production DB</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #c5f74f; color: #000">D</div>
+          <div>
+            <div class="name">Drizzle ORM</div>
+            <div class="role">Type-safe ORM</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #6c47ff">🔐</div>
+          <div>
+            <div class="name">Clerk Auth</div>
+            <div class="role">Multi-tenant</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #52525b">📤</div>
+          <div>
+            <div class="name">UploadThing</div>
+            <div class="role">CDN uploads</div>
+          </div>
+        </div>
+
+        <div class="tech-pill">
+          <div class="ico" style="background: #d97757">A</div>
+          <div>
+            <div class="name">Claude Haiku</div>
+            <div class="role">Anthropic AI</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #4285f4">G</div>
+          <div>
+            <div class="name">Gemini Flash</div>
+            <div class="role">Google AI</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #000">∞</div>
+          <div>
+            <div class="name">Inngest</div>
+            <div class="role">Background jobs</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #000">✉</div>
+          <div>
+            <div class="name">Resend</div>
+            <div class="role">Email API</div>
+          </div>
+        </div>
+
+        <div class="tech-pill">
+          <div class="ico" style="background: #2496ed">🐳</div>
+          <div>
+            <div class="name">Docker</div>
+            <div class="role">Containerization</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #f38020">☁️</div>
+          <div>
+            <div class="name">Cloudflare</div>
+            <div class="role">Tunnel · ingress</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #ef4444">Z</div>
+          <div>
+            <div class="name">Zod</div>
+            <div class="role">Validation</div>
+          </div>
+        </div>
+        <div class="tech-pill">
+          <div class="ico" style="background: #ff4154">TQ</div>
+          <div>
+            <div class="name">TanStack Table</div>
+            <div class="role">Data tables</div>
+          </div>
+        </div>
+      </div>
+
+      <span class="slide-num">11 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 12 : SUMMARY / IMPACT ===== -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="logo-mark">
+          <div class="logo-icon">CB</div>
+          <div class="logo-text">Career<span class="accent">Bridge</span></div>
+        </div>
+        <div class="badge badge-muted">11 · סיכום</div>
+      </div>
+
+      <div class="eyebrow">Summary · סיכום והשפעה</div>
+      <h2 class="slide-title">הערך העסקי שהמערכת יוצרת</h2>
+      <p class="slide-subtitle">
+        חיסכון משמעותי בזמן, שיפור איכות הגיוס, וחוויית מועמד מודרנית
+      </p>
+
+      <div class="grid grid-cols-4 gap-3 mt-2">
+        <div class="stat-tile">
+          <div class="stat-value">90%</div>
+          <div class="stat-label">חיסכון בזמן סינון</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-value">5★</div>
+          <div class="stat-label">דירוג מועמדים אוטומטי</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">עיבוד אסינכרוני</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-value">2</div>
+          <div class="stat-label">מודלי AI משולבים</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-5 flex-1">
+        <div>
+          <h3 class="section-h">ערך למעסיק</h3>
+          <ul class="check-list mt-2">
+            <li>סינון אוטומטי של מאות מועמדויות תוך שניות</li>
+            <li>טבלת ניהול מסודרת עם דירוג AI שקוף ומוסבר</li>
+            <li>דוח יומי במייל - מועמדים חדשים ממוינים</li>
+            <li>ניהול ארגוני עם הרשאות לפי תפקיד</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="section-h">ערך למחפש העבודה</h3>
+          <ul class="check-list mt-2">
+            <li>חיפוש בשפה טבעית - לא צריך לדעת מילות-מפתח</li>
+            <li>פרופיל AI נוצר אוטומטית מקורות החיים</li>
+            <li>הגשה מהירה בלחיצה אחת ומעקב סטטוס שקוף</li>
+            <li>התראות חכמות על משרות רלוונטיות</li>
+          </ul>
+        </div>
+      </div>
+
+      <span class="slide-num">12 / 13</span>
+      <span class="slide-brand"
+        >Career<span class="accent" style="color: var(--cb-primary)"
+          >Bridge</span
+        >
+        <span class="dot"></span
+      ></span>
+    </div>
+
+    <!-- ===== SLIDE 13 : THANK YOU ===== -->
+    <div class="slide slide-cover">
+      <div class="flex items-center justify-between mb-8">
+        <div class="logo-mark">
+          <div
+            class="logo-icon"
+            style="background: linear-gradient(135deg, #818cf8, #4f46e5)"
+          >
+            CB
+          </div>
+          <div class="logo-text" style="color: white">
+            Career<span style="color: #818cf8">Bridge</span>
+          </div>
+        </div>
+        <div
+          class="badge"
+          style="
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          "
+        >
+          13 / 13
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col justify-center items-center text-center">
+        <div class="eyebrow" style="color: #a5b4fc">
+          סיום ההצגה · 5 דקות שאלות
+        </div>
+        <h1
+          style="
+            font-size: 84pt;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+          "
+        >
+          תודה
+        </h1>
+        <p
+          style="
+            font-size: 19pt;
+            color: #cbd5e1;
+            font-weight: 300;
+            line-height: 1.4;
+            max-width: 700px;
+            margin-bottom: 42px;
+          "
+        >
+          נשמח לשאלות השופטים
+        </p>
+
+        <div
+          class="grid grid-cols-4 gap-8 mt-6"
+          style="max-width: 1000px; width: 100%"
+        >
+          <div class="text-center">
+            <div
+              style="
+                width: 46px;
+                height: 46px;
+                background: rgba(129, 140, 248, 0.2);
+                border-radius: 12px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 19pt;
+                margin-bottom: 9px;
+                border: 1px solid rgba(129, 140, 248, 0.3);
+              "
+            >
+              📂
+            </div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              פוסטר
+            </div>
+            <div
+              style="
+                font-size: 13pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 3px;
+              "
+            >
+              SE-26-13
+            </div>
+          </div>
+          <div class="text-center">
+            <div
+              style="
+                width: 46px;
+                height: 46px;
+                background: rgba(129, 140, 248, 0.2);
+                border-radius: 12px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 19pt;
+                margin-bottom: 9px;
+                border: 1px solid rgba(129, 140, 248, 0.3);
+              "
+            >
+              👨‍💻
+            </div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              מגיש
+            </div>
+            <div
+              style="
+                font-size: 13pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 3px;
+              "
+            >
+              דוד מועלם
+            </div>
+          </div>
+          <div class="text-center">
+            <div
+              style="
+                width: 46px;
+                height: 46px;
+                background: rgba(129, 140, 248, 0.2);
+                border-radius: 12px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 19pt;
+                margin-bottom: 9px;
+                border: 1px solid rgba(129, 140, 248, 0.3);
+              "
+            >
+              🎓
+            </div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              מנחה
+            </div>
+            <div
+              style="
+                font-size: 13pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 3px;
+              "
+            >
+              דוד טנקוס
+            </div>
+          </div>
+          <div class="text-center">
+            <div
+              style="
+                width: 46px;
+                height: 46px;
+                background: rgba(129, 140, 248, 0.2);
+                border-radius: 12px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 19pt;
+                margin-bottom: 9px;
+                border: 1px solid rgba(129, 140, 248, 0.3);
+              "
+            >
+              🛡️
+            </div>
+            <div
+              style="
+                font-size: 9pt;
+                color: #a5b4fc;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+              "
+            >
+              מסלול
+            </div>
+            <div
+              style="
+                font-size: 13pt;
+                font-weight: 700;
+                color: white;
+                margin-top: 3px;
+              "
+            >
+              תקשורת וסייבר
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 50px;
+            font-size: 10pt;
+            color: #94a3b8;
+            letter-spacing: 0.1em;
+          "
+        >
+          CAREERBRIDGE · 2026 · הנדסת תוכנה
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

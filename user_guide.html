@@ -1,0 +1,1721 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerBridge - מדריך למשתמש | פרויקט גמר SE-26-13</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=Assistant:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-deep: #0f172a;
+        --primary-blue: #1e40af;
+        --primary-light: #3b82f6;
+        --accent-green: #10b981;
+        --accent-emerald: #059669;
+        --gray-bg: #f8fafc;
+        --gray-border: #e2e8f0;
+      }
+
+      * {
+        font-family: 'Rubik', 'Assistant', sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+        color: var(--primary-deep);
+        line-height: 1.8;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e40af 50%,
+          #1e3a8a 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-gradient::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image:
+          radial-gradient(
+            circle at 20% 50%,
+            rgba(16, 185, 129, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(59, 130, 246, 0.2) 0%,
+            transparent 50%
+          );
+      }
+
+      .section-card {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        border: 1px solid var(--gray-border);
+        transition: all 0.3s ease;
+      }
+
+      .section-card:hover {
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .step-number {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
+        flex-shrink: 0;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+      }
+
+      .badge-draft {
+        background: #fef3c7;
+        color: #92400e;
+        border: 1px solid #fcd34d;
+      }
+
+      .badge-published {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #6ee7b7;
+      }
+
+      .badge-applied {
+        background: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+      }
+
+      .badge-delisted {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+      }
+
+      .alert-box {
+        border-right: 4px solid;
+        border-radius: 0.5rem;
+        padding: 1rem 1.5rem;
+        margin: 1rem 0;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .alert-info {
+        background: #eff6ff;
+        border-color: #3b82f6;
+        color: #1e3a8a;
+      }
+
+      .alert-success {
+        background: #ecfdf5;
+        border-color: #10b981;
+        color: #065f46;
+      }
+
+      .alert-warning {
+        background: #fffbeb;
+        border-color: #f59e0b;
+        color: #92400e;
+      }
+
+      .alert-tip {
+        background: linear-gradient(135deg, #faf5ff 0%, #eff6ff 100%);
+        border-color: #8b5cf6;
+        color: #5b21b6;
+      }
+
+      .feature-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        color: #1e40af;
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+      }
+
+      .feature-icon-green {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      }
+
+      .feature-icon-purple {
+        background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+        color: #5b21b6;
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+      }
+
+      .check-list li {
+        position: relative;
+        padding-right: 2rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .check-list li::before {
+        content: '✓';
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.875rem;
+        box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      }
+
+      .data-table thead {
+        background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        color: white;
+      }
+
+      .data-table th {
+        padding: 1rem;
+        text-align: right;
+        font-weight: 600;
+        font-size: 0.875rem;
+        letter-spacing: 0.025em;
+      }
+
+      .data-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--gray-border);
+        background: white;
+      }
+
+      .data-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .data-table tbody tr:hover td {
+        background: #f8fafc;
+      }
+
+      .star-rating {
+        color: #fbbf24;
+        font-size: 1.25rem;
+        letter-spacing: 0.1em;
+      }
+
+      .star-empty {
+        color: #e5e7eb;
+      }
+
+      .toc-link {
+        transition: all 0.2s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border-right: 3px solid transparent;
+      }
+
+      .toc-link:hover {
+        background: #eff6ff;
+        border-right-color: #3b82f6;
+        padding-right: 1.25rem;
+      }
+
+      .code-inline {
+        background: #f1f5f9;
+        color: #1e40af;
+        padding: 0.125rem 0.5rem;
+        border-radius: 0.375rem;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875em;
+        font-weight: 500;
+        border: 1px solid #e2e8f0;
+        direction: ltr;
+        display: inline-block;
+      }
+
+      .section-divider {
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          #e2e8f0 50%,
+          transparent 100%
+        );
+        margin: 3rem 0;
+      }
+
+      .h2-heading {
+        background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .part-banner {
+        background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        color: white;
+        padding: 2rem 3rem;
+        border-radius: 1rem;
+        position: relative;
+        overflow: hidden;
+        margin: 3rem 0 2rem;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+      }
+
+      .part-banner::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -20%;
+        width: 60%;
+        height: 200%;
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.15) 0%,
+          transparent 70%
+        );
+        transform: rotate(-15deg);
+      }
+
+      .part-banner-green {
+        background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+      }
+
+      .part-banner-purple {
+        background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        border: 1px solid var(--gray-border);
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        border-color: var(--primary-light);
+        transform: scale(1.02);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .timeline-item {
+        position: relative;
+        padding-right: 3rem;
+        padding-bottom: 2rem;
+        border-right: 2px solid #e2e8f0;
+        margin-right: 1rem;
+      }
+
+      .timeline-item:last-child {
+        border-right-color: transparent;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        right: -11px;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border: 4px solid #3b82f6;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 10mm 10mm;
+        }
+
+        html,
+        body {
+          background: white !important;
+          font-size: 10pt;
+          line-height: 1.5;
+        }
+
+        /* Force gradients & colors to render in PDF */
+        *,
+        *::before,
+        *::after {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          transition: none !important;
+          animation: none !important;
+        }
+
+        /* Compact hero — no longer wastes a full page */
+        .hero-gradient {
+          padding: 1.5rem 1.5rem !important;
+        }
+
+        .hero-gradient .my-12 {
+          margin-top: 1rem !important;
+          margin-bottom: 1rem !important;
+        }
+
+        .hero-gradient h1 {
+          font-size: 2.5rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+
+        .hero-gradient .mt-12 {
+          margin-top: 1rem !important;
+        }
+
+        .hero-gradient .mb-8 {
+          margin-bottom: 0.5rem !important;
+        }
+
+        .hero-gradient .p-6 {
+          padding: 0.75rem !important;
+        }
+
+        /* Main content compaction */
+        main {
+          padding: 1rem !important;
+        }
+
+        section {
+          margin-bottom: 0.75rem !important;
+        }
+
+        .section-card {
+          padding: 1rem 1.25rem !important;
+          margin-bottom: 0.75rem !important;
+          box-shadow: none !important;
+          border: 1px solid #cbd5e1 !important;
+          border-radius: 0.5rem !important;
+          transform: none !important;
+        }
+
+        .section-card.p-8,
+        .section-card.md\:p-12 {
+          padding: 1rem 1.25rem !important;
+        }
+
+        /* Smaller, tighter banners */
+        .part-banner {
+          padding: 1rem 1.5rem !important;
+          margin: 0.75rem 0 0.5rem !important;
+          border-radius: 0.5rem !important;
+        }
+
+        .part-banner h2 {
+          font-size: 1.75rem !important;
+          margin-bottom: 0.25rem !important;
+        }
+
+        .part-banner p {
+          font-size: 0.9rem !important;
+        }
+
+        /* Headings tighter */
+        h1 {
+          font-size: 2rem !important;
+        }
+
+        h2 {
+          font-size: 1.5rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+
+        h3 {
+          font-size: 1.15rem !important;
+          margin-bottom: 0.25rem !important;
+        }
+
+        h4 {
+          font-size: 1rem !important;
+          margin: 0.5rem 0 0.25rem !important;
+        }
+
+        /* Tighter paragraphs and lists */
+        p {
+          margin-bottom: 0.4rem !important;
+        }
+
+        ul,
+        ol {
+          margin-bottom: 0.4rem !important;
+        }
+
+        li {
+          margin-bottom: 0.25rem !important;
+        }
+
+        /* Compact alert boxes */
+        .alert-box {
+          padding: 0.5rem 0.75rem !important;
+          margin: 0.5rem 0 !important;
+        }
+
+        /* Compact stat cards & icons */
+        .stat-card {
+          padding: 0.75rem !important;
+        }
+
+        .stat-number {
+          font-size: 1.75rem !important;
+        }
+
+        .feature-icon,
+        .feature-icon-green,
+        .feature-icon-purple {
+          width: 40px !important;
+          height: 40px !important;
+          font-size: 1.25rem !important;
+          border-radius: 10px !important;
+        }
+
+        .step-number {
+          width: 30px !important;
+          height: 30px !important;
+          font-size: 0.875rem !important;
+        }
+
+        /* Tight tables */
+        .data-table th,
+        .data-table td {
+          padding: 0.5rem 0.6rem !important;
+          font-size: 0.85rem !important;
+        }
+
+        /* Timeline tighter */
+        .timeline-item {
+          padding-bottom: 0.75rem !important;
+        }
+
+        /* Divider barely visible to save space */
+        .section-divider {
+          margin: 0.5rem 0 !important;
+          height: 1px !important;
+        }
+
+        /* Margin utilities override — Tailwind big margins kill PDF flow */
+        .mb-16 {
+          margin-bottom: 0.75rem !important;
+        }
+        .mb-12 {
+          margin-bottom: 0.5rem !important;
+        }
+        .mb-8 {
+          margin-bottom: 0.5rem !important;
+        }
+        .mb-6 {
+          margin-bottom: 0.4rem !important;
+        }
+        .mt-16,
+        .mt-12,
+        .mt-8 {
+          margin-top: 0.5rem !important;
+        }
+        .py-12,
+        .py-16 {
+          padding-top: 0.75rem !important;
+          padding-bottom: 0.75rem !important;
+        }
+        .my-12 {
+          margin-top: 0.5rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+
+        /* Avoid splitting visual blocks — but DO NOT force new pages */
+        .section-card,
+        .alert-box,
+        .stat-card,
+        .timeline-item,
+        .part-banner,
+        .data-table,
+        table,
+        tr,
+        figure,
+        img {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        /* Keep headings with following content */
+        h1,
+        h2,
+        h3,
+        h4 {
+          page-break-after: avoid;
+          break-after: avoid;
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        /* Banner glued to first card after it */
+        .part-banner {
+          page-break-after: avoid !important;
+          break-after: avoid !important;
+        }
+
+        /* Orphans / widows */
+        p,
+        li {
+          orphans: 2;
+          widows: 2;
+        }
+
+        /* Hide TOC in print — it's clickable navigation, useless on paper */
+        #toc-section {
+          display: none !important;
+        }
+
+        /* Compact footer — no forced page break */
+        footer {
+          padding: 1rem !important;
+          margin-top: 1rem !important;
+        }
+
+        footer .text-4xl {
+          font-size: 1.75rem !important;
+        }
+
+        /* Disable hover animations */
+        .animate-pulse {
+          animation: none !important;
+        }
+
+        /* Links: no fancy underlines */
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        /* Grid gaps tighter */
+        .gap-4 {
+          gap: 0.5rem !important;
+        }
+        .gap-6 {
+          gap: 0.6rem !important;
+        }
+        .info-grid {
+          gap: 0.5rem !important;
+        }
+      }
+
+      ::selection {
+        background: #1e40af;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ========== HEADER / HERO SECTION ========== -->
+    <header class="hero-gradient text-white py-16 px-6 md:px-12 relative">
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="flex flex-wrap items-center justify-between gap-6 mb-8">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-14 h-14 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20"
+            >
+              <span class="text-3xl">🌉</span>
+            </div>
+            <div>
+              <div class="text-emerald-300 text-sm font-medium tracking-wide">
+                CAREER BRIDGE
+              </div>
+              <div class="text-white/70 text-xs">פלטפורמת גיוס חכמה</div>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20"
+          >
+            <span
+              class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"
+            ></span>
+            <span class="text-sm font-medium">פוסטר SE-26-13</span>
+          </div>
+        </div>
+
+        <div class="text-center my-12">
+          <div
+            class="inline-block bg-emerald-500/20 text-emerald-300 px-4 py-1 rounded-full text-sm font-semibold mb-6 border border-emerald-400/30"
+          >
+            מדריך למשתמש · User Guide
+          </div>
+          <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight">
+            Career<span class="text-emerald-400">Bridge</span>
+          </h1>
+          <p
+            class="text-xl md:text-2xl text-blue-100 font-light max-w-3xl mx-auto leading-relaxed"
+          >
+            פלטפורמה חכמה מבוססת בינה מלאכותית לסינון, דירוג וניהול מועמדים
+          </p>
+          <p class="text-base text-blue-200/80 mt-4 max-w-2xl mx-auto">
+            מערכת דו-צדדית המחברת בין מחפשי עבודה למעסיקים בעזרת AI מתקדם
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
+          <div
+            class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"
+          >
+            <div class="text-emerald-300 text-sm font-medium mb-1">
+              פוסטר מספר
+            </div>
+            <div class="text-2xl font-bold">SE-26-13</div>
+          </div>
+          <div
+            class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"
+          >
+            <div class="text-emerald-300 text-sm font-medium mb-1">
+              מגיש הפרויקט
+            </div>
+            <div class="text-2xl font-bold">דוד מועלם</div>
+          </div>
+          <div
+            class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"
+          >
+            <div class="text-emerald-300 text-sm font-medium mb-1">
+              מנחה הפרויקט
+            </div>
+            <div class="text-2xl font-bold">דוד טנקוס</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 md:px-12 py-12">
+      <!-- ========== INTRODUCTION ========== -->
+      <section id="intro" class="mb-16">
+        <div class="section-card p-8 md:p-12">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="feature-icon">🎯</div>
+            <div>
+              <div class="text-emerald-600 text-sm font-semibold tracking-wide">
+                INTRODUCTION
+              </div>
+              <h2 class="text-3xl md:text-4xl font-bold h2-heading">
+                מבוא : מהי CareerBridge?
+              </h2>
+            </div>
+          </div>
+
+          <p class="text-lg text-slate-700 leading-relaxed mb-6">
+            <strong class="text-blue-900">CareerBridge</strong> היא פלטפורמת
+            דו-צדדית מתקדמת לעולם הגיוס, המחברת בין
+            <strong>מחפשי עבודה</strong> לבין
+            <strong>מעסיקים וארגונים</strong> באמצעות יכולות בינה מלאכותית
+            חדשניות. המערכת אינה רק לוח דרושים, היא
+            <strong>שכבת AI חכמה</strong> שמבצעת סינון, סיכום ודירוג אוטומטי של
+            מועמדים, וחוסכת לארגוני הגיוס שעות רבות של עבודה ידנית.
+          </p>
+
+          <div class="info-grid mb-8">
+            <div class="stat-card">
+              <div class="stat-number">2</div>
+              <div class="text-slate-600 font-medium mt-2">מודלים של AI</div>
+              <div class="text-xs text-slate-500 mt-1">
+                Claude Haiku + Gemini Flash
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">⚡</div>
+              <div class="text-slate-600 font-medium mt-2">Real-Time</div>
+              <div class="text-xs text-slate-500 mt-1">סינון בזמן אמת</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">🔒</div>
+              <div class="text-slate-600 font-medium mt-2">
+                אבטחה ברמת Enterprise
+              </div>
+              <div class="text-xs text-slate-500 mt-1">Clerk Auth + RBAC</div>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-800 mb-4">
+            🎯 יעדי המערכת המרכזיים
+          </h3>
+          <ul class="check-list text-slate-700">
+            <li>
+              <strong>סינון אוטומטי של מועמדים</strong> : Gemini מדרג כל הגשה
+              מ-1 עד 5 כוכבים על בסיס התאמת קורות החיים לדרישות המשרה.
+            </li>
+            <li>
+              <strong>חיפוש סמנטי בשפה חופשית</strong> : מחפשי עבודה יכולים לתאר
+              את המשרה בשפה טבעית ("עבודה מהבית ב-React") והמערכת תמצא את
+              המתאימות ביותר.
+            </li>
+            <li>
+              <strong>הפקת סיכומי פרופיל אוטומטיים</strong> : Claude Haiku מנתח
+              את קורות החיים בפורמט PDF ומפיק סיכום פרופיל חכם.
+            </li>
+            <li>
+              <strong>ניהול ארגוני מלא</strong> : תמיכה ב-Multi-Tenancy אמיתי עם
+              הרשאות לפי תפקיד.
+            </li>
+            <li>
+              <strong>אוטומציה תזמונית</strong> : Cron Jobs יומיים (07:00 Chicago time) השולחים:
+              (1) סיכום משרות חדשות למחפשי עבודה, (2) סיכום הגשות חדשות למעסיקים.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ========== PART A: JOB SEEKER GUIDE ========== -->
+      <section id="job-seeker" class="mb-16">
+        <div class="part-banner">
+          <div class="relative z-10">
+            <div
+              class="text-emerald-300 text-sm font-bold tracking-widest mb-2"
+            >
+              PART A · חלק א'
+            </div>
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-3">
+              מדריך למחפש העבודה
+            </h2>
+            <p class="text-blue-100 text-lg">
+              איך להירשם, להעלות קורות חיים, ולקבל המלצות חכמות על משרות
+            </p>
+          </div>
+        </div>
+
+        <!-- 1. Sign Up -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">1</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                הרשמה והתחברות מאובטחת
+              </h3>
+              <p class="text-slate-600">
+                המערכת משתמשת ב-<strong>Clerk</strong> פלטפורמת זיהוי משתמשים
+                מובילה בתעשייה לאבטחה ברמת ארגון.
+              </p>
+            </div>
+          </div>
+
+          <ol class="space-y-4 text-slate-700 mr-12 mt-6">
+            <li class="flex gap-3">
+              <span class="text-blue-600 font-bold flex-shrink-0">A.</span>
+              <span
+                >גש לכתובת <span class="code-inline">/sign-up</span> ובחר
+                באפשרות "הירשם כמחפש עבודה".</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-blue-600 font-bold flex-shrink-0">B.</span>
+              <span
+                >ניתן להירשם באמצעות <strong>Google או GitHub OAuth</strong> בלחיצה אחת. רק אפשרויות OAuth מופעלות בהתורה.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-blue-600 font-bold flex-shrink-0">C.</span>
+              <span
+                >לאחר אימות כתובת המייל, חשבונך נוצר אוטומטית במסד הנתונים
+                באמצעות <strong>Webhook של Clerk</strong> המעובד דרך
+                Inngest.</span
+              >
+            </li>
+          </ol>
+
+          <div class="alert-box alert-info mt-6">
+            <span class="text-2xl flex-shrink-0">💡</span>
+            <div>
+              <strong>מאחורי הקלעים:</strong> בעת ההרשמה, Clerk שולח
+              <span class="code-inline">user.created</span> webhook ל-<span
+                class="code-inline"
+                >/api/webhooks/clerk</span
+              >, אשר מפעיל את פונקציית ה-Inngest שיוצרת רשומה בטבלת
+              <span class="code-inline">UserTable</span>.
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Upload Resume -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">2</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                העלאת קורות חיים בפורמט PDF
+              </h3>
+              <p class="text-slate-600">
+                המערכת מנתחת את קורות החיים שלך כדי לבנות פרופיל חכם.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <div
+              class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-200"
+            >
+              <h4 class="font-bold text-blue-900 mb-2">📂 שיטת ההעלאה</h4>
+              <ul class="text-sm text-slate-700 space-y-1">
+                <li>• Drag & Drop ישירות לאזור הייעודי</li>
+                <li>• או לחיצה ובחירת קובץ</li>
+                <li>• תמיכה ב-PDF בלבד (עד 8MB)</li>
+                <li>
+                  • מנהל הקבצים: <span class="code-inline">UploadThing</span>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg p-5 border border-emerald-200"
+            >
+              <h4 class="font-bold text-emerald-900 mb-2">🔄 לאחר ההעלאה</h4>
+              <ul class="text-sm text-slate-700 space-y-1">
+                <li>
+                  • Webhook מפעיל את
+                  <span class="code-inline">createAiSummaryOfUploadedResume</span>
+                </li>
+                <li>• הקובץ נשמר ב-CDN מהיר (UploadThing)</li>
+                <li>• Claude Haiku מנתח את קורות החיים</li>
+                <li>• הסטטוס יתעדכן ל-"מעובד" לאחר הכנת הסיכום</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="alert-box alert-warning mt-6">
+            <span class="text-2xl flex-shrink-0">⚠️</span>
+            <div>
+              <strong>חשוב לדעת:</strong> ודאו שקובץ ה-PDF נקרא לא תמונה סרוקה.
+              המערכת מחלצת את הטקסט אוטומטית, אך תמונות לא תקינות יגרמו לכישלון
+              תהליך הסיכום.
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. AI Summary -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">3</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                סיכום פרופיל אוטומטי באמצעות AI
+              </h3>
+              <p class="text-slate-600">
+                תהליך רקע אסינכרוני (Background Job) שמתבצע מבלי שתחכה לו.
+              </p>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mb-4 mt-6">
+            🔄 תהליך הרקע : שלב אחר שלב
+          </h4>
+          <div class="mt-4">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="font-bold text-slate-800">קליטת קובץ</div>
+              <div class="text-sm text-slate-600">
+                UploadThing מאחסן את ה-PDF ו-Inngest מקבל אירוע
+                <span class="code-inline">app/resume.uploaded</span>.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="font-bold text-slate-800">חילוץ טקסט</div>
+              <div class="text-sm text-slate-600">
+                פונקציית Inngest מבצעת PDF Parsing ומחלצת את כל הטקסט מקורות
+                החיים.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="font-bold text-slate-800">קריאה ל-Claude Haiku</div>
+              <div class="text-sm text-slate-600">
+                המערכת שולחת את הטקסט ל-<strong>Anthropic Claude Haiku</strong>
+                לסיכום מקצועי ומובנה.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="font-bold text-slate-800">שמירת AI Summary</div>
+              <div class="text-sm text-slate-600">
+                הסיכום נשמר בעמודה <span class="code-inline">aiSummary</span> של
+                טבלת <span class="code-inline">UserResumeTable</span>.
+              </div>
+            </div>
+          </div>
+
+          <div class="alert-box alert-success mt-6">
+            <span class="text-2xl flex-shrink-0">✅</span>
+            <div>
+              <strong>למה זה חשוב?</strong> הסיכום הזה הוא משתמש את ב-Gemini
+              בשלב מאוחר יותר כדי לבצע
+              <strong>דירוג חכם של ההתאמה שלך לכל משרה</strong> שאליה תגיש
+              מועמדות.
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. AI Search -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">4</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                חיפוש משרות סמנטי בשפה חופשית
+              </h3>
+              <p class="text-slate-600">
+                בלי פילטרים : פשוט תאר במילים מה אתה מחפש.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200 my-6"
+          >
+            <h4 class="font-bold text-purple-900 mb-3 flex items-center gap-2">
+              <span class="text-2xl">🔮</span>
+              AI Search — מבוסס Google Gemini
+            </h4>
+            <p class="text-slate-700 mb-4">
+              במקום למלא טפסים, פשוט הקלד שאילתה חופשית ב-Hebrew או באנגלית:
+            </p>
+
+            <div class="space-y-2">
+              <div
+                class="bg-white rounded-lg p-3 border border-purple-100 text-slate-700"
+              >
+                <span class="text-purple-600 font-bold">דוגמה 1:</span> "משרת
+                Backend Senior עם Node.js ו-PostgreSQL, עבודה היברידית בתל אביב,
+                שכר 35-45 אלף"
+              </div>
+              <div
+                class="bg-white rounded-lg p-3 border border-purple-100 text-slate-700"
+              >
+                <span class="text-purple-600 font-bold">דוגמה 2:</span> "Junior
+                React developer, remote work, startups only"
+              </div>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mb-3">איך זה עובד?</h4>
+          <ol class="space-y-2 text-slate-700 mr-4">
+            <li>
+              1. השאילתה נשלחת ל-<strong>Gemini Flash</strong> יחד עם רשימת
+              המשרות הזמינות.
+            </li>
+            <li>
+              2. Gemini מחזיר רשימה ממוינת של ה-IDs של המשרות הרלוונטיות ביותר.
+            </li>
+            <li>
+              3. המערכת מציגה לך את התוצאות בסדר רלוונטיות יורד עם הסבר התאמה.
+            </li>
+          </ol>
+        </div>
+
+        <!-- 5. Apply Flow -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">5</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                הגשת מועמדות (Apply Flow)
+              </h3>
+              <p class="text-slate-600">תהליך הגשה פשוט ומהיר בלחיצה אחת.</p>
+            </div>
+          </div>
+
+          <ol class="space-y-3 text-slate-700 mt-6">
+            <li class="flex gap-3 items-start">
+              <span class="badge badge-applied flex-shrink-0">1</span>
+              <span>היכנס לעמוד המשרה שמעניינת אותך וקרא את התיאור המלא.</span>
+            </li>
+            <li class="flex gap-3 items-start">
+              <span class="badge badge-applied flex-shrink-0">2</span>
+              <span
+                >לחץ על כפתור <strong>"הגש מועמדות"</strong> בראש העמוד.</span
+              >
+            </li>
+            <li class="flex gap-3 items-start">
+              <span class="badge badge-applied flex-shrink-0">3</span>
+              <span
+                >הוסף <strong>Cover Letter</strong> אישי (אופציונלי) — מומלץ
+                להוסיף 2-3 משפטים מותאמים אישית.</span
+              >
+            </li>
+            <li class="flex gap-3 items-start">
+              <span class="badge badge-applied flex-shrink-0">4</span>
+              <span
+                >ההגשה נשלחת מיד למעסיק יחד עם ה-<strong>AI Summary</strong> של
+                קורות החיים שלך.</span
+              >
+            </li>
+            <li class="flex gap-3 items-start">
+              <span class="badge badge-applied flex-shrink-0">5</span>
+              <span
+                ><strong>Gemini Flash</strong> מדרג אוטומטית את ההתאמה שלך למשרה
+                (1-5 כוכבים) ושומר במסד הנתונים.</span
+              >
+            </li>
+          </ol>
+
+          <div class="alert-box alert-info mt-6">
+            <span class="text-2xl flex-shrink-0">ℹ️</span>
+            <div>
+              <strong>הערה:</strong> ה-Cover Letter הוא אופציונלי ו<strong>לא משפיע</strong> על דירוג ה-AI.
+              הדירוג מחושב בהתבסס על התאמת קורות החיים והמיומנויות לדרישות המשרה בלבד.
+              אם אתה בוחר להוסיף Cover Letter, זה יוצג למעסיק אך לא ישנה את ציונך.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ========== PART B: EMPLOYER GUIDE ========== -->
+      <section id="employer" class="mb-16">
+        <div class="part-banner part-banner-green">
+          <div class="relative z-10">
+            <div
+              class="text-emerald-200 text-sm font-bold tracking-widest mb-2"
+            >
+              PART B · חלק ב'
+            </div>
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-3">
+              מדריך למעסיק ולמנהל ארגון
+            </h2>
+            <p class="text-emerald-50 text-lg">
+              ניהול מלא של משרות, מועמדים, ודירוגים אוטומטיים
+            </p>
+          </div>
+        </div>
+
+        <!-- 1. Create Organization -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">1</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                הקמת ארגון / חברה במערכת
+              </h3>
+              <p class="text-slate-600">
+                המערכת תומכת ב-Multi-Tenancy אמיתי : כל ארגון הוא ישות נפרדת.
+              </p>
+            </div>
+          </div>
+
+          <ol class="space-y-3 text-slate-700 mt-6 mr-4">
+            <li class="flex gap-3">
+              <span class="text-emerald-600 font-bold flex-shrink-0">1.</span>
+              <span
+                >לאחר ההרשמה, נווט לכתובת
+                <span class="code-inline">/organizations/select</span></span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-600 font-bold flex-shrink-0">2.</span>
+              <span
+                >לחץ על <strong>"Create Organization"</strong> והזן את פרטי
+                החברה: שם, לוגו, כתובת.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-600 font-bold flex-shrink-0">3.</span>
+              <span
+                >הזמן חברי צוות נוספים באמצעות כתובת המייל שלהם והגדר את
+                <strong>תפקידם</strong>: Owner, Admin, או Member.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-600 font-bold flex-shrink-0">4.</span>
+              <span
+                >הארגון נשמר באופן אוטומטי ב-<span class="code-inline"
+                  >OrganizationTable</span
+                >
+                דרך Webhook של Clerk.</span
+              >
+            </li>
+          </ol>
+
+          <h4 class="font-bold text-slate-800 mt-8 mb-3">
+            🛡️ הרשאות לפי תפקיד (RBAC)
+          </h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>תפקיד</th>
+                <th>פרסום משרה</th>
+                <th>צפייה במועמדים</th>
+                <th>ניהול חברי צוות</th>
+                <th>מחיקת ארגון</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Owner</strong></td>
+                <td>✅</td>
+                <td>✅</td>
+                <td>✅</td>
+                <td>✅</td>
+              </tr>
+              <tr>
+                <td><strong>Admin</strong></td>
+                <td>✅</td>
+                <td>✅</td>
+                <td>✅</td>
+                <td>❌</td>
+              </tr>
+              <tr>
+                <td><strong>Member</strong></td>
+                <td>✅</td>
+                <td>✅</td>
+                <td>❌</td>
+                <td>❌</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 2. Publish Job -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">2</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                פרסום משרה חדשה
+              </h3>
+              <p class="text-slate-600">
+                טופס דינמי מתקדם עם MDX Editor לתיאור עשיר.
+              </p>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mt-6 mb-4">📝 שדות הטופס</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+              <div class="font-bold text-slate-800 mb-2">פרטים בסיסיים</div>
+              <ul class="text-sm text-slate-600 space-y-1">
+                <li>• כותרת המשרה</li>
+                <li>• תיאור עשיר (MDX Editor)</li>
+                <li>• דרישות מינימליות</li>
+              </ul>
+            </div>
+            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+              <div class="font-bold text-slate-800 mb-2">תנאי שכר</div>
+              <ul class="text-sm text-slate-600 space-y-1">
+                <li>• טווח שכר חודשי</li>
+                <li>• מטבע (ILS, USD, EUR)</li>
+                <li>• בונוסים ואופציות</li>
+              </ul>
+            </div>
+            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+              <div class="font-bold text-slate-800 mb-2">מודל העבודה</div>
+              <ul class="text-sm text-slate-600 space-y-1">
+                <li>
+                  • <span class="badge badge-applied">In-Office</span> משרדי
+                </li>
+                <li>
+                  • <span class="badge badge-published">Remote</span> מרחוק
+                </li>
+                <li>• <span class="badge badge-draft">Hybrid</span> היברידי</li>
+              </ul>
+            </div>
+            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+              <div class="font-bold text-slate-800 mb-2">מיקום</div>
+              <ul class="text-sm text-slate-600 space-y-1">
+                <li>• עיר ומדינה</li>
+                <li>• אפשרות לאזור גיאוגרפי</li>
+                <li>• אינטגרציה לחיפוש</li>
+              </ul>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mt-8 mb-4">
+            🔄 מעבר מצבים — Status Flow
+          </h4>
+          <div
+            class="bg-gradient-to-l from-emerald-50 to-blue-50 rounded-xl p-6 border border-blue-200"
+          >
+            <div class="flex items-center justify-between flex-wrap gap-4">
+              <div class="text-center">
+                <span class="badge badge-draft text-base px-4 py-2"
+                  >Draft · טיוטה</span
+                >
+                <div class="text-xs text-slate-600 mt-2">
+                  המשרה נשמרת אך אינה גלויה
+                </div>
+              </div>
+              <div class="text-3xl text-slate-400">←</div>
+              <div class="text-center">
+                <span class="badge badge-published text-base px-4 py-2"
+                  >Published · פורסמה</span
+                >
+                <div class="text-xs text-slate-600 mt-2">
+                  המשרה גלויה למחפשי עבודה
+                </div>
+              </div>
+              <div class="text-3xl text-slate-400">←</div>
+              <div class="text-center">
+                <span class="badge badge-delisted text-base px-4 py-2"
+                  >Delisted · הוסרה</span
+                >
+                <div class="text-xs text-slate-600 mt-2">
+                  המשרה ארכיון, היסטוריה נשמרת
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert-box alert-warning mt-6">
+            <span class="text-2xl flex-shrink-0">⚠️</span>
+            <div>
+              <strong>מגבלת תוכנית (Plan):</strong> מחסנים עבור מספר המשרות הפעילות ומספר
+              ה-Featured Slots הוגדרו בתוכנית. הפונקציות
+              <span class="code-inline">hasReachedMaxPublishedJobListings</span> ו-
+              <span class="code-inline">hasReachedMaxFeaturedJobListings</span>
+              קיימות ב-<span class="code-inline">src/features/jobListings/lib/planfeatureHelpers.ts</span>,
+              אך כרגע הן מחזירות תמיד <code>false</code> (מושבתות ליצור פיצ'ר בעתיד).
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Applications Table -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="step-number">3</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                ניהול טבלת מועמדים ודירוג AI
+              </h3>
+              <p class="text-slate-600">
+                דירוג חכם של מועמדים עם 1-5 כוכבים אוטומטיים.
+              </p>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mt-6 mb-4">
+            📊 מסך ה-Applications Table
+          </h4>
+          <p class="text-slate-700 mb-4">
+            בנוי על <strong>TanStack Table</strong> : טבלה מודרנית עם מיון,
+            פילטור וחיפוש מתקדמים.
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>שם המועמד</th>
+                <th>תאריך הגשה</th>
+                <th>AI Match</th>
+                <th>סטטוס</th>
+                <th>פעולות</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>אבי כהן</td>
+                <td>19/05/2026</td>
+                <td><span class="star-rating">★★★★★</span></td>
+                <td><span class="badge badge-applied">בעיון</span></td>
+                <td class="text-blue-600 font-semibold">צפייה</td>
+              </tr>
+              <tr>
+                <td>שרה לוי</td>
+                <td>18/05/2026</td>
+                <td>
+                  <span class="star-rating"
+                    >★★★★<span class="star-empty">★</span></span
+                  >
+                </td>
+                <td><span class="badge badge-published">התקבלה</span></td>
+                <td class="text-blue-600 font-semibold">צפייה</td>
+              </tr>
+              <tr>
+                <td>יוסי מזרחי</td>
+                <td>17/05/2026</td>
+                <td>
+                  <span class="star-rating"
+                    >★★★<span class="star-empty">★★</span></span
+                  >
+                </td>
+                <td><span class="badge badge-applied">בעיון</span></td>
+                <td class="text-blue-600 font-semibold">צפייה</td>
+              </tr>
+              <tr>
+                <td>דנה ישראלי</td>
+                <td>16/05/2026</td>
+                <td>
+                  <span class="star-rating"
+                    >★★<span class="star-empty">★★★</span></span
+                  >
+                </td>
+                <td><span class="badge badge-delisted">נדחתה</span></td>
+                <td class="text-blue-600 font-semibold">צפייה</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="font-bold text-slate-800 mt-8 mb-4">
+            ⭐ כיצד מחושב ה-AI Match Score?
+          </h4>
+          <div
+            class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-6 border border-blue-200"
+          >
+            <p class="text-slate-700 mb-4">
+              ברגע שמועמד מגיש מועמדות, מתבצע התהליך הבא ברקע:
+            </p>
+            <ol class="space-y-3 text-slate-700">
+              <li class="flex gap-3">
+                <span
+                  class="step-number"
+                  style="width: 30px; height: 30px; font-size: 0.875rem"
+                  >1</span
+                >
+                <span
+                  >Inngest מקבל אירוע
+                  <span class="code-inline">app/jobListingApplication.created</span
+                  >.</span
+                >
+              </li>
+              <li class="flex gap-3">
+                <span
+                  class="step-number"
+                  style="width: 30px; height: 30px; font-size: 0.875rem"
+                  >2</span
+                >
+                <span
+                  >הפונקציה אוספת את ה-<strong>AI Summary</strong> של המועמד +
+                  פרטי המשרה.</span
+                >
+              </li>
+              <li class="flex gap-3">
+                <span
+                  class="step-number"
+                  style="width: 30px; height: 30px; font-size: 0.875rem"
+                  >3</span
+                >
+                <span
+                  ><strong>Gemini Flash</strong> מנתח את ההתאמה ומחזיר ציון
+                  מספרי 1-5.</span
+                >
+              </li>
+              <li class="flex gap-3">
+                <span
+                  class="step-number"
+                  style="width: 30px; height: 30px; font-size: 0.875rem"
+                  >4</span
+                >
+                <span
+                  >הציון נשמר ב-<span class="code-inline"
+                    >applicationTable.rating</span
+                  >.</span
+                >
+              </li>
+            </ol>
+          </div>
+
+          <div class="alert-box alert-success mt-6">
+            <span class="text-2xl flex-shrink-0">🎯</span>
+            <div>
+              <strong>ערך עסקי:</strong> במקום לקרוא 200 קורות חיים, המעסיק יכול
+              למיין את הטבלה לפי ציון יורד ולהתחיל לראיין רק את 5-10 הטובים
+              ביותר. חיסכון של עשרות שעות עבודה!
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ========== PART C: AUTOMATION ========== -->
+      <section id="automation" class="mb-16">
+        <div class="part-banner part-banner-purple">
+          <div class="relative z-10">
+            <div class="text-purple-200 text-sm font-bold tracking-widest mb-2">
+              PART C · חלק ג'
+            </div>
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-3">
+              אוטומציה ותהליכים מתוזמנים
+            </h2>
+            <p class="text-purple-50 text-lg">
+              Cron Jobs, התראות אוטומטיות, ועיבוד רקע
+            </p>
+          </div>
+        </div>
+
+        <!-- 1. Daily Cron Job 1: User Job Listings -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="feature-icon feature-icon-purple">⏰</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                Cron Job יומי : משרות חדשות למחפשי עבודה
+              </h3>
+              <p class="text-slate-600">
+                בכל יום ב-07:00 בבוקר (Chicago timezone), המערכת שולחת למחפשי
+                עבודה דוח של משרות חדשות שתאימו להעדפות שלהם.
+              </p>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mt-6 mb-3">📧 איך זה עובד?</h4>
+          <div
+            class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200"
+          >
+            <ol class="space-y-3 text-slate-700">
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >①</span
+                >
+                <span
+                  ><strong>Inngest Cron</strong> מופעל אוטומטית בכל יום בשעה
+                  07:00 (America/Chicago) — Job ID:
+                  <span class="code-inline"
+                    >prepare-daily-user-job-listing-notifications</span
+                  ></span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >②</span
+                >
+                <span
+                  >הפונקציה אוספת את כל המשתמשים
+                  <strong>שהפעילו התראות על משרות חדשות</strong>.</span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >③</span
+                >
+                <span
+                  >עבור כל משתמש, נבנה רשימה של משרות חדשות מ-24 השעות האחרונות.
+                  אם למשתמש יש <strong>AI Prompt</strong> מותאם אישי, הוא משמש
+                  לסינון סמנטי של המשרות.</span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >④</span
+                >
+                <span
+                  >המייל מעוצב ב-<strong>React Email</strong> (תבנית:
+                  <span class="code-inline">DailyJobListingEmail</span>) ונשלח
+                  דרך <strong>Resend API</strong>.</span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >⑤</span
+                >
+                <span
+                  >המשתמש מקבל מייל עם רשימת משרות רלוונטיות, עם לינקים ישירים
+                  להגשת מועמדות.</span
+                >
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- 2. Daily Cron Job 2: Organization Applications -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="feature-icon feature-icon-purple">⏰</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                Cron Job יומי : מועמדים חדשים למעסיקים
+              </h3>
+              <p class="text-slate-600">
+                בכל יום ב-07:00 בבוקר (Chicago timezone), המערכת שולחת למעסיקים
+                דוח של מועמדים חדשים ששלחו מועמדות למשרות שלהם.
+              </p>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mt-6 mb-3">📧 איך זה עובד?</h4>
+          <div
+            class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200"
+          >
+            <ol class="space-y-3 text-slate-700">
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >①</span
+                >
+                <span
+                  ><strong>Inngest Cron</strong> מופעל אוטומטית בכל יום בשעה
+                  07:00 (America/Chicago) — Job ID:
+                  <span class="code-inline"
+                    >prepare-daily-organization-user-application-notifications</span
+                  ></span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >②</span
+                >
+                <span
+                  >הפונקציה אוספת את כל המשתמשים בארגונים
+                  <strong>שהפעילו התראות על אפליקציות חדשות</strong>.</span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >③</span
+                >
+                <span
+                  >עבור כל משתמש, נאספות אפליקציות חדשות מ-24 השעות האחרונות
+                  <strong>ממשרות של הארגון שלו</strong>. רק אפליקציות שעוברות את
+                  <strong>minimumRating</strong> מוגדרת בהעדפות המשתמש יוכללו
+                  בדוח.</span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >④</span
+                >
+                <span
+                  >המייל מעוצב ב-<strong>React Email</strong> (תבנית:
+                  <span class="code-inline">DailyApplicationEmail</span>) ונשלח
+                  דרך <strong>Resend API</strong>.</span
+                >
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-purple-700 font-bold flex-shrink-0 text-lg"
+                  >⑤</span
+                >
+                <span
+                  >המעסיק מקבל מייל עם רשימת אפליקציות חדשות, כולל שם המועמד, שם
+                  המשרה, וה-<strong>AI Rating</strong> שחושב בזמן הגשת המועמדות
+                  (1-5 כוכבים).</span
+                >
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- 2. Notification Settings -->
+        <div class="section-card p-8 mb-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="feature-icon feature-icon-green">🔔</div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-slate-800 mb-2">
+                ניהול הגדרות התראות
+              </h3>
+              <p class="text-slate-600">
+                כל משתמש יכול להתאים אישית את ההתראות שיקבל.
+              </p>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-slate-800 mt-6 mb-4">⚙️ הגדרות זמינות</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-emerald-50 rounded-lg p-5 border border-emerald-200">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">👤</span>
+                <div class="font-bold text-emerald-900">למחפש עבודה</div>
+              </div>
+              <ul class="text-sm text-slate-700 space-y-1">
+                <li>
+                  <strong>מיילים על משרות חדשות יומיים</strong> —
+                  <span class="code-inline">newJobEmailNotifications</span>
+                </li>
+                <li>
+                  <strong>סינון סמנטי מותאם</strong> —
+                  <span class="code-inline">aiPrompt</span> (תיאור בשפה חופשית
+                  של משרה המבוקשת)
+                </li>
+              </ul>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-5 border border-blue-200">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🏢</span>
+                <div class="font-bold text-blue-900">למעסיק</div>
+              </div>
+              <ul class="text-sm text-slate-700 space-y-1">
+                <li>
+                  <strong>דוח הגשות יומי</strong> —
+                  <span class="code-inline"
+                    >newApplicationEmailNotifications</span
+                  >
+                  (אפליקציות חדשות למשרות הארגון)
+                </li>
+                <li>
+                  <strong>סינון לפי ציון מינימלי</strong> —
+                  <span class="code-inline">minimumRating</span> (קבל רק הגשות
+                  בציון AI של X ומעלה)
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="alert-box alert-info mt-6">
+            <span class="text-2xl flex-shrink-0">📍</span>
+            <div>
+              <strong>נתיבי המסך:</strong><br />
+              מחפש עבודה:
+              <span class="code-inline"
+                >/(job-seeker)/user-settings/notifications</span
+              ><br />
+              מעסיק:
+              <span class="code-inline">/employer/user-settings</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+    </main>
+  </body>
+</html>
