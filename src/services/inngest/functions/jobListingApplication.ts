@@ -6,7 +6,7 @@ import {
   JobListingTable,
   UserResumeTable,
 } from "@/drizzle/schema"
-import { applicantRankingAgent } from "../ai/applicantRankingAgent"
+import { rankApplicant } from "../ai/applicantRankingAgent"
 
 export const rankApplication = inngest.createFunction(
   { id: "rank-applicant", name: "Rank Applicant" },
@@ -61,20 +61,12 @@ export const rankApplication = inngest.createFunction(
 
     if (resumeSummary == null || jobListing == null) return
 
-    const result = await applicantRankingAgent.run(
-      JSON.stringify({
-        coverLetter: coverLetter ?? "No cover letter provided",
-        resumeSummary,
-        jobListingId,
-        userId,
-      })
-    )
-
-    if (result.toolCalls.length === 0) {
-      throw new Error(
-        `Applicant ranking tool was not invoked for userId=${userId} jobListingId=${jobListingId}. ` +
-          `Agent output: ${JSON.stringify(result.output)}`
-      )
-    }
+    await rankApplicant({
+      coverLetter: coverLetter ?? "No cover letter provided",
+      resumeSummary,
+      jobListingId,
+      userId,
+      jobListing,
+    })
   }
 )
