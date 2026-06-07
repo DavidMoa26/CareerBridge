@@ -4,35 +4,6 @@ A dual-sided job board marketplace connecting job seekers with employers — bui
 
 ---
 
-## Screenshots
-
-### Job Seeker Dashboard
-
-> ![Job Seeker Dashboard](docs/screenshots/job-seeker-dashboard.png)
-> *Browse published listings with an inline slide-in detail panel (Next.js parallel routes).*
-
-### AI Job Search
-
-> ![AI Search](docs/screenshots/ai-search.png)
-> *Natural-language job search powered by Claude. Describe the role you want; the AI returns ranked matches.*
-
-### Employer Listing Management
-
-> ![Employer Dashboard](docs/screenshots/employer-dashboard.png)
-> *Create, publish, delist, and feature job listings. Plan limits are enforced automatically.*
-
-### Applicant Pipeline
-
-> ![Applicant Table](docs/screenshots/applicant-table.png)
-> *TanStack Table with faceted filters, sortable columns, AI-generated ratings (1–5), and pipeline stages.*
-
-### Daily Email Digest
-
-> ![Email Digest](docs/screenshots/email-digest.png)
-> *React Email template delivered via Resend. Job seekers receive AI-filtered listings daily at 7 AM CT.*
-
----
-
 ## Features
 
 **Job Seekers**
