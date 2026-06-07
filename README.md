@@ -188,12 +188,18 @@ Opens Drizzle Studio at [https://local.drizzle.studio](https://local.drizzle.stu
 
 ## Deployment
 
-### Vercel (recommended)
+### Self-hosted (Docker / bare-metal)
 
-1. Push your repository to GitHub.
-2. Import the project in [Vercel](https://vercel.com/new).
-3. Add all environment variables in the Vercel project settings.
-4. Deploy. Vercel detects Next.js automatically and builds with Turbopack.
+**Build and start:**
+
+```bash
+npm ci
+npm run build
+npm run db:migrate          # first deploy only
+npm run start
+```
+
+**Run PostgreSQL separately** and point `DATABASE_URL` at it. For background jobs, use [Inngest Cloud](https://inngest.com) or the Inngest self-hosted platform.
 
 **Post-deploy checklist:**
 - Update `SERVER_URL` to your production domain.
@@ -201,28 +207,9 @@ Opens Drizzle Studio at [https://local.drizzle.studio](https://local.drizzle.stu
 - Use a production-ready PostgreSQL instance with connection pooling (e.g., Neon serverless driver or PgBouncer).
 - Connect your Inngest functions to [Inngest Cloud](https://inngest.com) — point the Clerk webhook and Inngest app URL to your production domain in the Inngest dashboard.
 
-### Docker / Self-hosted
+### PM2 (VPS / bare-metal supervisor)
 
-```bash
-# Build
-npm run build
-
-# Start
-npm run start
-```
-
-Run PostgreSQL separately and point `DATABASE_URL` at it. For background jobs, use [Inngest Cloud](https://inngest.com) or the Inngest self-hosted platform.
-
-### Database migrations in CI/CD
-
-For production deployments use the migration workflow rather than `db:push`:
-
-```bash
-# Run before starting the app in your deploy pipeline
-npm run db:migrate
-```
-
-### PM2 (VPS / bare-metal)
+Use PM2 to run and monitor the app:
 
 ```bash
 npm ci
@@ -231,6 +218,8 @@ npm run db:migrate          # first deploy only
 pm2 start npm --name "careerbridge" -- start
 pm2 save && pm2 startup
 ```
+
+This ensures the app restarts on boot and stays running if it crashes.
 
 ---
 
