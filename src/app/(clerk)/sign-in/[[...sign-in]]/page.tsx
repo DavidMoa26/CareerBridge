@@ -20,7 +20,6 @@ export default function SignInPage() {
             socialButtonsBlockButton: 'w-full',
           },
         }}
-        socialProviders={['google', 'github']}
       />
     </div>
   );
