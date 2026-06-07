@@ -14,7 +14,14 @@ export default function SignInPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <SignIn />
+      <SignIn
+        appearance={{
+          elements: {
+            socialButtonsBlockButton: 'w-full',
+          },
+        }}
+        socialProviders={['google', 'github']}
+      />
     </div>
   );
 }
