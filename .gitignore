@@ -47,6 +47,9 @@ next-env.d.ts
 # clerk configuration (can include secrets)
 /.clerk/
 
+# Claude Code local state
+/.claude/
+
 CLAUDE.md
 PLAN.md
 ARCHITECTURE.md

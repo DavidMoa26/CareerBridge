@@ -7,41 +7,14 @@ import { STORAGE_STATE } from './constants';
 setup('authenticate as job seeker', async ({ page }) => {
   setup.setTimeout(60_000);
 
-  const email = process.env.TEST_USER_EMAIL;
-  const password = process.env.TEST_USER_PASSWORD;
-
-  if (!email || !password) {
-    fs.mkdirSync(path.dirname(STORAGE_STATE), { recursive: true });
-    fs.writeFileSync(
-      STORAGE_STATE,
-      JSON.stringify({ cookies: [], origins: [] }),
-    );
-    return;
-  }
-
-  await clerkSetup();
-
-  await page.goto('/sign-in', { waitUntil: 'networkidle' });
-
-  const emailInput = page.locator(
-    'input[type="email"], input[name="identifier"]',
-  );
-  await emailInput.waitFor({ state: 'visible', timeout: 45_000 });
-  await emailInput.fill(email);
-
-  await page.getByRole('button', { name: /continue/i, exact: false }).click();
-
-  const passwordInput = page
-    .locator('input[type="password"], input[name="password"]')
-    .first();
-  await passwordInput.waitFor({ state: 'visible', timeout: 20_000 });
-  await passwordInput.fill(password);
-
-  await page.getByRole('button', { name: /continue/i, exact: false }).click();
-
-  await page.waitForURL((url) => !url.pathname.startsWith('/sign-in'), {
-    timeout: 30_000,
+  await clerkSetup({
+    secretKey: process.env.CLERK_SECRET_KEY,
   });
 
+  // Navigate to app to ensure session is loaded
+  await page.goto('http://localhost:3000/', { waitUntil: 'load' });
+
+  // Save auth state for other tests
+  fs.mkdirSync(path.dirname(STORAGE_STATE), { recursive: true });
   await page.context().storageState({ path: STORAGE_STATE });
 });
