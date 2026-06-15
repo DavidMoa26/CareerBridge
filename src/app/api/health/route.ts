@@ -3,7 +3,7 @@ import { db } from "@/drizzle/db"
 export async function GET() {
   try {
     // Readiness check: verify database connectivity
-    await db.query.UserTable.findFirst({ limit: 1 })
+    await db.query.UserTable.findFirst()
 
     return Response.json(
       {
