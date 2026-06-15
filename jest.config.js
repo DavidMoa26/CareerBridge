@@ -12,6 +12,9 @@ const config = {
   // Exclude .next/standalone from haste module map to avoid naming collisions
   watchPathIgnorePatterns: ["/node_modules/", "/.next/"],
   modulePathIgnorePatterns: ["<rootDir>/.next/"],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
 }
 
 module.exports = createJestConfig(config)
