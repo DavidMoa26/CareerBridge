@@ -29,8 +29,9 @@ export const createAiSummaryOfUploadedResume = inngest.createFunction(
     const pdfBase64 = await step.run("fetch-pdf", async () => {
       const fileUrl = new URL(userResume.resumeFileUrl)
 
-      // SSRF prevention: whitelist UploadThing domain
-      if (!fileUrl.hostname.includes("utfs.io")) {
+      // SSRF prevention: whitelist UploadThing domains (utfs.io legacy + ufs.sh current)
+      const allowedDomains = ["utfs.io", "ufs.sh"]
+      if (!allowedDomains.some(domain => fileUrl.hostname.endsWith(domain))) {
         throw new Error(
           `Invalid resume URL domain: ${fileUrl.hostname}. Only UploadThing URLs are allowed.`
         )
