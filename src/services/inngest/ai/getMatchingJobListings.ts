@@ -21,6 +21,8 @@ const listingSchema = z.object({
   locationRequirement: z.enum(locationRequirements),
 })
 
+// Semantic job matching powered by Claude Haiku
+// Claude performs semantic search to match job seekers with relevant listings based on skills/experience
 export async function getMatchingJobListings(
   prompt: string,
   jobListings: z.infer<typeof listingSchema>[],

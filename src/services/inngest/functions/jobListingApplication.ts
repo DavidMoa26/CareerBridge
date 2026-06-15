@@ -9,7 +9,11 @@ import {
 import { rankApplicant } from "../ai/applicantRankingAgent"
 
 export const rankApplication = inngest.createFunction(
-  { id: "rank-applicant", name: "Rank Applicant" },
+  {
+    id: "rank-applicant",
+    name: "Rank Applicant",
+    concurrency: { limit: 3 }, // Prevent Gemini API rate limiting
+  },
   { event: "app/jobListingApplication.created" },
   async ({ step, event }) => {
     const { userId, jobListingId } = event.data

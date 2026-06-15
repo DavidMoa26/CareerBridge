@@ -6,7 +6,24 @@ services:
       args:
         - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
     ports:
-      - '3000:3000'
+      - '127.0.0.1:3000:3000'
     env_file:
       - .env
     restart: unless-stopped
+    networks:
+      - careerbridge
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    restart: unless-stopped
+    networks:
+      - careerbridge
+    depends_on:
+      - app
+    environment:
+      - TZ=UTC
+
+networks:
+  careerbridge:
+    driver: bridge

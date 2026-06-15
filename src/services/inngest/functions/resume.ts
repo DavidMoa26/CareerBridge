@@ -9,6 +9,7 @@ export const createAiSummaryOfUploadedResume = inngest.createFunction(
   {
     id: "create-ai-summary-of-uploaded-resume",
     name: "Create AI Summary of Uploaded Resume",
+    concurrency: { limit: 5 }, // Prevent API rate limiting
   },
   {
     event: "app/resume.uploaded",
@@ -26,7 +27,33 @@ export const createAiSummaryOfUploadedResume = inngest.createFunction(
     if (userResume == null) return
 
     const pdfBase64 = await step.run("fetch-pdf", async () => {
+      const fileUrl = new URL(userResume.resumeFileUrl)
+
+      // SSRF prevention: whitelist UploadThing domain
+      if (!fileUrl.hostname.includes("utfs.io")) {
+        throw new Error(
+          `Invalid resume URL domain: ${fileUrl.hostname}. Only UploadThing URLs are allowed.`
+        )
+      }
+
       const response = await fetch(userResume.resumeFileUrl)
+
+      // Validate response size (max 10MB for PDF)
+      const contentLength = response.headers.get("content-length")
+      if (contentLength && parseInt(contentLength) > 10 * 1024 * 1024) {
+        throw new Error(
+          `Resume file too large: ${Math.round(parseInt(contentLength) / 1024 / 1024)}MB. Max 10MB allowed.`
+        )
+      }
+
+      // Validate content type
+      const contentType = response.headers.get("content-type")
+      if (!contentType?.includes("pdf")) {
+        throw new Error(
+          `Invalid file type: ${contentType}. Only PDF files are allowed.`
+        )
+      }
+
       const buffer = await response.arrayBuffer()
       return Buffer.from(buffer).toString("base64")
     })
